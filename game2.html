@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <link rel="apple-touch-icon" href="/images/home0.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="Island Games" />
+    <meta name="theme-color" content="#ffcc00" />
+    <title>Adventure Island 0 Games</title>
+    <style>
+      :root {
+        --ocean-deep: #0e6e6e;
+        --ocean: #1e97a0;
+        --ocean-light: #54c7c9;
+        --coral: #ff7b54;
+        --sun: #ffd23f;
+        --white: #fffdf8;
+        --orange-dark: #c45a1a;
+        --orange-btn: #d4631e;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100dvh;
+        overflow: hidden;
+        background: radial-gradient(ellipse at center top, #d81b60, #880e4f);
+        font-family: "Trebuchet MS", "Verdana", sans-serif;
+      }
+
+      /* decorative */
+      .sun {
+        position: absolute;
+        top: max(10px, env(safe-area-inset-top, 10px));
+        right: clamp(10px, 4vw, 40px);
+        width: clamp(40px, 8vw, 72px);
+        height: clamp(40px, 8vw, 72px);
+        border-radius: 50%;
+        background: radial-gradient(circle at 35% 35%, #ffefae, var(--sun) 70%);
+        box-shadow: 0 0 24px 8px rgba(255, 210, 63, 0.5);
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      /* layout */
+      .wrap {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        height: 100dvh;
+        padding: max(6px, env(safe-area-inset-top, 6px))
+          max(12px, env(safe-area-inset-right, 12px))
+          max(8px, env(safe-area-inset-bottom, 8px))
+          max(12px, env(safe-area-inset-left, 12px));
+        gap: 0;
+      }
+
+      /* header */
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        padding: 6px 0 10px;
+      }
+      h1 {
+        font-family: "Chalkboard SE", "Comic Sans MS", cursive, sans-serif;
+        font-size: clamp(25px, 5.5vw, 48px);
+        color: #fae207;
+        -webkit-text-stroke: 0.8px #f4930b;
+        white-space: nowrap;
+        text-align: center;
+      }
+
+      /* grid */
+      .grid {
+        flex: 1;
+        display: grid;
+        gap: clamp(6px, 1.5vw, 14px);
+        min-height: 0;
+        /* portrait default: 4 columns, 5 rows */
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(5, 1fr);
+      }
+
+      /* landscape iPad: 5 columns, 4 rows */
+      @media (orientation: landscape) and (min-width: 927px) {
+        .grid {
+          grid-template-columns: repeat(5, 1fr);
+          grid-template-rows: repeat(4, 1fr);
+        }
+      }
+
+      /* unit buttons */
+      .unit-btn {
+        width: 100%;
+        height: 100%;
+        background: #8b0b4c;
+        color: #e8a020; /* ← text color */
+        -webkit-text-stroke: 1px solid #c07800;
+        border: 3px solid #e8a020;
+        border-radius: clamp(10px, 2vw, 18px);
+        font-family: "Chalkboard SE", "Comic Sans MS", cursive, sans-serif;
+        font-size: clamp(20px, 4vw, 34px);
+        font-weight: bold;
+        cursor: pointer;
+        -webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.2);
+        transition:
+          transform 0.1s,
+          box-shadow 0.1s;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .unit-btn:active {
+        transform: translateY(3px);
+        box-shadow: 0 1px 0 var(--orange-dark);
+      }
+      .back-btn {
+        position: absolute;
+        top: max(10px, env(safe-area-inset-top, 10px));
+        left: clamp(10px, 4vw, 24px);
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: clamp(36px, 8vw, 48px);
+        height: clamp(36px, 8vw, 48px);
+        background: #8b0b4c;
+        color: #e8a020;
+        border: 3px solid #e8a020;
+        border-radius: 50%;
+        font-family: "Chalkboard SE", "Comic Sans MS", cursive, sans-serif;
+        font-size: clamp(18px, 4vw, 26px);
+        font-weight: bold;
+        text-decoration: none;
+        cursor: pointer;
+        transition:
+          transform 0.1s,
+          box-shadow 0.1s;
+      }
+      .back-btn:active {
+        transform: translateY(2px);
+        box-shadow: 0 1px 0 var(--orange-dark);
+      }
+      /* rotate message */
+      .rotate-msg {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(180deg, #f4b23e 0%, #e47d31 60%);
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 16px;
+        z-index: 100;
+      }
+      .rotate-msg p {
+        font-family: "Chalkboard SE", "Comic Sans MS", cursive;
+        font-size: clamp(18px, 4vw, 28px);
+        color: var(--white);
+        -webkit-text-stroke: 1px var(--ocean-deep);
+        text-align: center;
+        padding: 0 20px;
+      }
+      .title-icon {
+        position: absolute;
+        top: 50%;
+        height: clamp(30px, 7vw, 100px);
+        width: auto;
+        transform: translateY(-50%);
+      }
+
+      .title-icon-left {
+        right: 100%;
+        margin-right: 10px;
+      }
+
+      .title-icon-right {
+        left: 100%;
+        margin-left: 10px;
+      }
+      .title-wrap {
+        position: relative;
+        display: inline-block;
+      }
+
+      @media (orientation: landscape) and (max-width: 926px) {
+        .wrap,
+        .overlay {
+          display: none;
+        }
+        .rotate-msg {
+          display: flex;
+        }
+      }
+
+      @media (orientation: portrait) {
+        .rotate-msg {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="rotate-msg">
+      <p>🔄 Please rotate your device to portrait mode!</p>
+    </div>
+
+    <div class="sun"></div>
+    <div class="cloud cloud1"></div>
+    <div class="cloud cloud2"></div>
+
+    <div class="wrap">
+      <div class="header">
+        <div class="title-wrap">
+          <img src="k2.png" class="title-icon title-icon-left" alt="" />
+          <h1>Adventure Island</h1>
+          <img src="s2.png" class="title-icon title-icon-right" alt="" />
+        </div>
+      </div>
+
+      <div class="grid" id="grid"></div>
+    </div>
+
+    <script>
+      const UNITS = [
+        { label: "Unit 1", url: "unit1.html" },
+        { label: "Unit 2", url: "unit2.html" },
+        { label: "Unit 3", url: "unit3.html" },
+        { label: "Unit 4", url: "unit4.html" },
+        { label: "Unit 5", url: "unit5.html" },
+        { label: "Unit 6", url: "unit6.html" },
+        { label: "Unit 7", url: "unit7.html" },
+        { label: "Unit 8", url: "unit8.html" },
+        { label: "Unit 9", url: "unit9.html" },
+        { label: "Unit 10", url: "unit10.html" },
+        { label: "Unit 11", url: "unit11.html" },
+        { label: "Unit 12", url: "unit12.html" },
+        { label: "Unit 13", url: "unit13.html" },
+        { label: "Unit 14", url: "unit14.html" },
+        { label: "Unit 15", url: "unit15.html" },
+        { label: "Unit 16", url: "unit16.html" },
+        { label: "Unit 17", url: "unit17.html" },
+        { label: "Unit 18", url: "unit18.html" },
+        { label: "Unit 19", url: "unit19.html" },
+        { label: "Unit 20", url: "unit20.html" },
+      ];
+
+      const grid = document.getElementById("grid");
+      UNITS.forEach((unit) => {
+        const a = document.createElement("a");
+        a.className = "unit-btn";
+        a.href = unit.url;
+        a.textContent = unit.label;
+        grid.appendChild(a);
+      });
+    </script>
+  </body>
+</html>
