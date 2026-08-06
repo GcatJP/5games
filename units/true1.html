@@ -1,0 +1,665 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="True or False" />
+    <meta name="theme-color" content="#ffcc00" />
+    <title>Adventure Island — True or False (a / an / the / plurals)</title>
+
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-user-select: none;
+        user-select: none;
+      }
+
+      :root {
+        --ocean-deep: #0e6e6e;
+        --coral: #ff7b54;
+        --sun: #ffd23f;
+        --white: #fffdf8;
+        --orange-dark: #c45a1a;
+        --card-border: #c4e058;
+        --card-bg: #fffdf8;
+        --chip-bg: #8b0b4c;
+        --chip-border: #e8a020;
+        --chip-text: #f6c948;
+        --good: #4caf7d;
+        --good-dark: #2f7d55;
+        --bad: #e0483c;
+        --bad-dark: #a8332a;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        max-width: 100vw;
+        overflow-x: hidden;
+      }
+
+      body {
+        font-family: "Chalkboard SE", "Comic Sans MS", cursive, sans-serif;
+        background: radial-gradient(ellipse at center top, #d81b60, #880e4f);
+        min-height: 100vh;
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      .back-btn {
+        position: fixed;
+        top: max(20px, env(safe-area-inset-top, 20px));
+        left: clamp(10px, 4vw, 24px);
+        z-index: 60;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        background: var(--chip-bg);
+        color: var(--chip-text);
+        border: 3px solid var(--chip-border);
+        border-radius: 50%;
+        font-weight: bold;
+        font-size: 1.3rem;
+        text-decoration: none;
+        cursor: pointer;
+        transition: transform 0.1s ease;
+      }
+      .back-btn:active {
+        transform: translateY(2px);
+      }
+
+      .mute-btn {
+        position: fixed;
+        top: max(20px, env(safe-area-inset-top, 20px));
+        left: calc(clamp(10px, 4vw, 24px) + 54px);
+        z-index: 60;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        border: 3px solid var(--chip-border);
+        background: var(--chip-bg);
+        color: var(--chip-text);
+        font-size: 1.2rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* decorative */
+      .cloud {
+        position: absolute;
+        top: max(20px, env(safe-area-inset-top, 20px));
+        right: clamp(8px, 4vw, 36px);
+        width: clamp(70px, 14vw, 130px);
+        height: auto;
+        pointer-events: none;
+        user-select: none;
+        z-index: 0;
+      }
+
+      .wrap {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 720px;
+        padding: max(14px, env(safe-area-inset-top, 14px)) 16px 24px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1;
+      }
+
+      h1 {
+        color: #fae207;
+        -webkit-text-stroke: 0.8px #f4930b;
+        text-align: center;
+        font-size: clamp(1.4rem, 5vw, 2.4rem);
+        line-height: 1.15;
+        margin-bottom: 4px;
+      }
+
+      .subtitle {
+        color: #ffe0f0;
+        font-size: clamp(0.75rem, 2.6vw, 1rem);
+        text-align: center;
+        margin-bottom: 14px;
+      }
+
+      /* top bar: progress + score */
+      .topbar {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+
+      .progress-track {
+        flex: 1;
+        height: 14px;
+        background: rgba(255, 255, 255, 0.25);
+        border-radius: 999px;
+        border: 2px solid rgba(255, 255, 255, 0.4);
+        overflow: hidden;
+      }
+      .progress-fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, var(--ocean-deep), var(--coral));
+        border-radius: 999px;
+        transition: width 0.35s ease;
+      }
+
+      .score-pill {
+        flex-shrink: 0;
+        background: var(--chip-bg);
+        border: 3px solid var(--chip-border);
+        color: var(--chip-text);
+        border-radius: 999px;
+        padding: 4px 14px;
+        font-weight: bold;
+        font-size: clamp(0.8rem, 2.8vw, 1.05rem);
+        white-space: nowrap;
+      }
+
+      /* card */
+      .card {
+        background: var(--card-bg);
+        border: 3px solid var(--card-border);
+        border-radius: 22px;
+        width: 100%;
+        padding: clamp(14px, 4vw, 26px);
+        box-shadow: 0 10px 0 rgba(0, 0, 0, 0.12);
+        position: relative;
+      }
+
+      /* square badge (distinct from the round one on Sentence Builder) */
+      .q-badge {
+        position: absolute;
+        top: -18px;
+        left: 18px;
+        background: #d81b60;
+        color: var(--sun);
+        border: 3px solid var(--sun);
+        border-radius: 10px;
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.05rem;
+        font-weight: bold;
+        transform: rotate(-4deg);
+      }
+
+      .instructions {
+        text-align: center;
+        color: var(--ocean-deep);
+        font-weight: bold;
+        font-size: clamp(0.85rem, 3vw, 1.05rem);
+        margin: 10px 0 18px;
+      }
+
+      /* sentence banner */
+      .sentence-banner {
+        background: var(--chip-bg);
+        color: var(--chip-text);
+        border: 3px solid var(--chip-border);
+        border-radius: 16px;
+        padding: clamp(18px, 6vw, 32px) clamp(14px, 4vw, 24px);
+        text-align: center;
+        font-weight: bold;
+        font-size: clamp(1.15rem, 5vw, 1.7rem);
+        line-height: 1.35;
+        margin-bottom: 20px;
+        min-height: 90px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .sentence-banner.correct {
+        background: #e9f9f0;
+        color: var(--good-dark);
+        border-color: var(--good);
+      }
+      .sentence-banner.wrong {
+        background: #fdecea;
+        color: var(--bad-dark);
+        border-color: var(--bad);
+        animation: shake 0.4s ease;
+      }
+
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        20% {
+          transform: translateX(-8px);
+        }
+        40% {
+          transform: translateX(8px);
+        }
+        60% {
+          transform: translateX(-6px);
+        }
+        80% {
+          transform: translateX(6px);
+        }
+      }
+
+      /* true / false buttons */
+      .tf-row {
+        display: flex;
+        gap: 14px;
+        margin-bottom: 16px;
+      }
+
+      .tf-btn {
+        flex: 1;
+        font-family: inherit;
+        font-weight: bold;
+        font-size: clamp(1.1rem, 4.5vw, 1.5rem);
+        border: none;
+        border-radius: 16px;
+        padding: clamp(16px, 5vw, 24px) 10px;
+        cursor: pointer;
+        color: var(--white);
+        transition: transform 0.1s ease;
+      }
+      .tf-btn:active {
+        transform: translateY(3px);
+      }
+      .tf-btn:disabled {
+        opacity: 0.45;
+        cursor: default;
+      }
+      .tf-true {
+        background: var(--good);
+        box-shadow: 0 5px 0 var(--good-dark);
+      }
+      .tf-false {
+        background: var(--bad);
+        box-shadow: 0 5px 0 var(--bad-dark);
+      }
+      .tf-btn.selected {
+        outline: 4px solid var(--sun);
+        outline-offset: 2px;
+      }
+
+      .btn-row {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .action-btn {
+        font-family: inherit;
+        font-weight: bold;
+        font-size: clamp(0.9rem, 3.2vw, 1.1rem);
+        border: none;
+        border-radius: 14px;
+        padding: 12px 22px;
+        cursor: pointer;
+        color: var(--white);
+        transition: transform 0.1s ease;
+      }
+      .action-btn:active {
+        transform: translateY(2px);
+      }
+      .btn-next {
+        background: var(--ocean-deep);
+        box-shadow: 0 4px 0 #063f3f;
+        display: none;
+      }
+
+      .feedback {
+        text-align: center;
+        font-weight: bold;
+        font-size: clamp(0.95rem, 3.4vw, 1.2rem);
+        min-height: 1.6em;
+        margin-bottom: 8px;
+      }
+      .feedback.good {
+        color: var(--good);
+      }
+      .feedback.bad {
+        color: var(--bad);
+      }
+
+      /* end screen */
+      .end-screen {
+        display: none;
+        text-align: center;
+      }
+      .end-screen h2 {
+        color: #fae207;
+        -webkit-text-stroke: 0.8px #f4930b;
+        font-size: clamp(1.6rem, 6vw, 2.6rem);
+        margin-bottom: 10px;
+      }
+      .end-screen .big-score {
+        font-size: clamp(2.2rem, 9vw, 3.6rem);
+        color: var(--ocean-deep);
+        font-weight: bold;
+        margin-bottom: 6px;
+      }
+      .end-screen p {
+        color: var(--ocean-deep);
+        margin-bottom: 20px;
+        font-size: clamp(0.9rem, 3vw, 1.1rem);
+      }
+      .end-screen .action-btn.btn-replay {
+        background: var(--chip-bg);
+        box-shadow: 0 4px 0 #55082f;
+      }
+    </style>
+  </head>
+
+  <body>
+    <img class="cloud" src="../p2.png" alt="" />
+    <a
+      class="back-btn"
+      href="unit1.html"
+      onclick="
+        if (history.length > 1) {
+          history.back();
+          return false;
+        }
+      "
+      >←</a
+    >
+
+    <audio id="bgMusic" src="../game2music.mp3" loop preload="auto"></audio>
+    <button id="muteBtn" class="mute-btn">🔊</button>
+
+    <div class="wrap">
+      <h1>True or False?</h1>
+      <div class="subtitle">
+        Is the sentence correct? (a / an / the / plurals)
+      </div>
+
+      <div class="topbar">
+        <div class="progress-track">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="score-pill">⭐ <span id="scoreLabel">0</span> / 16</div>
+      </div>
+
+      <!-- GAME CARD -->
+      <div class="card" id="gameCard">
+        <div class="q-badge" id="qBadge">1</div>
+        <div class="instructions">Read the sentence. Is it True or False?</div>
+
+        <div class="sentence-banner" id="sentenceBanner">Loading…</div>
+
+        <div class="tf-row">
+          <button class="tf-btn tf-true" id="trueBtn">✓ True</button>
+          <button class="tf-btn tf-false" id="falseBtn">✗ False</button>
+        </div>
+
+        <div class="feedback" id="feedback"></div>
+
+        <div class="btn-row">
+          <button class="action-btn btn-next" id="nextBtn">Next →</button>
+        </div>
+      </div>
+
+      <!-- END SCREEN -->
+      <div class="card end-screen" id="endScreen">
+        <h2>Great Job! 🎉</h2>
+        <div class="big-score" id="finalScore">0 / 16</div>
+        <p id="finalMsg">You finished the True or False challenge!</p>
+        <div class="btn-row">
+          <button class="action-btn btn-replay" id="playAgainBtn">
+            ↺ Play Again
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // ---------- Question bank (30 sentences: 15 correct, 15 with an a/an/the/plural mistake) ----------
+      const SENTENCE_BANK = [
+        // ----- TRUE (correct) -----
+        { text: "It's a chair.", answer: true },
+        { text: "I have an umbrella.", answer: true },
+        { text: "This is a house.", answer: true },
+        { text: "That is an elephant.", answer: true },
+        { text: "I have two caps.", answer: true },
+        { text: "There are three benches.", answer: true },
+        { text: "I can see two foxes.", answer: true },
+        { text: "There are six dresses.", answer: true },
+        { text: "Please open the door.", answer: true },
+        { text: "I can see the moon.", answer: true },
+        { text: "She is a student.", answer: true },
+        { text: "She is the only student.", answer: true },
+        { text: "This is a textbook.", answer: true },
+        { text: "The textbook is mine.", answer: true },
+        { text: "I have five pencils.", answer: true },
+
+        // ----- FALSE (a/an/the/plural mistake) -----
+        { text: "It's an chair.", answer: false },
+        { text: "I have a umbrella.", answer: false },
+        { text: "This is an house.", answer: false },
+        { text: "That is a elephant.", answer: false },
+        { text: "I have two cap.", answer: false },
+        { text: "There are three bench.", answer: false },
+        { text: "I can see two fox.", answer: false },
+        { text: "There are six dress.", answer: false },
+        { text: "I have two dishs.", answer: false },
+        { text: "I saw a elephant at the zoo.", answer: false },
+        { text: "I want an new bike.", answer: false },
+        { text: "Do you have an ruler?", answer: false },
+        { text: "I have two boxs.", answer: false },
+        { text: "I ate four sandwichs.", answer: false },
+        { text: "I have an pencil.", answer: false },
+      ];
+
+      const ROUND_SIZE = 16;
+
+      // ---------- State ----------
+      let roundQuestions = [];
+      let qIndex = 0;
+      let score = 0;
+      let answered = false;
+
+      const sentenceBanner = document.getElementById("sentenceBanner");
+      const feedback = document.getElementById("feedback");
+      const qBadge = document.getElementById("qBadge");
+      const progressFill = document.getElementById("progressFill");
+      const scoreLabel = document.getElementById("scoreLabel");
+      const trueBtn = document.getElementById("trueBtn");
+      const falseBtn = document.getElementById("falseBtn");
+      const nextBtn = document.getElementById("nextBtn");
+      const gameCard = document.getElementById("gameCard");
+      const endScreen = document.getElementById("endScreen");
+
+      function shuffle(arr) {
+        const a = arr.slice();
+        for (let i = a.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+      }
+
+      function startGame() {
+        roundQuestions = shuffle(SENTENCE_BANK).slice(0, ROUND_SIZE);
+        qIndex = 0;
+        score = 0;
+        scoreLabel.textContent = "0";
+        endScreen.style.display = "none";
+        gameCard.style.display = "block";
+        loadQuestion();
+      }
+
+      function currentQuestion() {
+        return roundQuestions[qIndex];
+      }
+
+      function loadQuestion() {
+        answered = false;
+        feedback.textContent = "";
+        feedback.className = "feedback";
+        sentenceBanner.className = "sentence-banner";
+        nextBtn.style.display = "none";
+        trueBtn.disabled = false;
+        falseBtn.disabled = false;
+        trueBtn.classList.remove("selected");
+        falseBtn.classList.remove("selected");
+
+        qBadge.textContent = qIndex + 1;
+        progressFill.style.width = `${(qIndex / ROUND_SIZE) * 100}%`;
+
+        sentenceBanner.textContent = currentQuestion().text;
+      }
+
+      function submitAnswer(choice) {
+        if (answered) return;
+        answered = true;
+
+        const isCorrect = choice === currentQuestion().answer;
+        trueBtn.disabled = true;
+        falseBtn.disabled = true;
+        (choice ? trueBtn : falseBtn).classList.add("selected");
+
+        if (isCorrect) {
+          sentenceBanner.classList.add("correct");
+          feedback.textContent = "✅ Correct! Well done!";
+          feedback.className = "feedback good";
+          playCorrectSound();
+          score++;
+          scoreLabel.textContent = score;
+        } else {
+          sentenceBanner.classList.add("wrong");
+          const correctWord = currentQuestion().answer ? "True" : "False";
+          feedback.textContent = `❌ Not quite — that sentence was ${correctWord}.`;
+          feedback.className = "feedback bad";
+          playIncorrectSound();
+        }
+
+        nextBtn.style.display = "inline-block";
+      }
+
+      trueBtn.addEventListener("click", () => submitAnswer(true));
+      falseBtn.addEventListener("click", () => submitAnswer(false));
+
+      nextBtn.addEventListener("click", () => {
+        qIndex++;
+        if (qIndex >= ROUND_SIZE) {
+          finishGame();
+        } else {
+          loadQuestion();
+        }
+      });
+
+      function finishGame() {
+        progressFill.style.width = "100%";
+        gameCard.style.display = "none";
+        endScreen.style.display = "block";
+        document.getElementById("finalScore").textContent =
+          `${score} / ${ROUND_SIZE}`;
+        const pct = Math.round((score / ROUND_SIZE) * 100);
+        let msg = "Nice try — keep practicing a, an, the, and plurals!";
+        if (pct === 100) msg = "Perfect score! You're a Grammar Detective! 🏆";
+        else if (pct >= 80)
+          msg = "Awesome work! You really know your grammar! 🌟";
+        else if (pct >= 50)
+          msg = "Good effort! A little more practice and you'll ace it!";
+        document.getElementById("finalMsg").textContent = msg;
+      }
+
+      document
+        .getElementById("playAgainBtn")
+        .addEventListener("click", startGame);
+
+      // ---------- Sound effects (Web Audio API, no files needed) ----------
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      const audioCtx = new AudioCtx();
+
+      function beep(
+        freq,
+        duration,
+        type = "sine",
+        startDelay = 0,
+        volume = 0.25,
+      ) {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.value = freq;
+        gain.gain.value = volume;
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        const startTime = audioCtx.currentTime + startDelay;
+        gain.gain.setValueAtTime(volume, startTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+
+        osc.start(startTime);
+        osc.stop(startTime + duration);
+      }
+
+      function playCorrectSound() {
+        beep(660, 0.15, "sine", 0, 0.4);
+        beep(880, 0.2, "sine", 0.12, 0.4);
+      }
+
+      function playIncorrectSound() {
+        beep(200, 0.25, "sawtooth", 0, 0.35);
+      }
+
+      // ---------- Background music ----------
+      const bgMusic = document.getElementById("bgMusic");
+      bgMusic.volume = 0.15;
+
+      let musicStarted = false;
+      let musicMuted = false;
+
+      function startMusicOnFirstInteraction() {
+        if (musicStarted) return;
+        musicStarted = true;
+        bgMusic.play().catch(() => {
+          musicStarted = false;
+        });
+      }
+      document.body.addEventListener(
+        "pointerdown",
+        startMusicOnFirstInteraction,
+        { once: true },
+      );
+
+      const muteBtn = document.getElementById("muteBtn");
+      muteBtn.addEventListener("click", () => {
+        musicMuted = !musicMuted;
+        bgMusic.muted = musicMuted;
+        muteBtn.textContent = musicMuted ? "🔇" : "🔊";
+      });
+
+      startGame();
+    </script>
+  </body>
+</html>

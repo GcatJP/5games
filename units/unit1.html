@@ -16,8 +16,8 @@
     <meta name="apple-mobile-web-app-title" content="Adventure Island" />
     <meta name="theme-color" content="#ffcc00" />
 
-    <!-- App icon -->
-    <link rel="apple-touch-icon" href="home5.jpg" />
+    <!-- App icons -->
+    <link rel="apple-touch-icon" href="../images/home4.png" />
 
     <link rel="manifest" href="manifest.json" />
 
@@ -34,14 +34,13 @@
       }
 
       :root {
-        --ocean-deep: #0e6e6e;
-        --ocean: #1e97a0;
-        --ocean-light: #54c7c9;
-        --coral: #ff7b54;
         --sun: #ffd23f;
         --white: #fffdf8;
         --orange-dark: #c45a1a;
         --orange-btn: #d4631e;
+        --chip-bg: #8b0b4c;
+        --chip-border: #e8a020;
+        --chip-text: #e8a020;
       }
 
       html,
@@ -64,12 +63,41 @@
         overflow: hidden;
         position: relative;
       }
-
-      /* title (Island 0 theme) */
-      .title-wrap {
-        position: relative;
-        display: inline-block;
-        z-index: 1;
+      .back-btn {
+        position: fixed;
+        top: max(20px, env(safe-area-inset-top, 20px));
+        left: clamp(10px, 4vw, 24px);
+        z-index: 60;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        background: var(--chip-bg);
+        color: var(--chip-text);
+        border: 3px solid var(--chip-border);
+        border-radius: 50%;
+        font-weight: bold;
+        font-size: 1.3rem;
+        text-decoration: none;
+        cursor: pointer;
+        transition: transform 0.1s ease;
+      }
+      .back-btn:active {
+        transform: translateY(2px);
+      }
+      .back-btn:active {
+        transform: translateY(2px);
+      }
+      /* decorative */
+      .btn-icon {
+        height: 78%;
+        width: auto;
+        max-width: 40%; /* cap how much horizontal space the icon can claim */
+        object-fit: contain;
+        flex-shrink: 1; /* allow the icon to shrink if space is tight */
+        pointer-events: none;
+        user-select: none;
       }
 
       h1 {
@@ -81,6 +109,8 @@
         letter-spacing: 0.03em;
         flex-shrink: 0;
         white-space: nowrap;
+        position: relative;
+        z-index: 1;
       }
 
       .grid-wrapper {
@@ -93,27 +123,20 @@
         z-index: 1;
       }
 
-      /* single-button grid */
-      .grid {
-        display: flex;
-        width: 100%;
-      }
-
-      /* unit-btn styling from Island 0 */
       .btn {
         font-family: "Chalkboard SE", "Comic Sans MS", cursive, sans-serif;
         font-weight: bold;
-        color: #e8a020;
-        background: #8b0b4c;
-        border: 3px solid #e8a020;
+        color: var(--chip-text);
+        background: var(--chip-bg);
+        border: 3px solid var(--chip-border);
         border-radius: clamp(10px, 2vw, 18px);
         text-decoration: none;
         cursor: pointer;
         display: flex;
         align-items: center;
-        justify-content: center;
-        gap: 0.6em;
-        padding: 0 0.8em;
+        justify-content: flex-start;
+        gap: 0.4em;
+        padding: 0 0.6em;
         width: 100%;
         overflow: hidden;
         -webkit-user-select: none;
@@ -130,21 +153,11 @@
       }
 
       .btn-text {
+        flex: 1;
+        min-width: 0; /* let long text shrink instead of pushing the icon out */
         text-align: center;
         line-height: 1.05;
-        flex-shrink: 0;
       }
-
-      .btn-icon {
-        height: 78%;
-        width: auto;
-        aspect-ratio: 1 / 1;
-        flex-shrink: 0;
-        object-fit: contain;
-        pointer-events: none;
-        user-select: none;
-      }
-
       /* LANDSCAPE */
       @media screen and (orientation: landscape) {
         h1 {
@@ -160,14 +173,16 @@
         }
 
         .grid {
-          justify-content: center;
-          width: 100%;
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          grid-template-rows: 1fr;
+          gap: clamp(6px, 1.4vw, 16px);
+          width: min(96vw, 1300px);
         }
 
         .btn {
-          font-size: clamp(1.2rem, 7vw, 4.6rem);
-          height: clamp(80px, 45vh, 220px);
-          width: min(96vw, 640px);
+          font-size: clamp(1rem, 4vw, 3rem);
+          height: clamp(80px, 40vh, 220px);
         }
       }
 
@@ -208,62 +223,81 @@
           padding: 0.3em 0.5em;
           margin-top: max(20px, env(safe-area-inset-top, 20px));
         }
+
         .grid-wrapper {
-          padding: 2vw 9vw 10vw;
+          padding: 2vw 9vw 6vw;
         }
 
         .grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: clamp(8px, 5vw, 50px);
           width: 100%;
           max-width: 520px;
         }
 
         .btn {
-          font-size: clamp(1.2rem, 11vw, 4.6rem);
-          height: clamp(90px, 36vw, 340px);
+          font-size: clamp(1.1rem, 9vw, 3.6rem);
+          height: clamp(80px, 30vw, 250px);
         }
       }
 
       /* PORTRAIT IPHONE */
       @media screen and (orientation: portrait) and (max-width: 430px) {
         h1 {
-          font-size: clamp(1rem, 9vw, 3.8rem) !important;
+          font-size: clamp(1.1rem, 10.5vw, 3.9rem) !important;
           padding: 0.3em 0.5em !important;
           -webkit-text-stroke: 1.5px #f4930b;
           line-height: 1;
-          margin-top: max(80px, env(safe-area-inset-top, 60px)) !important;
+          margin-top: max(40px, env(safe-area-inset-top, 30px)) !important;
         }
 
         .grid-wrapper {
-          padding: 4vh 9vw 2vw !important;
+          padding: 3.5vh 9vw 2vw !important;
         }
 
         .grid {
+          gap: 23px !important;
           width: 100% !important;
-          margin-top: -10vh !important;
+          margin-top: -5vh !important;
         }
 
         .btn {
-          height: clamp(90px, 40vw, 250px) !important;
-          font-size: clamp(1.1rem, 11vw, 3.4rem) !important;
+          height: clamp(80px, 30vw, 180px) !important;
+          font-size: clamp(1rem, 10vw, 3.1rem) !important;
         }
       }
     </style>
   </head>
 
   <body>
-    <div class="sun"></div>
-    <div class="cloud cloud1"></div>
+    <a
+      class="back-btn"
+      href="index.html"
+      onclick="
+        if (history.length > 1) {
+          history.back();
+          return false;
+        }
+      "
+      >←</a
+    >
 
-    <div class="title-wrap">
-      <h1>Adventure Island</h1>
-    </div>
+    <h1>Unit 1</h1>
 
     <div class="grid-wrapper">
       <div class="grid" id="main-grid">
-        <a class="btn" href="units/index.html">
-          <img class="btn-icon" src="k1.png" alt="" />
-          <span class="btn-text">Games</span>
-          <img class="btn-icon" src="s1.png" alt="" />
+        <a class="btn" href="build1.html">
+          <span class="btn-text">Sentence Builder</span>
+          <img class="btn-icon" src="../sb.png" alt="" />
+        </a>
+        <a class="btn" href="true1.html">
+          <span class="btn-text">True or False</span>
+          <img class="btn-icon" src="../tf.png" alt="" />
+        </a>
+        <a class="btn" href="bridge1.html">
+          <span class="btn-text">Bridge Gap</span>
+          <img class="btn-icon" src="../bg.png" alt="" />
         </a>
       </div>
     </div>

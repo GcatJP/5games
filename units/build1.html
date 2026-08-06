@@ -62,49 +62,43 @@
         position: relative;
         overflow-x: hidden;
       }
-
-      /* decorative */
-      .sun {
-        position: absolute;
-        top: max(8px, env(safe-area-inset-top, 8px));
-        right: clamp(8px, 4vw, 36px);
-        width: clamp(34px, 7vw, 60px);
-        height: clamp(34px, 7vw, 60px);
+      .back-btn {
+        position: fixed;
+        top: max(20px, env(safe-area-inset-top, 20px));
+        left: clamp(10px, 4vw, 24px);
+        z-index: 60;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        background: var(--chip-bg);
+        color: var(--chip-text);
+        border: 3px solid var(--chip-border);
         border-radius: 50%;
-        background: radial-gradient(circle at 35% 35%, #ffefae, var(--sun) 70%);
-        box-shadow: 0 0 20px 6px rgba(255, 210, 63, 0.5);
-        pointer-events: none;
-        z-index: 0;
+        font-weight: bold;
+        font-size: 1.3rem;
+        text-decoration: none;
+        cursor: pointer;
+        transition: transform 0.1s ease;
       }
+      .back-btn:active {
+        transform: translateY(2px);
+      }
+      .back-btn:active {
+        transform: translateY(2px);
+      }
+      /* decorative */
+
       .cloud {
         position: absolute;
-        top: 4%;
-        left: 4%;
-        background: rgba(255, 255, 255, 0.8);
-        width: 70px;
-        height: 22px;
-        border-radius: 50px;
+        top: max(20px, env(safe-area-inset-top, 20px));
+        right: clamp(8px, 4vw, 36px);
+        width: clamp(70px, 14vw, 130px);
+        height: auto;
         pointer-events: none;
+        user-select: none;
         z-index: 0;
-      }
-      .cloud::before,
-      .cloud::after {
-        content: "";
-        position: absolute;
-        background: inherit;
-        border-radius: 50%;
-      }
-      .cloud::before {
-        width: 34px;
-        height: 34px;
-        top: -16px;
-        left: 6px;
-      }
-      .cloud::after {
-        width: 26px;
-        height: 26px;
-        top: -10px;
-        left: 36px;
       }
 
       .wrap {
@@ -170,6 +164,23 @@
         font-weight: bold;
         font-size: clamp(0.8rem, 2.8vw, 1.05rem);
         white-space: nowrap;
+      }
+      .mute-btn {
+        position: fixed;
+        top: max(20px, env(safe-area-inset-top, 20px));
+        left: calc(clamp(10px, 4vw, 24px) + 54px);
+        z-index: 60;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        border: 3px solid var(--chip-border);
+        background: var(--chip-bg);
+        color: var(--chip-text);
+        font-size: 1.2rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
       /* card */
@@ -377,20 +388,31 @@
   </head>
 
   <body>
-    <div class="sun"></div>
-    <div class="cloud"></div>
-
+    <img class="cloud" src="../p1.png" alt="" />
+    <a
+      class="back-btn"
+      href="unit1.html"
+      onclick="
+        if (history.length > 1) {
+          history.back();
+          return false;
+        }
+      "
+      >←</a
+    >
     <div class="wrap">
       <h1>Sentence Builder</h1>
       <div class="subtitle">
         Drag the words to build the sentence! (a / an / the / plurals)
       </div>
+      <audio id="bgMusic" src="../game1music.mp3" loop preload="auto"></audio>
 
+      <button id="muteBtn" class="mute-btn">🔊</button>
       <div class="topbar">
         <div class="progress-track">
           <div class="progress-fill" id="progressFill"></div>
         </div>
-        <div class="score-pill">⭐ <span id="scoreLabel">0</span> / 20</div>
+        <div class="score-pill">⭐ <span id="scoreLabel">0</span> / 12</div>
       </div>
 
       <!-- GAME CARD -->
@@ -418,7 +440,7 @@
       <!-- END SCREEN -->
       <div class="card end-screen" id="endScreen">
         <h2>Great Job! 🎉</h2>
-        <div class="big-score" id="finalScore">0 / 20</div>
+        <div class="big-score" id="finalScore">0 / 12</div>
         <p id="finalMsg">You finished the Sentence Builder challenge!</p>
         <div class="btn-row">
           <button class="action-btn btn-check" id="playAgainBtn">
@@ -443,15 +465,27 @@
         "Please open the door.",
         "Look at the red toy.",
         "I can see the moon.",
-        "I want a new bike.",
-        "Do you have a ruler?",
-        "She is a student.",
-        "She is the only student.",
-        "This is a textbook.",
-        "The textbook is mine.",
-        "I have five pencils.",
-        "I saw an elephant at the zoo.",
+        "I have an apple.",
+        "She has an egg.",
+        "I can see an insect.",
+        "I want an orange.",
+        "I have a book.",
+        "I need a pencil.",
+        "He has a car.",
+        "I see a poster.",
+        "We went to a park.",
+        "I ate a banana.",
+        "I can see two buses.",
+        "I wear red glasses.",
+        "I washed the dishes.",
+        "I have two watches.",
+        "I have five boxes.",
+        "I have two cats.",
+        "I have a dog.",
+        "The sun is hot.",
       ].map((s) => s.split(" "));
+
+      const TOTAL_QUESTIONS = 12; // how many are drawn from the pool each game
 
       // ---------- State ----------
       let order = [];
@@ -482,7 +516,10 @@
       }
 
       function startGame() {
-        order = shuffle([...Array(QUESTIONS.length).keys()]);
+        order = shuffle([...Array(QUESTIONS.length).keys()]).slice(
+          0,
+          TOTAL_QUESTIONS,
+        );
         qIndex = 0;
         score = 0;
         scoreLabel.textContent = "0";
@@ -505,7 +542,7 @@
         checkBtn.style.opacity = 1;
 
         qBadge.textContent = qIndex + 1;
-        progressFill.style.width = `${(qIndex / QUESTIONS.length) * 100}%`;
+        progressFill.style.width = `${(qIndex / order.length) * 100}%`;
 
         // clear zones
         answerZone.innerHTML = "";
@@ -541,6 +578,69 @@
 
       let dragState = null;
 
+      // ---------- Sound effects (Web Audio API, no files needed) ----------
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      const audioCtx = new AudioCtx();
+
+      function beep(
+        freq,
+        duration,
+        type = "sine",
+        startDelay = 0,
+        volume = 0.25,
+      ) {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.value = freq;
+        gain.gain.value = volume;
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        const startTime = audioCtx.currentTime + startDelay;
+        gain.gain.setValueAtTime(volume, startTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+
+        osc.start(startTime);
+        osc.stop(startTime + duration);
+      }
+
+      function playCorrectSound() {
+        beep(660, 0.15, "sine", 0, 0.4);
+        beep(880, 0.2, "sine", 0.12, 0.4);
+      }
+
+      function playIncorrectSound() {
+        beep(200, 0.25, "sawtooth", 0, 0.35);
+      }
+      // ---------- Background music ----------
+      const bgMusic = document.getElementById("bgMusic");
+      bgMusic.volume = 0.15; // low background volume (0 = silent, 1 = full)
+
+      let musicStarted = false;
+      let musicMuted = false;
+
+      function startMusicOnFirstInteraction() {
+        if (musicStarted) return;
+        musicStarted = true;
+        bgMusic.play().catch(() => {
+          // Autoplay was blocked; music will start on the next tap instead
+          musicStarted = false;
+        });
+      }
+      // Browsers require a user gesture before audio can play — this listens for the first tap/click anywhere
+      document.body.addEventListener(
+        "pointerdown",
+        startMusicOnFirstInteraction,
+        { once: true },
+      );
+
+      const muteBtn = document.getElementById("muteBtn");
+      muteBtn.addEventListener("click", () => {
+        musicMuted = !musicMuted;
+        bgMusic.muted = musicMuted;
+        muteBtn.textContent = musicMuted ? "🔇" : "🔊";
+      });
       function onPointerDown(e) {
         const chip = e.currentTarget;
         e.preventDefault();
@@ -676,6 +776,7 @@
           answerZone.classList.add("correct");
           feedback.textContent = "✅ Correct! Well done!";
           feedback.className = "feedback good";
+          playCorrectSound(); // ← add this line
           if (!answeredCorrectly) {
             score++;
             scoreLabel.textContent = score;
@@ -689,6 +790,7 @@
           answerZone.classList.add("wrong");
           feedback.textContent = "❌ Not quite — try rearranging the words.";
           feedback.className = "feedback bad";
+          playIncorrectSound(); // ← add this line
           setTimeout(() => answerZone.classList.remove("wrong"), 400);
         }
       });
@@ -699,7 +801,7 @@
 
       nextBtn.addEventListener("click", () => {
         qIndex++;
-        if (qIndex >= QUESTIONS.length) {
+        if (qIndex >= order.length) {
           finishGame();
         } else {
           loadQuestion();
@@ -711,8 +813,8 @@
         gameCard.style.display = "none";
         endScreen.style.display = "block";
         document.getElementById("finalScore").textContent =
-          `${score} / ${QUESTIONS.length}`;
-        const pct = Math.round((score / QUESTIONS.length) * 100);
+          `${score} / ${order.length}`;
+        const pct = Math.round((score / order.length) * 100);
         let msg = "Nice try — keep practicing a, an, the, and plurals!";
         if (pct === 100)
           msg = "Perfect score! You're a Sentence Builder master! 🏆";
