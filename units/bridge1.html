@@ -155,7 +155,11 @@
         gap: 10px;
         margin-bottom: 14px;
       }
-
+      @media (orientation: portrait) {
+        .topbar {
+          margin-top: clamp(60px, 14vw, 110px);
+        }
+      }
       @media screen and (orientation: landscape) and (max-height: 450px) {
         .rotate-message {
           display: flex;
