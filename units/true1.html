@@ -375,6 +375,17 @@
         background: var(--chip-bg);
         box-shadow: 0 4px 0 #55082f;
       }
+      @media (max-width: 380px) {
+        .chip {
+          padding: 7px 10px;
+        }
+      }
+
+      @media (orientation: portrait) {
+        .topbar {
+          margin-top: clamp(60px, 14vw, 110px);
+        }
+      }
     </style>
   </head>
 

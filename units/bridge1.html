@@ -44,6 +44,25 @@
         --good: #4caf7d;
         --bad: #e0483c;
       }
+      .rotate-message {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        background: radial-gradient(ellipse at center top, #d81b60, #880e4f);
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 2em;
+      }
+      .rotate-message p {
+        color: var(--sun);
+        -webkit-text-stroke: 0.8px #f4930b;
+        font-family: "Chalkboard SE", "Comic Sans MS", cursive, sans-serif;
+        font-weight: bold;
+        font-size: clamp(1.2rem, 6vw, 2rem);
+        line-height: 1.4;
+      }
 
       html,
       body {
@@ -271,7 +290,17 @@
       .gap-input:disabled {
         opacity: 0.8;
       }
+      @media screen and (orientation: landscape) and (max-height: 450px) {
+        .rotate-message {
+          display: flex;
+        }
 
+        .wrap,
+        .back-btn,
+        .mute-btn {
+          display: none;
+        }
+      }
       @keyframes shake {
         0%,
         100% {
@@ -379,6 +408,9 @@
       "
       >←</a
     >
+    <div class="rotate-message">
+      <p>📱 Please rotate your device to<br />portrait mode</p>
+    </div>
     <div class="wrap">
       <h1>Bridge Gap</h1>
       <div class="subtitle">
