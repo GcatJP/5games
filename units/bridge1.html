@@ -155,7 +155,16 @@
         gap: 10px;
         margin-bottom: 14px;
       }
-
+      @media (orientation: portrait) {
+        .topbar {
+          margin-top: clamp(60px, 14vw, 110px);
+        }
+        @media screen and (orientation: portrait) and (max-width: 430px) {
+          h1 {
+            margin-top: 60px;
+          }
+        }
+      }
       .progress-track {
         flex: 1;
         height: 14px;
@@ -409,7 +418,7 @@
       >←</a
     >
     <div class="rotate-message">
-      <p>📱 Please rotate your device to<br />portrait mode</p>
+      <p>📱 Please rotate to portrait mode 📱</p>
     </div>
     <div class="wrap">
       <h1>Bridge Gap</h1>
