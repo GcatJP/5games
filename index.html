@@ -257,8 +257,9 @@
         @media screen and (orientation: portrait) {
           /* ...existing rules... */
 
-          .btn-icon {
-            height: min(90%, 30vw) !important;
+          .btn {
+            height: clamp(90px, 48vw, 250px) !important; /* was 40vw */
+            font-size: clamp(1.1rem, 11vw, 3.4rem) !important;
           }
         }
       }
