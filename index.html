@@ -112,8 +112,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 0.6em;
-        padding: 0 0.8em;
+        gap: 0.3em;
+        padding: 0 0.4em;
         width: 100%;
         overflow: hidden;
         -webkit-user-select: none;
@@ -240,7 +240,16 @@
           line-height: 1;
           margin-top: max(80px, env(safe-area-inset-top, 60px)) !important;
         }
-
+        .btn-icon {
+          height: 100%;
+          width: auto;
+          aspect-ratio: 1 / 1;
+          flex-shrink: 1;
+          min-width: 0;
+          object-fit: contain;
+          pointer-events: none;
+          user-select: none;
+        }
         .grid-wrapper {
           padding: 4vh 9vw 2vw !important;
         }
@@ -256,7 +265,16 @@
         }
         @media screen and (orientation: portrait) {
           /* ...existing rules... */
-
+          .btn-icon {
+            height: 100%;
+            width: auto;
+            aspect-ratio: 1 / 1;
+            flex-shrink: 1;
+            min-width: 0;
+            object-fit: contain;
+            pointer-events: none;
+            user-select: none;
+          }
           .btn {
             height: clamp(90px, 48vw, 250px) !important; /* was 40vw */
             font-size: clamp(1.1rem, 11vw, 3.4rem) !important;
