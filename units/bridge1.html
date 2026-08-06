@@ -155,16 +155,19 @@
         gap: 10px;
         margin-bottom: 14px;
       }
-      @media (orientation: portrait) {
-        .topbar {
-          margin-top: clamp(60px, 14vw, 110px);
+
+      @media screen and (orientation: landscape) and (max-height: 450px) {
+        .rotate-message {
+          display: flex;
         }
-        @media screen and (orientation: portrait) and (max-width: 430px) {
-          h1 {
-            margin-top: 60px;
-          }
+
+        .wrap,
+        .back-btn,
+        .mute-btn {
+          display: none;
         }
       }
+
       .progress-track {
         flex: 1;
         height: 14px;
