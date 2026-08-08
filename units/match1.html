@@ -405,7 +405,7 @@
 
       @media screen and (orientation: portrait) and (max-width: 430px) {
         h1 {
-          font-size: clamp(1rem, 5.5vw, 1.6rem);
+          font-size: clamp(1rem, 5.5vw, 1.5rem);
         }
         .score-pill,
         .reset-btn {
@@ -421,17 +421,7 @@
     <audio id="bgMusic" src="../game4music.mp3" loop preload="auto"></audio>
     <div class="wrap">
       <div class="header">
-        <a
-          class="back-btn"
-          href="index.html"
-          onclick="
-            if (history.length > 1) {
-              history.back();
-              return false;
-            }
-          "
-          >←</a
-        >
+        <a class="back-btn" href="index.html">←</a>
         <button id="muteBtn" class="mute-btn">🔊</button>
         <h1>Match Up</h1>
         <div class="score-pill" id="triesPill">Tries: 0</div>
