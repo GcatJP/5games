@@ -512,88 +512,52 @@
     </div>
 
     <script>
-      // ---------- Sentence pool (30 sentences, based on Unit 10 Review) ----------
+      // ---------- Sentence pool (30 sentences, based on Unit 6 Adjectives) ----------
       const SENTENCES = [
+        { en: "The dragon is big.", jp: "そのドラゴンは大きいです。" },
+        { en: "I am tired.", jp: "私は疲れています。" },
+        { en: "Cheetahs are fast.", jp: "チーターは速いです。" },
+        { en: "The door is open.", jp: "ドアは開いています。" },
+        { en: "My classroom is clean.", jp: "私の教室はきれいです。" },
+        { en: "English is interesting.", jp: "英語は面白いです。" },
+        { en: "Ants are small.", jp: "アリは小さいです。" },
+        { en: "My room is messy.", jp: "私の部屋は散らかっています。" },
+        { en: "Giraffes are tall.", jp: "キリンは背が高いです。" },
+        { en: "They aren't short.", jp: "彼らは背が低くありません。" },
+        { en: "This car is expensive.", jp: "この車は高いです。" },
+        { en: "It isn't cheap.", jp: "それは安くありません。" },
+        { en: "I'm busy.", jp: "私は忙しいです。" },
+        { en: "I'm not scared.", jp: "私は怖くありません。" },
+        { en: "She is clever.", jp: "彼女は賢いです。" },
+        { en: "She isn't lazy.", jp: "彼女は怠けていません。" },
+        { en: "Math isn't boring.", jp: "数学は退屈ではありません。" },
+        { en: "Ghosts are scary.", jp: "幽霊は怖いです。" },
+        { en: "Ghosts aren't cute.", jp: "幽霊は可愛くありません。" },
+        { en: "My class isn't quiet.", jp: "私のクラスは静かではありません。" },
+        { en: "Are you busy?", jp: "あなたは忙しいですか。" },
+        { en: "Is the answer correct?", jp: "その答えは正しいですか。" },
         {
-          en: "I have a notebook and an eraser.",
-          jp: "私はノートと消しゴムを持っています。",
-        },
-        { en: "The moon is bright tonight.", jp: "今夜は月が明るいです。" },
-        { en: "It's my phone.", jp: "それは私の電話です。" },
-        { en: "The phone is mine.", jp: "その電話は私のものです。" },
-        {
-          en: "The giraffe is bigger than the house.",
-          jp: "キリンは家より大きいです。",
-        },
-        {
-          en: "Which are sweeter, cakes or rice?",
-          jp: "ケーキとお米、どちらが甘いですか？",
-        },
-        {
-          en: "Are you faster than a snail?",
-          jp: "あなたはカタツムリより速いですか？",
-        },
-        { en: "I can see two boxes.", jp: "私は2つの箱が見えます。" },
-        { en: "I can see two bags.", jp: "私は2つのかばんが見えます。" },
-        { en: "She is helping him.", jp: "彼女は彼を手伝っています。" },
-        { en: "Is it rainy today?", jp: "今日は雨が降っていますか？" },
-        { en: "They found my camera.", jp: "彼らは私のカメラを見つけました。" },
-        {
-          en: "Lions are as strong as tigers.",
-          jp: "ライオンはトラと同じくらい強いです。",
+          en: "Is baseball popular in your country?",
+          jp: "あなたの国で野球は人気がありますか？",
         },
         {
-          en: "He helps her and she helps him.",
-          jp: "彼は彼女を助け、彼女は彼を助けます。",
+          en: "Is there a park near your house?",
+          jp: "あなたの家の近くに公園はありますか？",
         },
         {
-          en: "I use my umbrella when it rains.",
-          jp: "雨が降るとき私は傘を使います。",
+          en: "Are you usually late to class?",
+          jp: "あなたはたいてい授業に遅れますか？",
         },
-        { en: "We are students.", jp: "私たちは学生です。" },
-        { en: "Yes, I do.", jp: "はい、そうです。" },
+        { en: "Are apple pies sweet?", jp: "アップルパイは甘いですか？" },
+        { en: "Were you busy?", jp: "あなたは忙しかったですか？" },
+        { en: "Was the movie fun?", jp: "その映画は楽しかったですか？" },
+        { en: "Were you ill yesterday?", jp: "昨日あなたは病気でしたか？" },
         {
-          en: "Flowers are more beautiful than trees.",
-          jp: "花は木より美しいです。",
+          en: "Is your school near your house?",
+          jp: "あなたの学校は家の近くですか？",
         },
-        {
-          en: "My hair is longer than hers.",
-          jp: "私の髪は彼女のより長いです。",
-        },
-        {
-          en: "The girls are sitting on two benches.",
-          jp: "少女たちは2つのベンチに座っています。",
-        },
-        {
-          en: "Australia is as big as Hawaii.",
-          jp: "オーストラリアはハワイと同じくらい大きいです。",
-        },
-        { en: "Please close the door.", jp: "ドアを閉めてください。" },
-        { en: "I'm cold.", jp: "私は寒いです。" },
-        {
-          en: "Show me your homework.",
-          jp: "あなたの宿題を見せてください。",
-        },
-        {
-          en: "What's the difference between a and the?",
-          jp: "aとtheの違いは何ですか？",
-        },
-        {
-          en: "When do we use I and me?",
-          jp: "いつ Iとmeを使いますか？",
-        },
-        {
-          en: "When do we use am, is and are?",
-          jp: "いつ am、is、are を使いますか？",
-        },
-        {
-          en: "Give some examples of nouns.",
-          jp: "名詞の例をいくつか挙げてください。",
-        },
-        { en: "This is my pen.", jp: "これは私のペンです。" },
-        { en: "I am a student.", jp: "私は学生です。" },
-        { en: "It's raining today.", jp: "今日は雨が降っています。" },
       ];
+
       const ROUND_SIZE = 14;
 
       // ---------- State ----------

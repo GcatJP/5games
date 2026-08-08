@@ -512,87 +512,83 @@
     </div>
 
     <script>
-      // ---------- Sentence pool (30 sentences, based on Unit 10 Review) ----------
+      // ---------- Sentence pool (30 sentences, based on Unit 14 I go to school) ----------
       const SENTENCES = [
+        { en: "I want a new bike.", jp: "私は新しい自転車が欲しいです。" },
+        { en: "They love climbing.", jp: "彼らは登ることが大好きです。" },
+        { en: "We don't know the answer.", jp: "私たちは答えを知りません。" },
         {
-          en: "I have a notebook and an eraser.",
-          jp: "私はノートと消しゴムを持っています。",
+          en: "Do you understand the question?",
+          jp: "あなたはその質問がわかりますか？",
         },
-        { en: "The moon is bright tonight.", jp: "今夜は月が明るいです。" },
-        { en: "It's my phone.", jp: "それは私の電話です。" },
-        { en: "The phone is mine.", jp: "その電話は私のものです。" },
+        { en: "I always do my homework.", jp: "私はいつも宿題をします。" },
+        { en: "I sometimes paint pictures.", jp: "私は時々絵を描きます。" },
+        { en: "I usually eat breakfast.", jp: "私はたいてい朝食を食べます。" },
         {
-          en: "The giraffe is bigger than the house.",
-          jp: "キリンは家より大きいです。",
-        },
-        {
-          en: "Which are sweeter, cakes or rice?",
-          jp: "ケーキとお米、どちらが甘いですか？",
-        },
-        {
-          en: "Are you faster than a snail?",
-          jp: "あなたはカタツムリより速いですか？",
-        },
-        { en: "I can see two boxes.", jp: "私は2つの箱が見えます。" },
-        { en: "I can see two bags.", jp: "私は2つのかばんが見えます。" },
-        { en: "She is helping him.", jp: "彼女は彼を手伝っています。" },
-        { en: "Is it rainy today?", jp: "今日は雨が降っていますか？" },
-        { en: "They found my camera.", jp: "彼らは私のカメラを見つけました。" },
-        {
-          en: "Lions are as strong as tigers.",
-          jp: "ライオンはトラと同じくらい強いです。",
+          en: "They grow vegetables in the garden.",
+          jp: "彼らは庭で野菜を育てます。",
         },
         {
-          en: "He helps her and she helps him.",
-          jp: "彼は彼女を助け、彼女は彼を助けます。",
+          en: "I buy food at the supermarket.",
+          jp: "私はスーパーで食べ物を買います。",
         },
         {
-          en: "I use my umbrella when it rains.",
-          jp: "雨が降るとき私は傘を使います。",
-        },
-        { en: "We are students.", jp: "私たちは学生です。" },
-        { en: "Yes, I do.", jp: "はい、そうです。" },
-        {
-          en: "Flowers are more beautiful than trees.",
-          jp: "花は木より美しいです。",
+          en: "Do you sometimes call your friends?",
+          jp: "あなたは時々友達に電話しますか？",
         },
         {
-          en: "My hair is longer than hers.",
-          jp: "私の髪は彼女のより長いです。",
+          en: "We never forget our textbooks.",
+          jp: "私たちは教科書を絶対忘れません。",
         },
         {
-          en: "The girls are sitting on two benches.",
-          jp: "少女たちは2つのベンチに座っています。",
+          en: "Do you play video games?",
+          jp: "あなたはビデオゲームをしますか？",
         },
         {
-          en: "Australia is as big as Hawaii.",
-          jp: "オーストラリアはハワイと同じくらい大きいです。",
+          en: "I dry my hair after a shower.",
+          jp: "私はシャワーの後に髪を乾かします。",
         },
-        { en: "Please close the door.", jp: "ドアを閉めてください。" },
-        { en: "I'm cold.", jp: "私は寒いです。" },
+        { en: "We live in Japan.", jp: "私たちは日本に住んでいます。" },
+        { en: "Sami loves strawberries.", jp: "サミはイチゴが大好きです。" },
         {
-          en: "Show me your homework.",
-          jp: "あなたの宿題を見せてください。",
+          en: "He doesn't like cooking.",
+          jp: "彼は料理が好きではありません。",
         },
+        { en: "Does she teach art?", jp: "彼女は美術を教えていますか？" },
+        { en: "He dries his hands.", jp: "彼は手を乾かします。" },
+        { en: "He fixes cars.", jp: "彼は車を修理します。" },
+        { en: "She studies math.", jp: "彼女は数学を勉強します。" },
+        { en: "She teaches history.", jp: "彼女は歴史を教えています。" },
+        { en: "She dances to music.", jp: "彼女は音楽に合わせて踊ります。" },
         {
-          en: "What's the difference between a and the?",
-          jp: "aとtheの違いは何ですか？",
-        },
-        {
-          en: "When do we use I and me?",
-          jp: "いつ Iとmeを使いますか？",
-        },
-        {
-          en: "When do we use am, is and are?",
-          jp: "いつ am、is、are を使いますか？",
+          en: "Kevin doesn't understand the question.",
+          jp: "ケビンはその質問がわかりません。",
         },
         {
-          en: "Give some examples of nouns.",
-          jp: "名詞の例をいくつか挙げてください。",
+          en: "She usually plays the piano.",
+          jp: "彼女はたいていピアノを弾きます。",
         },
-        { en: "This is my pen.", jp: "これは私のペンです。" },
-        { en: "I am a student.", jp: "私は学生です。" },
-        { en: "It's raining today.", jp: "今日は雨が降っています。" },
+        {
+          en: "I watch my mom wash the dishes.",
+          jp: "私は母がお皿を洗うのを見ます。",
+        },
+        {
+          en: "They don't climb mountains on the weekend.",
+          jp: "彼らは週末に山に登りません。",
+        },
+        {
+          en: "Does Puff fly in the sky with its friends?",
+          jp: "パフは友達と一緒に空を飛びますか？",
+        },
+        {
+          en: "Do you do homework after school?",
+          jp: "あなたは放課後に宿題をしますか？",
+        },
+        {
+          en: "He lives in a magical castle.",
+          jp: "彼は魔法の城に住んでいます。",
+        },
+        { en: "Puff carries its bag.", jp: "パフはかばんを運びます。" },
       ];
       const ROUND_SIZE = 14;
 

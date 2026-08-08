@@ -512,87 +512,119 @@
     </div>
 
     <script>
-      // ---------- Sentence pool (30 sentences, based on Unit 10 Review) ----------
+      // ---------- Sentence pool (30 sentences, based on Unit 17 I'm going to study) ----------
       const SENTENCES = [
         {
-          en: "I have a notebook and an eraser.",
-          jp: "私はノートと消しゴムを持っています。",
-        },
-        { en: "The moon is bright tonight.", jp: "今夜は月が明るいです。" },
-        { en: "It's my phone.", jp: "それは私の電話です。" },
-        { en: "The phone is mine.", jp: "その電話は私のものです。" },
-        {
-          en: "The giraffe is bigger than the house.",
-          jp: "キリンは家より大きいです。",
+          en: "Sami's going to study tonight.",
+          jp: "サミは今夜勉強するつもりです。",
         },
         {
-          en: "Which are sweeter, cakes or rice?",
-          jp: "ケーキとお米、どちらが甘いですか？",
+          en: "I'm going to meet my friends tomorrow.",
+          jp: "私は明日友達に会うつもりです。",
         },
         {
-          en: "Are you faster than a snail?",
-          jp: "あなたはカタツムリより速いですか？",
-        },
-        { en: "I can see two boxes.", jp: "私は2つの箱が見えます。" },
-        { en: "I can see two bags.", jp: "私は2つのかばんが見えます。" },
-        { en: "She is helping him.", jp: "彼女は彼を手伝っています。" },
-        { en: "Is it rainy today?", jp: "今日は雨が降っていますか？" },
-        { en: "They found my camera.", jp: "彼らは私のカメラを見つけました。" },
-        {
-          en: "Lions are as strong as tigers.",
-          jp: "ライオンはトラと同じくらい強いです。",
+          en: "I'm going to travel to a beach tomorrow.",
+          jp: "私は明日ビーチに旅行するつもりです。",
         },
         {
-          en: "He helps her and she helps him.",
-          jp: "彼は彼女を助け、彼女は彼を助けます。",
+          en: "He's going to start a new wizard school.",
+          jp: "彼は新しい魔法学校を始めるつもりです。",
         },
         {
-          en: "I use my umbrella when it rains.",
-          jp: "雨が降るとき私は傘を使います。",
-        },
-        { en: "We are students.", jp: "私たちは学生です。" },
-        { en: "Yes, I do.", jp: "はい、そうです。" },
-        {
-          en: "Flowers are more beautiful than trees.",
-          jp: "花は木より美しいです。",
+          en: "They're going to improve their flying skills.",
+          jp: "彼らは飛行技術を向上させるつもりです。",
         },
         {
-          en: "My hair is longer than hers.",
-          jp: "私の髪は彼女のより長いです。",
+          en: "She is going to stay in a hotel.",
+          jp: "彼女はホテルに滞在するつもりです。",
         },
         {
-          en: "The girls are sitting on two benches.",
-          jp: "少女たちは2つのベンチに座っています。",
+          en: "We are going to improve our English.",
+          jp: "私たちは英語を上達させるつもりです。",
         },
         {
-          en: "Australia is as big as Hawaii.",
-          jp: "オーストラリアはハワイと同じくらい大きいです。",
-        },
-        { en: "Please close the door.", jp: "ドアを閉めてください。" },
-        { en: "I'm cold.", jp: "私は寒いです。" },
-        {
-          en: "Show me your homework.",
-          jp: "あなたの宿題を見せてください。",
+          en: "I'm going to invite my friends to my house.",
+          jp: "私は友達を家に招待するつもりです。",
         },
         {
-          en: "What's the difference between a and the?",
-          jp: "aとtheの違いは何ですか？",
+          en: "I'm going to bring my textbooks next class.",
+          jp: "私は次の授業に教科書を持ってくるつもりです。",
         },
         {
-          en: "When do we use I and me?",
-          jp: "いつ Iとmeを使いますか？",
+          en: "Puff is going to practice the violin.",
+          jp: "パフはバイオリンを練習するつもりです。",
         },
         {
-          en: "When do we use am, is and are?",
-          jp: "いつ am、is、are を使いますか？",
+          en: "They are going to buy clothes at the shop.",
+          jp: "彼らはお店で服を買うつもりです。",
         },
         {
-          en: "Give some examples of nouns.",
-          jp: "名詞の例をいくつか挙げてください。",
+          en: "I'm going to sell my old boots.",
+          jp: "私は古いブーツを売るつもりです。",
         },
-        { en: "This is my pen.", jp: "これは私のペンです。" },
-        { en: "I am a student.", jp: "私は学生です。" },
-        { en: "It's raining today.", jp: "今日は雨が降っています。" },
+        {
+          en: "I'm not going to buy your old boots!",
+          jp: "私はあなたの古いブーツを買うつもりはありません！",
+        },
+        {
+          en: "I'm not going to sleep tonight.",
+          jp: "私は今夜眠らないつもりです。",
+        },
+        {
+          en: "She isn't going to travel tomorrow.",
+          jp: "彼女は明日旅行しないつもりです。",
+        },
+        {
+          en: "We aren't going to lose the game.",
+          jp: "私たちは試合に負けないつもりです。",
+        },
+        {
+          en: "They aren't going to fail the test.",
+          jp: "彼らはテストに落ちないつもりです。",
+        },
+        { en: "Is he going to fly tonight?", jp: "彼は今夜飛ぶつもりですか？" },
+        {
+          en: "Are you going to start a new hobby?",
+          jp: "あなたは新しい趣味を始めるつもりですか？",
+        },
+        { en: "Yes, I am.", jp: "はい、そうです。" },
+        { en: "No, I'm not.", jp: "いいえ、そうではありません。" },
+        {
+          en: "Are you going to travel tomorrow?",
+          jp: "あなたは明日旅行するつもりですか？",
+        },
+        {
+          en: "Is she going to complete her homework?",
+          jp: "彼女は宿題を終わらせるつもりですか？",
+        },
+        {
+          en: "Are they going to visit their friends?",
+          jp: "彼らは友達を訪ねるつもりですか？",
+        },
+        {
+          en: "I'm going to tidy my room.",
+          jp: "私は部屋を片付けるつもりです。",
+        },
+        {
+          en: "We're going to stay in a hotel.",
+          jp: "私たちはホテルに泊まるつもりです。",
+        },
+        {
+          en: "He's going to repeat the question.",
+          jp: "彼はその質問を繰り返すつもりです。",
+        },
+        {
+          en: "My teacher isn't going to speak to us.",
+          jp: "私の先生は私たちに話しかけないつもりです。",
+        },
+        {
+          en: "I'm going to remember this day.",
+          jp: "私はこの日を覚えているつもりです。",
+        },
+        {
+          en: "Are we going to play games?",
+          jp: "私たちはゲームで遊ぶでしょうか？",
+        },
       ];
       const ROUND_SIZE = 14;
 

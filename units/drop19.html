@@ -512,87 +512,110 @@
     </div>
 
     <script>
-      // ---------- Sentence pool (30 sentences, based on Unit 10 Review) ----------
+      // ---------- Sentence pool (30 sentences, based on Unit 19 Writing) ----------
       const SENTENCES = [
         {
-          en: "I have a notebook and an eraser.",
-          jp: "私はノートと消しゴムを持っています。",
+          en: "What time do you usually get up?",
+          jp: "あなたはたいてい何時に起きますか？",
         },
-        { en: "The moon is bright tonight.", jp: "今夜は月が明るいです。" },
-        { en: "It's my phone.", jp: "それは私の電話です。" },
-        { en: "The phone is mine.", jp: "その電話は私のものです。" },
+        { en: "I usually get up at seven.", jp: "私はたいてい7時に起きます。" },
         {
-          en: "The giraffe is bigger than the house.",
-          jp: "キリンは家より大きいです。",
+          en: "What do you usually eat for breakfast?",
+          jp: "あなたはたいてい朝食に何を食べますか？",
         },
         {
-          en: "Which are sweeter, cakes or rice?",
-          jp: "ケーキとお米、どちらが甘いですか？",
+          en: "I usually eat rice and eggs.",
+          jp: "私はたいてい米と卵を食べます。",
         },
         {
-          en: "Are you faster than a snail?",
-          jp: "あなたはカタツムリより速いですか？",
-        },
-        { en: "I can see two boxes.", jp: "私は2つの箱が見えます。" },
-        { en: "I can see two bags.", jp: "私は2つのかばんが見えます。" },
-        { en: "She is helping him.", jp: "彼女は彼を手伝っています。" },
-        { en: "Is it rainy today?", jp: "今日は雨が降っていますか？" },
-        { en: "They found my camera.", jp: "彼らは私のカメラを見つけました。" },
-        {
-          en: "Lions are as strong as tigers.",
-          jp: "ライオンはトラと同じくらい強いです。",
+          en: "What do you do before going to school?",
+          jp: "あなたは学校に行く前に何をしますか？",
         },
         {
-          en: "He helps her and she helps him.",
-          jp: "彼は彼女を助け、彼女は彼を助けます。",
+          en: "I brush my teeth before school.",
+          jp: "私は学校の前に歯を磨きます。",
         },
         {
-          en: "I use my umbrella when it rains.",
-          jp: "雨が降るとき私は傘を使います。",
-        },
-        { en: "We are students.", jp: "私たちは学生です。" },
-        { en: "Yes, I do.", jp: "はい、そうです。" },
-        {
-          en: "Flowers are more beautiful than trees.",
-          jp: "花は木より美しいです。",
+          en: "What time does your school start?",
+          jp: "あなたの学校は何時に始まりますか？",
         },
         {
-          en: "My hair is longer than hers.",
-          jp: "私の髪は彼女のより長いです。",
+          en: "My school starts at eight thirty.",
+          jp: "私の学校は8時30分に始まります。",
         },
         {
-          en: "The girls are sitting on two benches.",
-          jp: "少女たちは2つのベンチに座っています。",
+          en: "What time does your school finish?",
+          jp: "あなたの学校は何時に終わりますか？",
         },
         {
-          en: "Australia is as big as Hawaii.",
-          jp: "オーストラリアはハワイと同じくらい大きいです。",
-        },
-        { en: "Please close the door.", jp: "ドアを閉めてください。" },
-        { en: "I'm cold.", jp: "私は寒いです。" },
-        {
-          en: "Show me your homework.",
-          jp: "あなたの宿題を見せてください。",
+          en: "My school finishes at three.",
+          jp: "私の学校は3時に終わります。",
         },
         {
-          en: "What's the difference between a and the?",
-          jp: "aとtheの違いは何ですか？",
+          en: "How many classes do you have in a day?",
+          jp: "あなたは一日に何時限授業がありますか？",
         },
         {
-          en: "When do we use I and me?",
-          jp: "いつ Iとmeを使いますか？",
+          en: "I have six classes in a day.",
+          jp: "私は一日に6時限授業があります。",
         },
         {
-          en: "When do we use am, is and are?",
-          jp: "いつ am、is、are を使いますか？",
+          en: "What do you usually do after school?",
+          jp: "あなたはたいてい放課後に何をしますか？",
         },
         {
-          en: "Give some examples of nouns.",
-          jp: "名詞の例をいくつか挙げてください。",
+          en: "I usually play soccer after school.",
+          jp: "私はたいてい放課後にサッカーをします。",
         },
-        { en: "This is my pen.", jp: "これは私のペンです。" },
-        { en: "I am a student.", jp: "私は学生です。" },
-        { en: "It's raining today.", jp: "今日は雨が降っています。" },
+        {
+          en: "What do you do at home to relax?",
+          jp: "あなたは家でリラックスするために何をしますか？",
+        },
+        {
+          en: "I read books to relax.",
+          jp: "私はリラックスするために本を読みます。",
+        },
+        { en: "What time do you go to bed?", jp: "あなたは何時に寝ますか？" },
+        { en: "I go to bed at nine.", jp: "私は9時に寝ます。" },
+        {
+          en: "What school do you go to?",
+          jp: "あなたはどの学校に通っていますか？",
+        },
+        {
+          en: "I go to Adventure Island School.",
+          jp: "私はアドベンチャーアイランド校に通っています。",
+        },
+        { en: "What grade are you in?", jp: "あなたは何年生ですか？" },
+        { en: "I am in the fifth grade.", jp: "私は5年生です。" },
+        {
+          en: "What is your teacher's name?",
+          jp: "あなたの先生の名前は何ですか？",
+        },
+        {
+          en: "My teacher's name is Kevin.",
+          jp: "私の先生の名前はケビンです。",
+        },
+        {
+          en: "How do you go to school?",
+          jp: "あなたはどうやって学校に行きますか？",
+        },
+        { en: "I walk to school.", jp: "私は歩いて学校に行きます。" },
+        {
+          en: "How many students are in your class?",
+          jp: "あなたのクラスには何人の生徒がいますか？",
+        },
+        {
+          en: "There are thirty students in my class.",
+          jp: "私のクラスには30人の生徒がいますか？",
+        },
+        {
+          en: "What do you like about your school?",
+          jp: "あなたは学校の何が好きですか？",
+        },
+        {
+          en: "I like my friends at school.",
+          jp: "私は学校の友達が好きです。",
+        },
       ];
       const ROUND_SIZE = 14;
 
