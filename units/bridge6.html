@@ -1,0 +1,761 @@
+<!doctype html>
+<!-- saved from url=(0054)file:///Users/graemecattermole/Downloads/word-gap.html -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="Word Gap" />
+    <meta name="theme-color" content="#ffcc00" />
+    <title>Adventure Island — Bridge Gap (a / an / the / plurals)</title>
+
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-user-select: none;
+        user-select: none;
+      }
+
+      :root {
+        --ocean-deep: #0e6e6e;
+        --coral: #ff7b54;
+        --sun: #ffd23f;
+        --white: #fffdf8;
+        --orange-dark: #c45a1a;
+        --orange-btn: #d4631e;
+        --card-border: #c4e058;
+        --card-bg: #fffdf8;
+        --chip-bg: #8b0b4c;
+        --chip-border: #e8a020;
+        --chip-text: #f6c948;
+        --good: #4caf7d;
+        --bad: #e0483c;
+      }
+      .rotate-message {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        background: radial-gradient(ellipse at center top, #d81b60, #880e4f);
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 2em;
+      }
+      .rotate-message p {
+        color: var(--sun);
+        -webkit-text-stroke: 0.8px #f4930b;
+        font-family: "Chalkboard SE", "Comic Sans MS", cursive, sans-serif;
+        font-weight: bold;
+        font-size: clamp(1.2rem, 6vw, 2rem);
+        line-height: 1.4;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        max-width: 100vw;
+        overflow-x: hidden;
+      }
+
+      body {
+        font-family: "Chalkboard SE", "Comic Sans MS", cursive, sans-serif;
+        background: radial-gradient(ellipse at center top, #d81b60, #880e4f);
+        min-height: 100vh;
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        overflow-x: hidden;
+      }
+      .back-btn {
+        position: fixed;
+        top: max(20px, env(safe-area-inset-top, 20px));
+        left: clamp(10px, 4vw, 24px);
+        z-index: 60;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        background: var(--chip-bg);
+        color: var(--chip-text);
+        border: 3px solid var(--chip-border);
+        border-radius: 50%;
+        font-weight: bold;
+        font-size: 1.3rem;
+        text-decoration: none;
+        cursor: pointer;
+        transition: transform 0.1s ease;
+      }
+      .back-btn:active {
+        transform: translateY(2px);
+      }
+
+      /* decorative */
+      .cloud {
+        position: absolute;
+        top: max(20px, env(safe-area-inset-top, 20px));
+        right: clamp(8px, 4vw, 36px);
+        width: clamp(70px, 14vw, 130px);
+        height: auto;
+        pointer-events: none;
+        user-select: none;
+        z-index: 0;
+      }
+
+      .wrap {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 720px;
+        padding: max(14px, env(safe-area-inset-top, 14px)) 16px 24px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1;
+      }
+
+      h1 {
+        color: #fae207;
+        -webkit-text-stroke: 0.8px #f4930b;
+        text-align: center;
+        font-size: clamp(1.4rem, 5vw, 2.4rem);
+        line-height: 1.15;
+        margin-bottom: 4px;
+      }
+
+      .subtitle {
+        color: #ffe0f0;
+        font-size: clamp(0.75rem, 2.6vw, 1rem);
+        text-align: center;
+        margin-bottom: 14px;
+      }
+
+      /* top bar: progress + score */
+      .topbar {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+      @media (orientation: portrait) {
+        .topbar {
+          margin-top: clamp(60px, 14vw, 110px);
+        }
+      }
+      @media screen and (orientation: portrait) and (max-width: 430px) {
+        h1 {
+          margin-top: 60px;
+        }
+      }
+      @media screen and (orientation: landscape) and (max-height: 450px) {
+        .rotate-message {
+          display: flex;
+        }
+
+        .wrap,
+        .back-btn,
+        .mute-btn {
+          display: none;
+        }
+      }
+
+      .progress-track {
+        flex: 1;
+        height: 14px;
+        background: rgba(255, 255, 255, 0.25);
+        border-radius: 999px;
+        border: 2px solid rgba(255, 255, 255, 0.4);
+        overflow: hidden;
+      }
+      .progress-fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, var(--sun), var(--coral));
+        border-radius: 999px;
+        transition: width 0.35s ease;
+      }
+
+      .score-pill {
+        flex-shrink: 0;
+        background: var(--chip-bg);
+        border: 3px solid var(--chip-border);
+        color: var(--chip-text);
+        border-radius: 999px;
+        padding: 4px 14px;
+        font-weight: bold;
+        font-size: clamp(0.8rem, 2.8vw, 1.05rem);
+        white-space: nowrap;
+      }
+      .mute-btn {
+        position: fixed;
+        top: max(20px, env(safe-area-inset-top, 20px));
+        left: calc(clamp(10px, 4vw, 24px) + 54px);
+        z-index: 60;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        border: 3px solid var(--chip-border);
+        background: var(--chip-bg);
+        color: var(--chip-text);
+        font-size: 1.2rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* card */
+      .card {
+        background: var(--card-bg);
+        border: 3px solid var(--card-border);
+        border-radius: 22px;
+        width: 100%;
+        padding: clamp(14px, 4vw, 26px);
+        box-shadow: 0 10px 0 rgba(0, 0, 0, 0.12);
+        position: relative;
+      }
+
+      .q-badge {
+        position: absolute;
+        top: -18px;
+        left: 18px;
+        background: #d81b60;
+        color: var(--sun);
+        border: 3px solid var(--sun);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.15rem;
+        font-weight: bold;
+      }
+
+      .instructions {
+        text-align: center;
+        color: var(--ocean-deep);
+        font-weight: bold;
+        font-size: clamp(0.85rem, 3vw, 1.05rem);
+        margin: 10px 0 18px;
+      }
+
+      /* sentence display with inline gap */
+      .sentence-box {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 64px;
+        padding: 14px 16px;
+        border: 3px dashed #cfd8dc;
+        border-radius: 14px;
+        background: #fbfbf4;
+        margin-bottom: 18px;
+        transition:
+          border-color 0.2s,
+          background 0.2s;
+      }
+      .sentence-box.correct {
+        border-color: var(--good);
+        background: #e9f9f0;
+      }
+      .sentence-box.wrong {
+        border-color: var(--bad);
+        background: #fdecea;
+        animation: shake 0.4s ease;
+      }
+
+      .sentence-part {
+        color: var(--ocean-deep);
+        font-weight: bold;
+        font-size: clamp(1rem, 3.8vw, 1.35rem);
+        white-space: pre-wrap;
+      }
+
+      .gap-input {
+        font-family: inherit;
+        font-weight: bold;
+        font-size: clamp(1rem, 3.8vw, 1.35rem);
+        text-align: center;
+        color: var(--chip-bg);
+        background: var(--white);
+        border: 3px solid var(--chip-border);
+        border-radius: 10px;
+        padding: 4px 8px;
+        width: clamp(70px, 22vw, 130px);
+        outline: none;
+      }
+      .gap-input:focus {
+        border-color: var(--ocean-deep);
+      }
+      .gap-input:disabled {
+        opacity: 0.8;
+      }
+      @media screen and (orientation: landscape) and (max-height: 450px) {
+        .rotate-message {
+          display: flex;
+        }
+
+        .wrap,
+        .back-btn,
+        .mute-btn {
+          display: none;
+        }
+      }
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        20% {
+          transform: translateX(-8px);
+        }
+        40% {
+          transform: translateX(8px);
+        }
+        60% {
+          transform: translateX(-6px);
+        }
+        80% {
+          transform: translateX(6px);
+        }
+      }
+
+      /* buttons */
+      .btn-row {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .action-btn {
+        font-family: inherit;
+        font-weight: bold;
+        font-size: clamp(0.9rem, 3.2vw, 1.1rem);
+        border: none;
+        border-radius: 14px;
+        padding: 12px 22px;
+        cursor: pointer;
+        color: var(--white);
+        transition: transform 0.1s ease;
+      }
+      .action-btn:active {
+        transform: translateY(2px);
+      }
+      .btn-check {
+        background: var(--orange-btn);
+        box-shadow: 0 4px 0 var(--orange-dark);
+      }
+      .btn-reset {
+        background: #7b7f8c;
+        box-shadow: 0 4px 0 #55575f;
+      }
+      .btn-next {
+        background: var(--good);
+        box-shadow: 0 4px 0 #2f7d55;
+        display: none;
+      }
+
+      .feedback {
+        text-align: center;
+        font-weight: bold;
+        font-size: clamp(0.95rem, 3.4vw, 1.2rem);
+        min-height: 1.6em;
+        margin-bottom: 8px;
+      }
+      .feedback.good {
+        color: var(--good);
+      }
+      .feedback.bad {
+        color: var(--bad);
+      }
+
+      /* end screen */
+      .end-screen {
+        display: none;
+        text-align: center;
+      }
+      .end-screen h2 {
+        color: #fae207;
+        -webkit-text-stroke: 0.8px #f4930b;
+        font-size: clamp(1.6rem, 6vw, 2.6rem);
+        margin-bottom: 10px;
+      }
+      .end-screen .big-score {
+        font-size: clamp(2.2rem, 9vw, 3.6rem);
+        color: var(--ocean-deep);
+        font-weight: bold;
+        margin-bottom: 6px;
+      }
+      .end-screen p {
+        color: var(--ocean-deep);
+        margin-bottom: 20px;
+        font-size: clamp(0.9rem, 3vw, 1.1rem);
+      }
+    </style>
+  </head>
+
+  <body>
+    <img class="cloud" src="../p3.png" alt="" />
+    <a class="back-btn" href="unit6.html">←</a>
+    <div class="rotate-message">
+      <p>📱 Please rotate to portrait mode 📱</p>
+    </div>
+    <div class="wrap">
+      <h1>Bridge Gap</h1>
+      <div class="subtitle">
+        Type the missing word! (a / an / the / plurals)
+      </div>
+      <audio
+        id="bgMusic"
+        src="../game3music.mp3"
+        loop=""
+        preload="auto"
+      ></audio>
+
+      <button id="muteBtn" class="mute-btn">🔊</button>
+      <div class="topbar">
+        <div class="progress-track">
+          <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+        </div>
+        <div class="score-pill">⭐ <span id="scoreLabel">0</span> / 14</div>
+      </div>
+
+      <!-- GAME CARD -->
+      <div class="card" id="gameCard" style="display: block">
+        <div class="q-badge" id="qBadge">1</div>
+        <div class="instructions">Fill in the missing word</div>
+
+        <div class="sentence-box" id="sentenceBox">
+          <span class="sentence-part">I have two </span
+          ><input
+            type="text"
+            class="gap-input"
+            id="gapInput"
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck="false"
+          /><span class="sentence-part">.</span>
+        </div>
+
+        <div class="feedback" id="feedback"></div>
+
+        <div class="btn-row">
+          <button class="action-btn btn-reset" id="resetBtn">↺ Reset</button>
+          <button class="action-btn btn-check" id="checkBtn" style="opacity: 1">
+            ✓ Check
+          </button>
+          <button
+            class="action-btn btn-next"
+            id="nextBtn"
+            style="display: none"
+          >
+            Next →
+          </button>
+        </div>
+      </div>
+
+      <!-- END SCREEN -->
+      <div class="card end-screen" id="endScreen" style="display: none">
+        <h2>Great Job! 🎉</h2>
+        <div class="big-score" id="finalScore">0 / 14</div>
+        <p id="finalMsg">You finished the Word Gap challenge!</p>
+        <div class="btn-row">
+          <button class="action-btn btn-check" id="playAgainBtn">
+            ↺ Play Again
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // ---------- Question data (a/an, the, plurals -s / -es) ----------
+      // Each sentence uses ___ to mark the gap. answer is the missing word.
+      const QUESTIONS = [
+        { text: "I ___ a student.", answer: "am" },
+        { text: "I ___ not a teacher.", answer: "am" },
+        { text: "___ you a student?", answer: "Are" },
+        { text: "I ___ eleven.", answer: "am" },
+        { text: "Yes, I ___.", answer: "am" },
+        { text: "I ___ a student.", answer: "am" },
+        { text: "I ___ tired.", answer: "am" },
+        { text: "No, I ___ not.", answer: "am" },
+        { text: "___ you a cook?", answer: "Are" },
+        { text: "She ___ a student.", answer: "is" },
+        { text: "He ___ happy. (X)", answer: "isn't" },
+        { text: "It ___ a monkey. (X)", answer: "isn't" },
+        { text: "Sami ___ tall.", answer: "is" },
+        { text: "You ___ my friend.", answer: "are" },
+        { text: "She ___ hungry.", answer: "is" },
+        { text: "The books ___ heavy.", answer: "are" },
+        { text: "He ___ Kevin.", answer: "is" },
+        { text: "The tiger ___ scary.", answer: "is" },
+        { text: "The elephants ___ big.", answer: "are" },
+        { text: "We ___ in the classroom.", answer: "are" },
+        { text: "Ken and Kai ___ brothers.", answer: "are" },
+        { text: "They ___ flowers. (X)", answer: "aren't" },
+        { text: "___ he happy?", answer: "Is" },
+        { text: "___ it large?", answer: "Is" },
+        { text: "___ they hot? (Are)", answer: "Are" },
+        { text: "___ we late? (Are)", answer: "Are" },
+        { text: "___ I finished? (Am)", answer: "Am" },
+        { text: "We ___ studying English.", answer: "are" },
+        { text: "Kevin and Sami ___ magical.", answer: "are" },
+        { text: "The cat ___ sleeping.", answer: "is" },
+      ];
+
+      const TOTAL_QUESTIONS = 14; // how many are drawn from the pool each game
+
+      // ---------- State ----------
+      let order = [];
+      let qIndex = 0;
+      let score = 0;
+      let answeredCorrectly = false;
+
+      const sentenceBox = document.getElementById("sentenceBox");
+      const feedback = document.getElementById("feedback");
+      const qBadge = document.getElementById("qBadge");
+      const progressFill = document.getElementById("progressFill");
+      const scoreLabel = document.getElementById("scoreLabel");
+      const checkBtn = document.getElementById("checkBtn");
+      const resetBtn = document.getElementById("resetBtn");
+      const nextBtn = document.getElementById("nextBtn");
+      const gameCard = document.getElementById("gameCard");
+      const endScreen = document.getElementById("endScreen");
+
+      function shuffle(arr) {
+        const a = arr.slice();
+        for (let i = a.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+      }
+
+      function startGame() {
+        order = shuffle([...Array(QUESTIONS.length).keys()]).slice(
+          0,
+          TOTAL_QUESTIONS,
+        );
+        qIndex = 0;
+        score = 0;
+        scoreLabel.textContent = "0";
+        endScreen.style.display = "none";
+        gameCard.style.display = "block";
+        loadQuestion();
+      }
+
+      function currentQuestion() {
+        return QUESTIONS[order[qIndex]];
+      }
+
+      function loadQuestion() {
+        answeredCorrectly = false;
+        feedback.textContent = "";
+        feedback.className = "feedback";
+        sentenceBox.classList.remove("correct", "wrong");
+        nextBtn.style.display = "none";
+        checkBtn.disabled = false;
+        checkBtn.style.opacity = 1;
+
+        qBadge.textContent = qIndex + 1;
+        progressFill.style.width = `${(qIndex / order.length) * 100}%`;
+
+        const q = currentQuestion();
+        const [before, after] = q.text.split("___");
+
+        sentenceBox.innerHTML = "";
+
+        const beforeSpan = document.createElement("span");
+        beforeSpan.className = "sentence-part";
+        beforeSpan.textContent = before;
+        sentenceBox.appendChild(beforeSpan);
+
+        const input = document.createElement("input");
+        input.type = "text";
+        input.className = "gap-input";
+        input.id = "gapInput";
+        input.autocomplete = "off";
+        input.autocapitalize = "off";
+        input.spellcheck = false;
+        input.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            checkBtn.click();
+          }
+        });
+        sentenceBox.appendChild(input);
+
+        const afterSpan = document.createElement("span");
+        afterSpan.className = "sentence-part";
+        afterSpan.textContent = after;
+        sentenceBox.appendChild(afterSpan);
+
+        input.focus();
+      }
+
+      // ---------- Sound effects (Web Audio API, no files needed) ----------
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      const audioCtx = new AudioCtx();
+
+      function beep(
+        freq,
+        duration,
+        type = "sine",
+        startDelay = 0,
+        volume = 0.25,
+      ) {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.value = freq;
+        gain.gain.value = volume;
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        const startTime = audioCtx.currentTime + startDelay;
+        gain.gain.setValueAtTime(volume, startTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+
+        osc.start(startTime);
+        osc.stop(startTime + duration);
+      }
+
+      function playCorrectSound() {
+        beep(660, 0.15, "sine", 0, 0.4);
+        beep(880, 0.2, "sine", 0.12, 0.4);
+      }
+
+      function playIncorrectSound() {
+        beep(200, 0.25, "sawtooth", 0, 0.35);
+      }
+
+      // ---------- Background music ----------
+      const bgMusic = document.getElementById("bgMusic");
+      bgMusic.volume = 0.15; // low background volume (0 = silent, 1 = full)
+
+      let musicStarted = false;
+      let musicMuted = false;
+
+      function startMusicOnFirstInteraction() {
+        if (musicStarted) return;
+        musicStarted = true;
+        bgMusic.play().catch(() => {
+          // Autoplay was blocked; music will start on the next tap instead
+          musicStarted = false;
+        });
+      }
+      // Browsers require a user gesture before audio can play — this listens for the first tap/click anywhere
+      document.body.addEventListener(
+        "pointerdown",
+        startMusicOnFirstInteraction,
+        { once: true },
+      );
+
+      const muteBtn = document.getElementById("muteBtn");
+      muteBtn.addEventListener("click", () => {
+        musicMuted = !musicMuted;
+        bgMusic.muted = musicMuted;
+        muteBtn.textContent = musicMuted ? "🔇" : "🔊";
+      });
+
+      // ---------- Check / Reset / Next ----------
+      checkBtn.addEventListener("click", () => {
+        const input = document.getElementById("gapInput");
+        const typed = input.value.trim();
+
+        if (!typed) {
+          feedback.textContent = "Type an answer first!";
+          feedback.className = "feedback bad";
+          sentenceBox.classList.remove("correct");
+          sentenceBox.classList.add("wrong");
+          setTimeout(() => sentenceBox.classList.remove("wrong"), 400);
+          return;
+        }
+
+        const q = currentQuestion();
+        const isCorrect = typed.toLowerCase() === q.answer.toLowerCase();
+
+        if (isCorrect) {
+          sentenceBox.classList.remove("wrong");
+          sentenceBox.classList.add("correct");
+          feedback.textContent = "✅ Correct! Well done!";
+          feedback.className = "feedback good";
+          playCorrectSound();
+          if (!answeredCorrectly) {
+            score++;
+            scoreLabel.textContent = score;
+          }
+          answeredCorrectly = true;
+          input.disabled = true;
+          checkBtn.disabled = true;
+          checkBtn.style.opacity = 0.5;
+          nextBtn.style.display = "inline-block";
+        } else {
+          sentenceBox.classList.remove("correct");
+          sentenceBox.classList.add("wrong");
+          feedback.textContent = "❌ Not quite — try again.";
+          feedback.className = "feedback bad";
+          playIncorrectSound();
+          setTimeout(() => sentenceBox.classList.remove("wrong"), 400);
+        }
+      });
+
+      resetBtn.addEventListener("click", () => {
+        loadQuestion();
+      });
+
+      nextBtn.addEventListener("click", () => {
+        qIndex++;
+        if (qIndex >= order.length) {
+          finishGame();
+        } else {
+          loadQuestion();
+        }
+      });
+
+      function finishGame() {
+        progressFill.style.width = "100%";
+        gameCard.style.display = "none";
+        endScreen.style.display = "block";
+        document.getElementById("finalScore").textContent =
+          `${score} / ${order.length}`;
+        const pct = Math.round((score / order.length) * 100);
+        let msg = "Nice try — keep practicing a, an, the, and plurals!";
+        if (pct === 100) msg = "Perfect score! You're a Word Gap master! 🏆";
+        else if (pct >= 80)
+          msg = "Awesome work! You really know your grammar! 🌟";
+        else if (pct >= 50)
+          msg = "Good effort! A little more practice and you'll ace it!";
+        document.getElementById("finalMsg").textContent = msg;
+      }
+
+      document
+        .getElementById("playAgainBtn")
+        .addEventListener("click", startGame);
+
+      startGame();
+    </script>
+  </body>
+</html>
