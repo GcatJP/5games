@@ -286,7 +286,20 @@
           transform: rotateY(180deg) translateX(5px);
         }
       }
-
+      .mute-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        flex-shrink: 0;
+        border-radius: 50%;
+        border: 3px solid var(--chip-border);
+        background: var(--chip-bg);
+        color: var(--chip-text);
+        font-size: 1.2rem;
+        cursor: pointer;
+      }
       .sparkle {
         position: absolute;
         font-size: 16px;
@@ -323,6 +336,13 @@
         font-size: clamp(1.2rem, 6vw, 2rem);
         line-height: 1.4;
       }
+      @media screen and (orientation: landscape) {
+        .wrap {
+          max-width: none;
+          padding-left: max(16px, env(safe-area-inset-left, 16px));
+          padding-right: max(16px, env(safe-area-inset-right, 16px));
+        }
+      }
       @media screen and (orientation: landscape) and (max-height: 450px) {
         .rotate-message {
           display: flex;
@@ -331,7 +351,28 @@
           display: none;
         }
       }
+      @media screen and (orientation: portrait) and (max-width: 430px) {
+        h1 {
+          font-size: clamp(1rem, 6vw, 1.6rem);
+        }
+        .score-pill,
+        .reset-btn {
+          padding: 6px 10px;
+        }
 
+        .face-front .word {
+          font-size: clamp(10px, 4vw, 22px);
+        }
+        .face-front .word.symbol {
+          font-size: clamp(16px, 6.5vw, 34px);
+        }
+        .face-front .word.jp {
+          font-size: clamp(11px, 4.5vw, 24px);
+        }
+        .face-front {
+          padding: 5%;
+        }
+      }
       /* win overlay */
       .overlay {
         display: none;
@@ -384,7 +425,7 @@
     </style>
   </head>
   <body>
-    <img class="cloud" src="file:///Users/graemecattermole/p1.png" alt="" />
+    <img class="cloud" src="../p1.png" alt="" />
     <div class="rotate-message">
       <p>📱 Please rotate to portrait mode 📱</p>
     </div>
@@ -393,20 +434,20 @@
       <div class="header">
         <a
           class="back-btn"
-          href="file:///Users/graemecattermole/Downloads/index.html"
+          href="index.html"
           onclick="
-            if (history.length &gt; 1) {
+            if (history.length > 1) {
               history.back();
               return false;
             }
           "
           >←</a
         >
+        <button id="muteBtn" class="mute-btn">🔊</button>
         <h1>Match Up</h1>
         <div class="score-pill" id="triesPill">Tries: 0</div>
         <button class="reset-btn" id="resetBtn">↺ Reset</button>
       </div>
-
       <div class="grid" id="grid">
         <div class="card" data-index="0">
           <div class="card-inner">
@@ -576,7 +617,32 @@
           playTone(f, now + [0, 0.15, 0.3, 0.45, 0.6, 0.8][i], 0.3, 0.22),
         );
       }
+      const bgMusic = document.getElementById("bgMusic");
+      bgMusic.volume = 0.15;
+      let musicStarted = false;
+      let musicMuted = false;
 
+      function startMusicOnFirstInteraction() {
+        if (musicStarted) return;
+        musicStarted = true;
+        bgMusic.play().catch(() => {
+          musicStarted = false;
+        });
+      }
+      document.body.addEventListener(
+        "pointerdown",
+        startMusicOnFirstInteraction,
+        {
+          once: true,
+        },
+      );
+
+      const muteBtn = document.getElementById("muteBtn");
+      muteBtn.addEventListener("click", () => {
+        musicMuted = !musicMuted;
+        bgMusic.muted = musicMuted;
+        muteBtn.textContent = musicMuted ? "🔇" : "🔊";
+      });
       /* ---- game state ---- */
       let deck = [],
         flippedCards = [],

@@ -354,6 +354,17 @@
         margin-bottom: 18px;
         font-size: clamp(0.85rem, 3vw, 1.05rem);
       }
+      .modal-back-link {
+        display: inline-block;
+        margin-top: 14px;
+        color: var(--ocean-deep);
+        font-weight: bold;
+        font-size: clamp(0.85rem, 3vw, 1rem);
+        text-decoration: none;
+      }
+      .modal-back-link:active {
+        opacity: 0.7;
+      }
       .diff-row {
         display: flex;
         flex-direction: column;
@@ -419,26 +430,25 @@
   </head>
 
   <body>
-    <img class="cloud" src="file:///Users/graemecattermole/p1.png" alt="" />
-    <a
-      class="back-btn"
-      href="file:///Users/graemecattermole/Downloads/unit1.html"
-      onclick="
-        if (history.length &gt; 1) {
-          history.back();
-          return false;
-        }
-      "
-      >←</a
-    >
+    <img class="cloud" src="../p1.png" alt="" />
+    class="back-btn"
+  href="unit1.html"
+  onclick="
+    if (history.length > 1) {
+      history.back();
+      return false;
+    }
+  "
+  >←</a
+>
     <button id="muteBtn" class="mute-btn">🔊</button>
-    <audio id="bgMusic" src="../game4music.mp3" loop="" preload="auto"></audio>
 
     <div class="rotate-message">
       <p>📱 Please rotate to portrait mode 📱</p>
     </div>
     <audio id="bgMusic" src="../game4music.mp3" loop preload="auto"></audio>
     <!-- DIFFICULTY SELECT -->
+
     <div class="overlay show" id="startModal">
       <div class="overlay-card">
         <h2>Word Fall</h2>
@@ -454,9 +464,9 @@
             🐇 Hard <small>Words fall fast!</small>
           </button>
         </div>
+        <a class="modal-back-link" href="unit1.html">← Back to menu</a>
       </div>
     </div>
-
     <!-- LOSE SCREEN -->
     <div class="overlay" id="loseScreen">
       <div class="overlay-card">
