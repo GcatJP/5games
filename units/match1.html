@@ -72,16 +72,6 @@
       }
 
       /* decorative */
-      .cloud {
-        position: absolute;
-        top: max(10px, env(safe-area-inset-top, 10px));
-        right: clamp(8px, 4vw, 36px);
-        width: clamp(60px, 12vw, 110px);
-        height: auto;
-        pointer-events: none;
-        user-select: none;
-        z-index: 0;
-      }
 
       /* layout */
       .wrap {
@@ -100,6 +90,7 @@
 
       /* header row */
       .header {
+        position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -136,7 +127,6 @@
         font-size: clamp(1.2rem, 5.5vw, 2.2rem);
         line-height: 1.15;
         white-space: nowrap;
-        flex: 1;
       }
 
       .score-pill {
@@ -425,7 +415,6 @@
     </style>
   </head>
   <body>
-    <img class="cloud" src="../p1.png" alt="" />
     <div class="rotate-message">
       <p>📱 Please rotate to portrait mode 📱</p>
     </div>
