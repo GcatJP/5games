@@ -1,0 +1,802 @@
+<!doctype html>
+<!-- saved from url=(0055)file:///Users/graemecattermole/Downloads/word-fall.html -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="Word Fall" />
+    <meta name="theme-color" content="#ffcc00" />
+    <title>Adventure Island — Word Fall (Japanese → English)</title>
+
+    <link
+      href="./Adventure Island — Word Fall (Japanese → English)_files/css2"
+      rel="stylesheet"
+    />
+
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-user-select: none;
+        user-select: none;
+      }
+
+      :root {
+        --ocean-deep: #0e6e6e;
+        --coral: #ff7b54;
+        --sun: #ffd23f;
+        --white: #fffdf8;
+        --orange-dark: #c45a1a;
+        --orange-btn: #d4631e;
+        --card-border: #c4e058;
+        --card-bg: #fffdf8;
+        --chip-bg: #8b0b4c;
+        --chip-border: #e8a020;
+        --chip-text: #f6c948;
+        --good: #4caf7d;
+        --bad: #e0483c;
+        --font-jp: "Hiragino Sans", "Noto Sans JP", sans-serif;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        max-width: 100vw;
+        overflow-x: hidden;
+      }
+
+      body {
+        font-family: "Chalkboard SE", "Comic Sans MS", cursive, sans-serif;
+        background: radial-gradient(ellipse at center top, #d81b60, #880e4f);
+        min-height: 100vh;
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      .back-btn {
+        position: fixed;
+        top: max(20px, env(safe-area-inset-top, 20px));
+        left: clamp(10px, 4vw, 24px);
+        z-index: 60;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        background: var(--chip-bg);
+        color: var(--chip-text);
+        border: 3px solid var(--chip-border);
+        border-radius: 50%;
+        font-weight: bold;
+        font-size: 1.3rem;
+        text-decoration: none;
+        cursor: pointer;
+        transition: transform 0.1s ease;
+      }
+      .back-btn:active {
+        transform: translateY(2px);
+      }
+
+      .mute-btn {
+        position: fixed;
+        top: max(20px, env(safe-area-inset-top, 20px));
+        left: calc(clamp(10px, 4vw, 24px) + 54px);
+        z-index: 60;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        border: 3px solid var(--chip-border);
+        background: var(--chip-bg);
+        color: var(--chip-text);
+        font-size: 1.2rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .cloud {
+        position: absolute;
+        top: max(20px, env(safe-area-inset-top, 20px));
+        right: clamp(8px, 4vw, 36px);
+        width: clamp(60px, 12vw, 110px);
+        height: auto;
+        pointer-events: none;
+        user-select: none;
+        z-index: 0;
+      }
+
+      .wrap {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 720px;
+        height: 100%;
+        padding: max(14px, env(safe-area-inset-top, 14px)) 16px 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1;
+        min-height: 0;
+      }
+
+      h1 {
+        color: #fae207;
+        -webkit-text-stroke: 0.8px #f4930b;
+        text-align: center;
+        font-size: clamp(1.3rem, 5vw, 2.2rem);
+        line-height: 1.15;
+        margin-bottom: 2px;
+      }
+
+      .subtitle {
+        color: #ffe0f0;
+        font-size: clamp(0.7rem, 2.4vw, 0.95rem);
+        text-align: center;
+        margin-bottom: 10px;
+      }
+
+      @media screen and (orientation: portrait) and (max-width: 430px) {
+        h1 {
+          margin-top: 60px;
+        }
+      }
+      @media (orientation: portrait) {
+        h1 {
+          margin-top: clamp(20px, 10vw, 70px);
+        }
+      }
+
+      .topbar {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 10px;
+        flex-shrink: 0;
+      }
+
+      .pill {
+        background: var(--chip-bg);
+        border: 3px solid var(--chip-border);
+        color: var(--chip-text);
+        border-radius: 999px;
+        padding: 4px 12px;
+        font-weight: bold;
+        font-size: clamp(0.7rem, 2.4vw, 0.95rem);
+        white-space: nowrap;
+      }
+
+      /* game card */
+      .game-card {
+        background: var(--card-bg);
+        border: 3px solid var(--card-border);
+        border-radius: 22px;
+        width: 100%;
+        flex: 1;
+        min-height: 0;
+        padding: clamp(10px, 3vw, 20px);
+        box-shadow: 0 10px 0 rgba(0, 0, 0, 0.12);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .jp-sentence {
+        text-align: center;
+        font-family: var(--font-jp);
+        font-weight: bold;
+        color: var(--ocean-deep);
+        font-size: clamp(1.1rem, 4.5vw, 1.6rem);
+        margin-bottom: 8px;
+        flex-shrink: 0;
+        transition: opacity 0.25s ease;
+      }
+      .jp-sentence.fade {
+        opacity: 0;
+      }
+
+      .built-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        justify-content: center;
+        min-height: 40px;
+        padding: 6px;
+        margin-bottom: 8px;
+        flex-shrink: 0;
+      }
+      .built-chip {
+        background: #e9f9f0;
+        border: 2px solid var(--good);
+        color: #2f7d55;
+        border-radius: 10px;
+        padding: 4px 10px;
+        font-weight: bold;
+        font-size: clamp(0.8rem, 3vw, 1.05rem);
+      }
+
+      .fall-zone {
+        position: relative;
+        flex: 1;
+        min-height: 0;
+        background: #fbfbf4;
+        border: 3px dashed #cfd8dc;
+        border-radius: 14px;
+        overflow: hidden;
+      }
+      .fall-zone::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 6px;
+        background: var(--bad);
+        opacity: 0.7;
+      }
+
+      .falling-word {
+        position: absolute;
+        top: 0;
+        transform: translateX(-50%);
+        background: var(--chip-bg);
+        color: var(--chip-text);
+        border: 3px solid var(--chip-border);
+        border-radius: 12px;
+        padding: 6px 12px;
+        font-weight: bold;
+        font-size: clamp(0.85rem, 3.4vw, 1.15rem);
+        white-space: nowrap;
+        cursor: pointer;
+        box-shadow: 0 3px 0 rgba(0, 0, 0, 0.2);
+        transition:
+          transform 0.2s ease,
+          opacity 0.2s ease;
+      }
+      .falling-word.caught {
+        transform: translateX(-50%) scale(0.4);
+        opacity: 0;
+      }
+      .falling-word.wrong-tap {
+        animation: wrongFlash 0.35s ease;
+      }
+      @keyframes wrongFlash {
+        0%,
+        100% {
+          border-color: var(--chip-border);
+        }
+        50% {
+          border-color: var(--bad);
+        }
+      }
+
+      @media screen and (orientation: landscape) and (max-height: 450px) {
+        .rotate-message {
+          display: flex;
+        }
+        .wrap,
+        .back-btn,
+        .mute-btn {
+          display: none;
+        }
+      }
+      .rotate-message {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        background: radial-gradient(ellipse at center top, #d81b60, #880e4f);
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 2em;
+      }
+      .rotate-message p {
+        color: var(--sun);
+        -webkit-text-stroke: 0.8px #f4930b;
+        font-weight: bold;
+        font-size: clamp(1.2rem, 6vw, 2rem);
+        line-height: 1.4;
+      }
+
+      /* overlays: difficulty select + end screens */
+      .overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 80;
+        background: rgba(11, 61, 58, 0.72);
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+      .overlay.show {
+        display: flex;
+      }
+      .overlay-card {
+        background: var(--card-bg);
+        border-radius: 24px;
+        padding: clamp(20px, 5vw, 36px);
+        text-align: center;
+        max-width: 400px;
+        width: 100%;
+        box-shadow: 0 10px 0 rgba(0, 0, 0, 0.15);
+        border: 4px solid var(--card-border);
+      }
+      .overlay-card h2 {
+        color: #fae207;
+        -webkit-text-stroke: 0.8px #f4930b;
+        font-size: clamp(1.4rem, 6vw, 2rem);
+        margin-bottom: 6px;
+      }
+      .overlay-card p {
+        color: var(--ocean-deep);
+        font-weight: bold;
+        margin-bottom: 18px;
+        font-size: clamp(0.85rem, 3vw, 1.05rem);
+      }
+      .modal-back-link {
+        display: inline-block;
+        margin-top: 14px;
+        color: var(--ocean-deep);
+        font-weight: bold;
+        font-size: clamp(0.85rem, 3vw, 1rem);
+        text-decoration: none;
+      }
+      .modal-back-link:active {
+        opacity: 0.7;
+      }
+      .diff-row {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 6px;
+      }
+      .diff-btn {
+        font-family: inherit;
+        font-weight: bold;
+        font-size: clamp(1rem, 3.6vw, 1.2rem);
+        border: none;
+        border-radius: 14px;
+        padding: 14px 16px;
+        cursor: pointer;
+        color: var(--white);
+        transition: transform 0.1s ease;
+      }
+      .diff-btn:active {
+        transform: translateY(2px);
+      }
+      .diff-btn small {
+        display: block;
+        font-weight: normal;
+        font-size: 0.75em;
+        opacity: 0.9;
+        margin-top: 2px;
+      }
+      .diff-easy {
+        background: var(--good);
+        box-shadow: 0 4px 0 #2f7d55;
+      }
+      .diff-medium {
+        background: var(--orange-btn);
+        box-shadow: 0 4px 0 var(--orange-dark);
+      }
+      .diff-hard {
+        background: var(--bad);
+        box-shadow: 0 4px 0 #a8332a;
+      }
+      .big-score {
+        font-size: clamp(2rem, 8vw, 3.2rem);
+        color: var(--ocean-deep);
+        font-weight: bold;
+        margin-bottom: 6px;
+      }
+      .action-btn {
+        font-family: inherit;
+        font-weight: bold;
+        font-size: clamp(0.9rem, 3.2vw, 1.1rem);
+        border: none;
+        border-radius: 14px;
+        padding: 12px 22px;
+        cursor: pointer;
+        color: var(--white);
+        background: var(--chip-bg);
+        box-shadow: 0 4px 0 #55082f;
+        transition: transform 0.1s ease;
+      }
+      .action-btn:active {
+        transform: translateY(2px);
+      }
+    </style>
+  </head>
+
+  <body>
+    <img class="cloud" src="../p1.png" alt="" />
+    <a class="back-btn" href="unit1.html">←</a>
+    <button id="muteBtn" class="mute-btn">🔊</button>
+
+    <div class="rotate-message">
+      <p>📱 Please rotate to portrait mode 📱</p>
+    </div>
+    <audio id="bgMusic" src="../game5music.mp3" loop preload="auto"></audio>
+    <!-- DIFFICULTY SELECT -->
+
+    <div class="overlay show" id="startModal">
+      <div class="overlay-card">
+        <h2>Word Fall</h2>
+        <p>Catch the falling words in the right order!</p>
+        <div class="diff-row">
+          <button class="diff-btn diff-easy" data-speed="10">
+            🐢 Easy <small>Words fall slowly</small>
+          </button>
+          <button class="diff-btn diff-medium" data-speed="7">
+            🚶 Medium <small>Normal speed</small>
+          </button>
+          <button class="diff-btn diff-hard" data-speed="4.5">
+            🐇 Hard <small>Words fall fast!</small>
+          </button>
+        </div>
+        <a class="modal-back-link" href="unit1.html">← Back to menu</a>
+      </div>
+    </div>
+    <!-- LOSE SCREEN -->
+    <div class="overlay" id="loseScreen">
+      <div class="overlay-card">
+        <h2>Oh no! 💥</h2>
+        <div class="big-score" id="loseScore">2 / 14</div>
+        <p>A word fell too far! Try again?</p>
+        <button class="action-btn" id="loseRetryBtn">↺ Try Again</button>
+      </div>
+    </div>
+
+    <!-- WIN SCREEN -->
+    <div class="overlay" id="winScreen">
+      <div class="overlay-card">
+        <h2>Great Job! 🎉</h2>
+        <div class="big-score" id="winScore">14 / 14</div>
+        <p>You built every sentence!</p>
+        <button class="action-btn" id="winRetryBtn">↺ Play Again</button>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <h1>Word Fall</h1>
+      <div class="subtitle">Catch the English words in the correct order</div>
+
+      <div class="topbar">
+        <div class="pill" id="sentencePill">Sentence 3 / 14</div>
+        <div class="pill" id="modePill">Mode: Hard</div>
+      </div>
+
+      <div class="game-card">
+        <div class="jp-sentence" id="jpSentence">これは私のペンです。</div>
+        <div class="built-row" id="builtRow">
+          <div class="built-chip">This</div>
+          <div class="built-chip">is</div>
+          <div class="built-chip">my</div>
+        </div>
+        <div class="fall-zone" id="fallZone">
+          <div
+            class="falling-word"
+            data-idx="3"
+            style="
+              left: 85.8096%;
+              transition: none;
+              top: 319px;
+              pointer-events: none;
+            "
+          >
+            pen.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // ---------- Sentence pool (30 sentences, based on Unit 1 Common Phrases/Words) ----------
+      const SENTENCES = [
+        { en: "Let's begin.", jp: "始めましょう。" },
+        { en: "I like cats.", jp: "猫が好きです。" },
+        { en: "Me too.", jp: "私も。" },
+        { en: "I'm finished.", jp: "終わりました。" },
+        { en: "What's this?", jp: "これは何ですか。" },
+        { en: "I don't know.", jp: "わかりません。" },
+        { en: "I forgot my book.", jp: "本を忘れました。" },
+        { en: "It's your turn.", jp: "あなたの番です。" },
+        { en: "Is it your turn?", jp: "あなたの番ですか。" },
+        { en: "I think so.", jp: "そう思います。" },
+        { en: "Is it raining?", jp: "雨が降っていますか。" },
+        { en: "I don't think so.", jp: "そう思いません。" },
+        { en: "Help me please.", jp: "手伝ってください。" },
+        { en: "I don't understand.", jp: "理解できません。" },
+        { en: "My name is Jack.", jp: "私の名前はジャックです。" },
+        { en: "I can ride a bike.", jp: "自転車に乗れます。" },
+        { en: "I watch TV.", jp: "テレビを見ます。" },
+        { en: "Do you watch TV?", jp: "テレビを見ますか。" },
+        { en: "I have a dog.", jp: "犬を飼っています。" },
+        { en: "I don't have a dog.", jp: "犬を飼っていません。" },
+        { en: "Do you like baseball?", jp: "野球が好きですか。" },
+        { en: "That's amazing!", jp: "それはすごいです！" },
+        { en: "Yes I do.", jp: "はい、そうです。" },
+        { en: "I'm happy.", jp: "私は幸せです。" },
+        { en: "I like dogs.", jp: "犬が好きです。" },
+        { en: "Can I have a pencil?", jp: "鉛筆をもらえますか。" },
+        { en: "I have a cat.", jp: "猫を飼っています。" },
+        { en: "This is my pen.", jp: "これは私のペンです。" },
+        { en: "I am a student.", jp: "私は学生です。" },
+        { en: "It's raining today.", jp: "今日は雨が降っています。" },
+      ];
+
+      const ROUND_SIZE = 14;
+
+      // ---------- State ----------
+      let fallDuration = 7; // seconds, set by difficulty
+      let roundSentences = [];
+      let sentenceIndex = 0;
+      let currentWords = [];
+      let expectedIndex = 0;
+      let sentencesCompleted = 0;
+      let gameOver = false;
+      let gameActive = false;
+
+      const jpSentence = document.getElementById("jpSentence");
+      const builtRow = document.getElementById("builtRow");
+      const fallZone = document.getElementById("fallZone");
+      const sentencePill = document.getElementById("sentencePill");
+      const modePill = document.getElementById("modePill");
+      const startModal = document.getElementById("startModal");
+      const loseScreen = document.getElementById("loseScreen");
+      const winScreen = document.getElementById("winScreen");
+
+      function shuffle(arr) {
+        const a = arr.slice();
+        for (let i = a.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+      }
+
+      // ---------- Difficulty select ----------
+      document.querySelectorAll(".diff-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          fallDuration = parseFloat(btn.dataset.speed);
+          const label = btn.classList.contains("diff-easy")
+            ? "Easy"
+            : btn.classList.contains("diff-medium")
+              ? "Medium"
+              : "Hard";
+          modePill.textContent = `Mode: ${label}`;
+          startModal.classList.remove("show");
+          startGame();
+        });
+      });
+
+      function startGame() {
+        roundSentences = shuffle([...Array(SENTENCES.length).keys()]).slice(
+          0,
+          ROUND_SIZE,
+        );
+        sentenceIndex = 0;
+        sentencesCompleted = 0;
+        gameOver = false;
+        gameActive = true;
+        loseScreen.classList.remove("show");
+        winScreen.classList.remove("show");
+        loadSentence();
+      }
+
+      function loadSentence() {
+        fallZone.innerHTML = "";
+        builtRow.innerHTML = "";
+        sentencePill.textContent = `Sentence ${sentenceIndex + 1} / ${ROUND_SIZE}`;
+
+        const data = SENTENCES[roundSentences[sentenceIndex]];
+        currentWords = data.en.split(" ");
+        expectedIndex = 0;
+
+        jpSentence.classList.add("fade");
+        setTimeout(() => {
+          jpSentence.textContent = data.jp;
+          jpSentence.classList.remove("fade");
+        }, 150);
+
+        spawnWords();
+      }
+
+      function spawnWords() {
+        const n = currentWords.length;
+        const lanes = shuffle([...Array(n).keys()]);
+
+        currentWords.forEach((word, idx) => {
+          const el = document.createElement("div");
+          el.className = "falling-word";
+          el.textContent = word;
+          el.dataset.idx = idx;
+
+          const lane = lanes[idx];
+          const jitter = (Math.random() - 0.5) * 6; // small horizontal jitter
+          const leftPct = (100 / n) * (lane + 0.5) + jitter;
+          el.style.left = `${Math.max(6, Math.min(94, leftPct))}%`;
+
+          el.addEventListener("click", () => handleWordClick(el));
+          fallZone.appendChild(el);
+
+          const startDelay = Math.random() * 500;
+          const variance = 1 + (Math.random() - 0.5) * 0.2;
+          const duration = fallDuration * variance;
+
+          setTimeout(() => {
+            if (!gameActive || gameOver) return;
+            const zoneHeight = fallZone.clientHeight;
+            const wordHeight = el.offsetHeight;
+            el.style.transition = `top ${duration}s linear, transform 0.2s ease, opacity 0.2s ease`;
+            requestAnimationFrame(() => {
+              el.style.top = `${zoneHeight - wordHeight}px`;
+            });
+
+            el.addEventListener("transitionend", (e) => {
+              if (e.propertyName !== "top") return;
+              if (
+                !gameOver &&
+                el.isConnected &&
+                !el.classList.contains("caught")
+              ) {
+                triggerLose();
+              }
+            });
+          }, startDelay);
+        });
+      }
+
+      function handleWordClick(el) {
+        if (gameOver || !gameActive) return;
+        const idx = +el.dataset.idx;
+
+        if (idx === expectedIndex) {
+          el.classList.add("caught");
+          playCorrectSound();
+          const chip = document.createElement("div");
+          chip.className = "built-chip";
+          chip.textContent = currentWords[idx];
+          builtRow.appendChild(chip);
+          setTimeout(() => el.remove(), 220);
+
+          expectedIndex++;
+          if (expectedIndex === currentWords.length) {
+            sentencesCompleted++;
+            gameActive = false;
+            setTimeout(() => {
+              sentenceIndex++;
+              if (sentenceIndex >= ROUND_SIZE) {
+                showWin();
+              } else {
+                gameActive = true;
+                loadSentence();
+              }
+            }, 700);
+          }
+        } else {
+          el.classList.remove("wrong-tap");
+          void el.offsetWidth; // restart animation
+          el.classList.add("wrong-tap");
+          playIncorrectSound();
+        }
+      }
+
+      function triggerLose() {
+        if (gameOver) return;
+        gameOver = true;
+        gameActive = false;
+        document.querySelectorAll(".falling-word").forEach((w) => {
+          const rect = w.getBoundingClientRect();
+          const zoneRect = fallZone.getBoundingClientRect();
+          w.style.transition = "none";
+          w.style.top = `${rect.top - zoneRect.top}px`;
+          w.style.pointerEvents = "none";
+        });
+        playIncorrectSound();
+        document.getElementById("loseScore").textContent =
+          `${sentencesCompleted} / ${ROUND_SIZE}`;
+        setTimeout(() => loseScreen.classList.add("show"), 300);
+      }
+
+      function showWin() {
+        document.getElementById("winScore").textContent =
+          `${sentencesCompleted} / ${ROUND_SIZE}`;
+        playWinFanfare();
+        winScreen.classList.add("show");
+      }
+
+      document.getElementById("loseRetryBtn").addEventListener("click", () => {
+        loseScreen.classList.remove("show");
+        startModal.classList.add("show");
+      });
+      document.getElementById("winRetryBtn").addEventListener("click", () => {
+        winScreen.classList.remove("show");
+        startModal.classList.add("show");
+      });
+
+      // ---------- Sound effects ----------
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      const audioCtx = new AudioCtx();
+
+      function beep(
+        freq,
+        duration,
+        type = "sine",
+        startDelay = 0,
+        volume = 0.25,
+      ) {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.value = freq;
+        gain.gain.value = volume;
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        const startTime = audioCtx.currentTime + startDelay;
+        gain.gain.setValueAtTime(volume, startTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+        osc.start(startTime);
+        osc.stop(startTime + duration);
+      }
+      function playCorrectSound() {
+        beep(660, 0.12, "sine", 0, 0.35);
+      }
+      function playIncorrectSound() {
+        beep(200, 0.2, "sawtooth", 0, 0.3);
+      }
+      function playWinFanfare() {
+        const now = audioCtx.currentTime;
+        [523.25, 523.25, 659.25, 783.99, 1046.5, 1318.51].forEach((f, i) =>
+          beep(f, 0.3, "sine", [0, 0.15, 0.3, 0.45, 0.6, 0.8][i], 0.22),
+        );
+      }
+
+      // ---------- Background music ----------
+      const bgMusic = document.getElementById("bgMusic");
+      bgMusic.volume = 0.15;
+      let musicStarted = false;
+      let musicMuted = false;
+      function startMusicOnFirstInteraction() {
+        if (musicStarted) return;
+        musicStarted = true;
+        bgMusic.play().catch(() => {
+          musicStarted = false;
+        });
+      }
+      document.body.addEventListener(
+        "pointerdown",
+        startMusicOnFirstInteraction,
+        { once: true },
+      );
+      const muteBtn = document.getElementById("muteBtn");
+      muteBtn.addEventListener("click", () => {
+        musicMuted = !musicMuted;
+        bgMusic.muted = musicMuted;
+        muteBtn.textContent = musicMuted ? "🔇" : "🔊";
+      });
+    </script>
+  </body>
+</html>
