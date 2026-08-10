@@ -1,9 +1,7 @@
 <!doctype html>
-<!-- saved from url=(0054)file:///Users/graemecattermole/Downloads/word-gap.html -->
 <html lang="en">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-
+    <meta charset="UTF-8" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
@@ -13,9 +11,9 @@
       name="apple-mobile-web-app-status-bar-style"
       content="black-translucent"
     />
-    <meta name="apple-mobile-web-app-title" content="Word Gap" />
+    <meta name="apple-mobile-web-app-title" content="Sentence Builder" />
     <meta name="theme-color" content="#ffcc00" />
-    <title>Adventure Island — Bridge Gap (a / an / the / plurals)</title>
+    <title>Adventure Island — Sentence Builder</title>
 
     <style>
       *,
@@ -106,8 +104,11 @@
       .back-btn:active {
         transform: translateY(2px);
       }
-
+      .back-btn:active {
+        transform: translateY(2px);
+      }
       /* decorative */
+
       .cloud {
         position: absolute;
         top: max(20px, env(safe-area-inset-top, 20px));
@@ -154,27 +155,6 @@
         align-items: center;
         gap: 10px;
         margin-bottom: 14px;
-      }
-      @media (orientation: portrait) {
-        .topbar {
-          margin-top: clamp(60px, 14vw, 110px);
-        }
-      }
-      @media screen and (orientation: portrait) and (max-width: 430px) {
-        h1 {
-          margin-top: 60px;
-        }
-      }
-      @media screen and (orientation: landscape) and (max-height: 450px) {
-        .rotate-message {
-          display: flex;
-        }
-
-        .wrap,
-        .back-btn,
-        .mute-btn {
-          display: none;
-        }
       }
 
       .progress-track {
@@ -258,15 +238,15 @@
         margin: 10px 0 18px;
       }
 
-      /* sentence display with inline gap */
-      .sentence-box {
+      /* answer zone */
+      .answer-zone {
         display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: center;
+        flex-wrap: nowrap;
         gap: 8px;
+        align-items: center;
         min-height: 64px;
-        padding: 14px 16px;
+        overflow-x: auto;
+        padding: 10px 12px;
         border: 3px dashed #cfd8dc;
         border-radius: 14px;
         background: #fbfbf4;
@@ -275,41 +255,20 @@
           border-color 0.2s,
           background 0.2s;
       }
-      .sentence-box.correct {
+      .answer-zone.correct {
         border-color: var(--good);
         background: #e9f9f0;
       }
-      .sentence-box.wrong {
+      .answer-zone.wrong {
         border-color: var(--bad);
         background: #fdecea;
         animation: shake 0.4s ease;
       }
-
-      .sentence-part {
-        color: var(--ocean-deep);
-        font-weight: bold;
-        font-size: clamp(1rem, 3.8vw, 1.35rem);
-        white-space: pre-wrap;
-      }
-
-      .gap-input {
-        font-family: inherit;
-        font-weight: bold;
-        font-size: clamp(1rem, 3.8vw, 1.35rem);
-        text-align: center;
-        color: var(--chip-bg);
-        background: var(--white);
-        border: 3px solid var(--chip-border);
-        border-radius: 10px;
-        padding: 4px 8px;
-        width: clamp(70px, 22vw, 130px);
-        outline: none;
-      }
-      .gap-input:focus {
-        border-color: var(--ocean-deep);
-      }
-      .gap-input:disabled {
-        opacity: 0.8;
+      .answer-placeholder {
+        color: #b7bfc2;
+        font-size: 0.9rem;
+        font-style: italic;
+        white-space: nowrap;
       }
       @media screen and (orientation: landscape) and (max-height: 450px) {
         .rotate-message {
@@ -322,6 +281,7 @@
           display: none;
         }
       }
+
       @keyframes shake {
         0%,
         100% {
@@ -339,6 +299,41 @@
         80% {
           transform: translateX(6px);
         }
+      }
+
+      /* word bank */
+      .word-bank {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+        min-height: 56px;
+        padding: 8px 0;
+      }
+
+      .chip {
+        touch-action: none;
+        background: var(--chip-bg);
+        color: var(--chip-text);
+        border: 3px solid var(--chip-border);
+        border-radius: 12px;
+        padding: 8px 14px;
+        font-weight: bold;
+        font-size: clamp(0.9rem, 3.4vw, 1.15rem);
+        cursor: grab;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      .chip:active {
+        cursor: grabbing;
+      }
+      .chip.dragging-ghost {
+        position: fixed;
+        z-index: 50;
+        pointer-events: none;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.35);
+        transform: scale(1.06) rotate(-2deg);
+        opacity: 0.96;
       }
 
       /* buttons */
@@ -413,74 +408,83 @@
         margin-bottom: 20px;
         font-size: clamp(0.9rem, 3vw, 1.1rem);
       }
+
+      @media (max-width: 380px) {
+        .chip {
+          padding: 7px 10px;
+        }
+      }
+
+      @media (orientation: portrait) {
+        .topbar {
+          margin-top: clamp(60px, 14vw, 110px);
+        }
+      }
+      @media screen and (orientation: portrait) and (max-width: 430px) {
+        h1 {
+          margin-top: 60px;
+        }
+      }
+      @media (max-width: 380px) {
+        .chip {
+          padding: 7px 10px;
+        }
+      }
+
+      @media (orientation: portrait) {
+        .topbar {
+          margin-top: clamp(60px, 14vw, 110px);
+        }
+      }
     </style>
   </head>
 
   <body>
-    <img class="cloud" src="../p3.png" alt="" />
-    <a class="back-btn" href="unit13.html">←</a>
+    <img class="cloud" src="../p1.png" alt="" />
+    <a class="back-btn" href="unit19.html">←</a>
     <div class="rotate-message">
       <p>📱 Please rotate to portrait mode 📱</p>
     </div>
     <div class="wrap">
-      <h1>Bridge Gap</h1>
-      <div class="subtitle">
-        Type the missing word! (a / an / the / plurals)
-      </div>
-      <audio
-        id="bgMusic"
-        src="../game3music.mp3"
-        loop=""
-        preload="auto"
-      ></audio>
+      <h1>Sentence Builder</h1>
+      <div class="subtitle">Drag the words to build the sentence!</div>
+      <audio id="bgMusic" src="../game1music.mp3" loop preload="auto"></audio>
 
       <button id="muteBtn" class="mute-btn">🔊</button>
       <div class="topbar">
         <div class="progress-track">
-          <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+          <div class="progress-fill" id="progressFill"></div>
         </div>
-        <div class="score-pill">⭐ <span id="scoreLabel">0</span> / 14</div>
+        <div class="score-pill">⭐ <span id="scoreLabel">0</span> / 12</div>
       </div>
 
       <!-- GAME CARD -->
-      <div class="card" id="gameCard" style="display: block">
+      <div class="card" id="gameCard">
         <div class="q-badge" id="qBadge">1</div>
-        <div class="instructions">Fill in the missing word</div>
+        <div class="instructions">Put the words in the correct order</div>
 
-        <div class="sentence-box" id="sentenceBox">
-          <span class="sentence-part">I have two </span
-          ><input
-            type="text"
-            class="gap-input"
-            id="gapInput"
-            autocomplete="off"
-            autocapitalize="off"
-            spellcheck="false"
-          /><span class="sentence-part">.</span>
+        <div class="answer-zone" id="answerZone">
+          <span class="answer-placeholder" id="answerPlaceholder"
+            >Drop words here…</span
+          >
         </div>
+
+        <div class="word-bank chip-container" id="wordBank"></div>
 
         <div class="feedback" id="feedback"></div>
 
         <div class="btn-row">
           <button class="action-btn btn-reset" id="resetBtn">↺ Reset</button>
-          <button class="action-btn btn-check" id="checkBtn" style="opacity: 1">
-            ✓ Check
-          </button>
-          <button
-            class="action-btn btn-next"
-            id="nextBtn"
-            style="display: none"
-          >
-            Next →
-          </button>
+          <button class="action-btn btn-check" id="checkBtn">✓ Check</button>
+          <button class="action-btn btn-next" id="nextBtn">Next →</button>
         </div>
       </div>
 
       <!-- END SCREEN -->
-      <div class="card end-screen" id="endScreen" style="display: none">
+      <div class="card end-screen" id="endScreen">
         <h2>Great Job! 🎉</h2>
-        <div class="big-score" id="finalScore">0 / 14</div>
-        <p id="finalMsg">You finished the Word Gap challenge!</p>
+        <div class="big-score" id="finalScore">0 / 12</div>
+        <p id="finalMsg">You finished the Sentence Builder challenge!</p>
         <div class="btn-row">
           <button class="action-btn btn-check" id="playAgainBtn">
             ↺ Play Again
@@ -490,48 +494,40 @@
     </div>
 
     <script>
-      // ---------- Question data (a/an, the, plurals -s / -es) ----------
-      // Each sentence uses ___ to mark the gap. answer is the missing word.
       const QUESTIONS = [
-        { text: "I have a book ___ a pen.", answer: "and" },
-        { text: "I can read ___ write.", answer: "and" },
-        { text: "I don't like fish ___ prawns.", answer: "or" },
-        { text: "Do you like rice ___ bread?", answer: "or" },
-        { text: "Puff can't read ___ write.", answer: "or" },
-        { text: "I like apples ___ bananas.", answer: "and" },
-        { text: "Do you want milk ___ juice?", answer: "or" },
-        { text: "He can speak English ___ Japanese.", answer: "and" },
-        { text: "I don't have a brother ___ a sister.", answer: "or" },
-        { text: "I have a cat ___ I don't have a dog.", answer: "but" },
-        { text: "I can't swim ___ I can fly.", answer: "but" },
-        { text: "I don't have wings ___ I can fly.", answer: "but" },
-        { text: "I have wings ___ I'm a fairy.", answer: "because" },
-        {
-          text: "I'm going to the dentist ___ I have a toothache.",
-          answer: "because",
-        },
-        {
-          text: "He is a fast runner ___ he practices lots.",
-          answer: "because",
-        },
-        { text: "I like dragons ___ dogs.", answer: "and" },
-        { text: "Do you want tea ___ coffee?", answer: "or" },
-        { text: "She is tired ___ she isn't sleeping.", answer: "but" },
-        { text: "I'm happy ___ today is my birthday.", answer: "because" },
-        { text: "We ate pizza ___ ice cream.", answer: "and" },
-        { text: "Is it a cat ___ a dog?", answer: "or" },
-        { text: "I studied hard ___ I still failed.", answer: "but" },
-        { text: "I'm tired ___ I didn't sleep well.", answer: "because" },
-        { text: "I have a pencil ___ an eraser.", answer: "and" },
-        { text: "Do you want to walk ___ run?", answer: "or" },
-        { text: "It's sunny ___ it's very cold.", answer: "but" },
-        { text: "I'm scared ___ it's dark.", answer: "because" },
-        { text: "I like reading ___ writing.", answer: "and" },
-        { text: "Should we stay ___ go?", answer: "or" },
-        { text: "I love cake ___ I can't eat any more.", answer: "but" },
-      ];
+        "What time do you get up?",
+        "I usually get up at seven.",
+        "What do you eat for breakfast?",
+        "I usually eat rice and eggs.",
+        "What time does school start?",
+        "My school starts at eight.",
+        "What time does school finish?",
+        "My school finishes at three.",
+        "How many classes do you have?",
+        "I have six classes.",
+        "What do you do after school?",
+        "I usually play soccer.",
+        "What do you do to relax?",
+        "I read books to relax.",
+        "What time do you go to bed?",
+        "I go to bed at nine.",
+        "What school do you go to?",
+        "What grade are you in?",
+        "I am in the fifth grade.",
+        "What is your teacher's name?",
+        "How do you go to school?",
+        "I walk to school.",
+        "How many students are in your class?",
+        "There are thirty students.",
+        "What do you like about school?",
+        "I like my friends at school.",
+        "I brush my teeth before school.",
+        "What is your favorite subject?",
+        "Who is your best friend?",
+        "I eat lunch with my friends.",
+      ].map((s) => s.split(" "));
 
-      const TOTAL_QUESTIONS = 14; // how many are drawn from the pool each game
+      const TOTAL_QUESTIONS = 12; // how many are drawn from the pool each game
 
       // ---------- State ----------
       let order = [];
@@ -539,7 +535,9 @@
       let score = 0;
       let answeredCorrectly = false;
 
-      const sentenceBox = document.getElementById("sentenceBox");
+      const answerZone = document.getElementById("answerZone");
+      const wordBank = document.getElementById("wordBank");
+      const answerPlaceholder = document.getElementById("answerPlaceholder");
       const feedback = document.getElementById("feedback");
       const qBadge = document.getElementById("qBadge");
       const progressFill = document.getElementById("progressFill");
@@ -572,7 +570,7 @@
         loadQuestion();
       }
 
-      function currentQuestion() {
+      function currentWords() {
         return QUESTIONS[order[qIndex]];
       }
 
@@ -580,7 +578,7 @@
         answeredCorrectly = false;
         feedback.textContent = "";
         feedback.className = "feedback";
-        sentenceBox.classList.remove("correct", "wrong");
+        answerZone.classList.remove("correct", "wrong");
         nextBtn.style.display = "none";
         checkBtn.disabled = false;
         checkBtn.style.opacity = 1;
@@ -588,38 +586,39 @@
         qBadge.textContent = qIndex + 1;
         progressFill.style.width = `${(qIndex / order.length) * 100}%`;
 
-        const q = currentQuestion();
-        const [before, after] = q.text.split("___");
+        // clear zones
+        answerZone.innerHTML = "";
+        answerZone.appendChild(answerPlaceholder);
+        wordBank.innerHTML = "";
 
-        sentenceBox.innerHTML = "";
-
-        const beforeSpan = document.createElement("span");
-        beforeSpan.className = "sentence-part";
-        beforeSpan.textContent = before;
-        sentenceBox.appendChild(beforeSpan);
-
-        const input = document.createElement("input");
-        input.type = "text";
-        input.className = "gap-input";
-        input.id = "gapInput";
-        input.autocomplete = "off";
-        input.autocapitalize = "off";
-        input.spellcheck = false;
-        input.addEventListener("keydown", (e) => {
-          if (e.key === "Enter") {
-            e.preventDefault();
-            checkBtn.click();
-          }
+        const words = shuffle(currentWords());
+        words.forEach((word, i) => {
+          const chip = createChip(word);
+          wordBank.appendChild(chip);
         });
-        sentenceBox.appendChild(input);
-
-        const afterSpan = document.createElement("span");
-        afterSpan.className = "sentence-part";
-        afterSpan.textContent = after;
-        sentenceBox.appendChild(afterSpan);
-
-        input.focus();
+        updatePlaceholder();
       }
+
+      function createChip(word) {
+        const chip = document.createElement("div");
+        chip.className = "chip";
+        chip.textContent = word;
+        chip.dataset.word = word;
+        attachDragHandlers(chip);
+        return chip;
+      }
+
+      function updatePlaceholder() {
+        const hasChips = answerZone.querySelector(".chip") !== null;
+        answerPlaceholder.style.display = hasChips ? "none" : "inline";
+      }
+
+      // ---------- Pointer-based drag & drop (works for mouse + touch) ----------
+      function attachDragHandlers(chip) {
+        chip.addEventListener("pointerdown", onPointerDown);
+      }
+
+      let dragState = null;
 
       // ---------- Sound effects (Web Audio API, no files needed) ----------
       const AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -656,7 +655,6 @@
       function playIncorrectSound() {
         beep(200, 0.25, "sawtooth", 0, 0.35);
       }
-
       // ---------- Background music ----------
       const bgMusic = document.getElementById("bgMusic");
       bgMusic.volume = 0.15; // low background volume (0 = silent, 1 = full)
@@ -685,46 +683,157 @@
         bgMusic.muted = musicMuted;
         muteBtn.textContent = musicMuted ? "🔇" : "🔊";
       });
+      function onPointerDown(e) {
+        const chip = e.currentTarget;
+        e.preventDefault();
+
+        const rect = chip.getBoundingClientRect();
+        const originParent = chip.parentElement;
+        const originNext = chip.nextSibling;
+
+        // ghost that follows the pointer
+        const ghost = chip.cloneNode(true);
+        ghost.classList.add("dragging-ghost");
+        ghost.style.width = rect.width + "px";
+        ghost.style.left = rect.left + "px";
+        ghost.style.top = rect.top + "px";
+        document.body.appendChild(ghost);
+
+        chip.style.visibility = "hidden";
+
+        dragState = {
+          chip,
+          ghost,
+          originParent,
+          originNext,
+          startX: e.clientX,
+          startY: e.clientY,
+          offsetX: e.clientX - rect.left,
+          offsetY: e.clientY - rect.top,
+          moved: false,
+        };
+
+        window.addEventListener("pointermove", onPointerMove);
+        window.addEventListener("pointerup", onPointerUp, { once: true });
+      }
+
+      function onPointerMove(e) {
+        if (!dragState) return;
+        const dx = e.clientX - dragState.startX;
+        const dy = e.clientY - dragState.startY;
+        if (Math.abs(dx) > 5 || Math.abs(dy) > 5) dragState.moved = true;
+
+        dragState.ghost.style.left = e.clientX - dragState.offsetX + "px";
+        dragState.ghost.style.top = e.clientY - dragState.offsetY + "px";
+      }
+
+      function onPointerUp(e) {
+        window.removeEventListener("pointermove", onPointerMove);
+        if (!dragState) return;
+        const { chip, ghost, originParent, originNext, moved } = dragState;
+
+        ghost.remove();
+        chip.style.visibility = "visible";
+
+        const inAnswerZone = originParent === answerZone;
+
+        if (!moved) {
+          // TAP behaviour: toggle between wordBank <-> answerZone
+          if (inAnswerZone) {
+            wordBank.appendChild(chip);
+          } else {
+            answerZone.appendChild(chip);
+          }
+        } else {
+          // DRAG behaviour: find drop target under pointer
+          ghost.style.pointerEvents = "none";
+          const target = document.elementFromPoint(e.clientX, e.clientY);
+          const container = target
+            ? target.closest(".chip-container, #answerZone, #wordBank")
+            : null;
+
+          if (container === answerZone) {
+            const idx = getDropIndex(answerZone, e.clientX);
+            insertAtIndex(answerZone, chip, idx);
+          } else if (container === wordBank) {
+            wordBank.appendChild(chip);
+          } else {
+            // dropped outside any valid zone: revert
+            if (originNext) {
+              originParent.insertBefore(chip, originNext);
+            } else {
+              originParent.appendChild(chip);
+            }
+          }
+        }
+
+        updatePlaceholder();
+        dragState = null;
+      }
+
+      function getDropIndex(container, clientX) {
+        const chips = [...container.querySelectorAll(".chip")];
+        for (let i = 0; i < chips.length; i++) {
+          const r = chips[i].getBoundingClientRect();
+          if (clientX < r.left + r.width / 2) return i;
+        }
+        return chips.length;
+      }
+
+      function insertAtIndex(container, chip, idx) {
+        const chips = [...container.querySelectorAll(".chip")];
+        if (idx >= chips.length) {
+          container.appendChild(chip);
+        } else {
+          container.insertBefore(chip, chips[idx]);
+        }
+      }
+
+      // wordBank also needs to register as a drop container
+      wordBank.classList.add("chip-container");
+      answerZone.classList.add("chip-container");
+      answerZone.id = "answerZone";
+      wordBank.id = "wordBank";
 
       // ---------- Check / Reset / Next ----------
       checkBtn.addEventListener("click", () => {
-        const input = document.getElementById("gapInput");
-        const typed = input.value.trim();
+        const placedChips = [...answerZone.querySelectorAll(".chip")];
+        const totalWords = currentWords().length;
 
-        if (!typed) {
-          feedback.textContent = "Type an answer first!";
+        if (placedChips.length < totalWords) {
+          feedback.textContent = "Not so fast — place all the words first!";
           feedback.className = "feedback bad";
-          sentenceBox.classList.remove("correct");
-          sentenceBox.classList.add("wrong");
-          setTimeout(() => sentenceBox.classList.remove("wrong"), 400);
+          answerZone.classList.remove("correct");
+          answerZone.classList.add("wrong");
+          setTimeout(() => answerZone.classList.remove("wrong"), 400);
           return;
         }
 
-        const q = currentQuestion();
-        const isCorrect = typed.toLowerCase() === q.answer.toLowerCase();
+        const placedWords = placedChips.map((c) => c.dataset.word);
+        const correctWords = currentWords();
+        const isCorrect = placedWords.join(" ") === correctWords.join(" ");
 
         if (isCorrect) {
-          sentenceBox.classList.remove("wrong");
-          sentenceBox.classList.add("correct");
+          answerZone.classList.remove("wrong");
+          answerZone.classList.add("correct");
           feedback.textContent = "✅ Correct! Well done!";
           feedback.className = "feedback good";
-          playCorrectSound();
+          playCorrectSound(); // ← add this line
           if (!answeredCorrectly) {
             score++;
             scoreLabel.textContent = score;
           }
           answeredCorrectly = true;
-          input.disabled = true;
           checkBtn.disabled = true;
           checkBtn.style.opacity = 0.5;
           nextBtn.style.display = "inline-block";
         } else {
-          sentenceBox.classList.remove("correct");
-          sentenceBox.classList.add("wrong");
-          feedback.textContent = "❌ Not quite — try again.";
+          answerZone.classList.remove("correct");
+          answerZone.classList.add("wrong");
+          feedback.textContent = "❌ Not quite — try rearranging the words.";
           feedback.className = "feedback bad";
-          playIncorrectSound();
-          setTimeout(() => sentenceBox.classList.remove("wrong"), 400);
+          playIncorrectSound(); // ← add this line
+          setTimeout(() => answerZone.classList.remove("wrong"), 400);
         }
       });
 
@@ -748,8 +857,9 @@
         document.getElementById("finalScore").textContent =
           `${score} / ${order.length}`;
         const pct = Math.round((score / order.length) * 100);
-        let msg = "Nice try — keep practicing a, an, the, and plurals!";
-        if (pct === 100) msg = "Perfect score! You're a Word Gap master! 🏆";
+        let msg = "Nice try — keep practicing!";
+        if (pct === 100)
+          msg = "Perfect score! You're a Sentence Builder master! 🏆";
         else if (pct >= 80)
           msg = "Awesome work! You really know your grammar! 🌟";
         else if (pct >= 50)
