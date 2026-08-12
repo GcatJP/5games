@@ -148,6 +148,13 @@
 
       /* LANDSCAPE */
       @media screen and (orientation: landscape) {
+        body {
+          background-image: url("bg_land5.png");
+          background-size: cover;
+          background-position: center center;
+          background-repeat: no-repeat;
+        }
+
         h1 {
           font-size: clamp(2rem, 7vw, 7rem);
           padding: 0.1em 0.5em;
@@ -175,6 +182,10 @@
       /* LANDSCAPE IPHONE */
       @media screen and (orientation: landscape) and (max-height: 450px) {
         body {
+          background-image: url("bg_land5.png");
+          background-size: cover;
+          background-position: center center;
+          background-repeat: no-repeat;
           width: 100vw !important;
           min-width: 100vw !important;
           overflow-x: hidden !important;
@@ -202,6 +213,10 @@
       @media screen and (orientation: portrait) {
         body {
           overflow-y: auto;
+          background-image: url("bg_port.png");
+          background-size: cover;
+          background-position: center center;
+          background-repeat: no-repeat;
         }
 
         h1 {
@@ -223,8 +238,6 @@
           height: clamp(90px, 36vw, 340px);
         }
         @media screen and (orientation: portrait) {
-          /* ...existing rules... */
-
           .btn-icon {
             height: min(95%, 20vw);
           }
@@ -233,6 +246,13 @@
 
       /* PORTRAIT IPHONE */
       @media screen and (orientation: portrait) and (max-width: 430px) {
+        body {
+          background-image: url("bg_port.png");
+          background-size: cover;
+          background-position: center center;
+          background-repeat: no-repeat;
+        }
+
         h1 {
           font-size: clamp(1rem, 9vw, 3.8rem) !important;
           padding: 0.3em 0.5em !important;
@@ -264,7 +284,6 @@
           font-size: clamp(1.1rem, 11vw, 3.4rem) !important;
         }
         @media screen and (orientation: portrait) {
-          /* ...existing rules... */
           .btn-icon {
             height: 100%;
             width: auto;
@@ -276,7 +295,7 @@
             user-select: none;
           }
           .btn {
-            height: clamp(90px, 48vw, 250px) !important; /* was 40vw */
+            height: clamp(90px, 48vw, 250px) !important;
             font-size: clamp(1.1rem, 11vw, 3.4rem) !important;
           }
         }

@@ -186,9 +186,48 @@
         }
       }
 
+      /* LANDSCAPE */
+      @media screen and (orientation: landscape) {
+        body {
+          background-image: url("../bg_land5.png");
+          background-size: cover;
+          background-position: center center;
+          background-repeat: no-repeat;
+        }
+
+        h1 {
+          font-size: clamp(2rem, 7vw, 7rem);
+          padding: 0.1em 0.5em;
+          margin-top: 5vh;
+          margin-bottom: -8vh;
+        }
+
+        .grid-wrapper {
+          padding: 1vh 2vw 2vh;
+          margin-top: 2vh;
+        }
+
+        .grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          grid-template-rows: 1fr;
+          gap: clamp(6px, 1.4vw, 16px);
+          width: min(96vw, 1300px);
+        }
+
+        .btn {
+          font-size: clamp(1rem, 4vw, 3rem);
+          height: clamp(80px, 40vh, 220px);
+        }
+      }
+
       /* LANDSCAPE IPHONE */
       @media screen and (orientation: landscape) and (max-height: 450px) {
         body {
+          background-image: url("../bg_land5.png");
+          background-size: cover;
+          background-position: center center;
+          background-repeat: no-repeat;
           width: 100vw !important;
           min-width: 100vw !important;
           overflow-x: hidden !important;
@@ -216,6 +255,10 @@
       @media screen and (orientation: portrait) {
         body {
           overflow-y: auto;
+          background-image: url("../bg_port.png");
+          background-size: cover;
+          background-position: center center;
+          background-repeat: no-repeat;
         }
 
         h1 {
@@ -244,6 +287,13 @@
 
       /* PORTRAIT IPHONE */
       @media screen and (orientation: portrait) and (max-width: 430px) {
+        body {
+          background-image: url("../bg_port.png");
+          background-size: cover;
+          background-position: center center;
+          background-repeat: no-repeat;
+        }
+
         h1 {
           font-size: clamp(1.1rem, 10.5vw, 3.9rem) !important;
           padding: 0.3em 0.5em !important;

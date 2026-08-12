@@ -160,6 +160,13 @@
       }
       /* LANDSCAPE */
       @media screen and (orientation: landscape) {
+        body {
+          background-image: url("../bg_land5.png");
+          background-size: cover;
+          background-position: center center;
+          background-repeat: no-repeat;
+        }
+
         h1 {
           font-size: clamp(2rem, 7vw, 7rem);
           padding: 0.1em 0.5em;
@@ -189,6 +196,10 @@
       /* LANDSCAPE IPHONE */
       @media screen and (orientation: landscape) and (max-height: 450px) {
         body {
+          background-image: url("../bg_land5.png");
+          background-size: cover;
+          background-position: center center;
+          background-repeat: no-repeat;
           width: 100vw !important;
           min-width: 100vw !important;
           overflow-x: hidden !important;
@@ -216,6 +227,10 @@
       @media screen and (orientation: portrait) {
         body {
           overflow-y: auto;
+          background-image: url("../bg_port.png");
+          background-size: cover;
+          background-position: center center;
+          background-repeat: no-repeat;
         }
 
         h1 {
@@ -244,6 +259,13 @@
 
       /* PORTRAIT IPHONE */
       @media screen and (orientation: portrait) and (max-width: 430px) {
+        body {
+          background-image: url("../bg_port.png");
+          background-size: cover;
+          background-position: center center;
+          background-repeat: no-repeat;
+        }
+
         h1 {
           font-size: clamp(1.1rem, 10.5vw, 3.9rem) !important;
           padding: 0.3em 0.5em !important;
