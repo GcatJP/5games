@@ -13,7 +13,7 @@
     />
     <meta name="apple-mobile-web-app-title" content="True or False" />
     <meta name="theme-color" content="#ffcc00" />
-    <title>Adventure Island — Right or Wrong (a / an / the / plurals)</title>
+    <title>Adventure Island — Right or Wrong?</title>
 
     <style>
       *,
@@ -434,9 +434,7 @@
     </div>
     <div class="wrap">
       <h1>Right or Wrong?</h1>
-      <div class="subtitle">
-        Is the sentence right? (a / an / the / plurals)
-      </div>
+      <div class="subtitle">Is the sentence right?</div>
 
       <div class="topbar">
         <div class="progress-track">
@@ -632,7 +630,7 @@
         document.getElementById("finalScore").textContent =
           `${score} / ${ROUND_SIZE}`;
         const pct = Math.round((score / ROUND_SIZE) * 100);
-        let msg = "Nice try — keep practicing a, an, the, and plurals!";
+        let msg = "Nice try — keep practicing!";
         if (pct === 100) msg = "Perfect score! You're a Grammar Detective! 🏆";
         else if (pct >= 80)
           msg = "Awesome work! You really know your grammar! 🌟";

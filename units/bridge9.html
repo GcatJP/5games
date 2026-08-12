@@ -15,7 +15,7 @@
     />
     <meta name="apple-mobile-web-app-title" content="Word Gap" />
     <meta name="theme-color" content="#ffcc00" />
-    <title>Adventure Island — Bridge Gap (a / an / the / plurals)</title>
+    <title>Adventure Island — Bridge Gap!</title>
 
     <style>
       *,
@@ -424,9 +424,7 @@
     </div>
     <div class="wrap">
       <h1>Bridge Gap</h1>
-      <div class="subtitle">
-        Type the missing word! (a / an / the / plurals)
-      </div>
+      <div class="subtitle">Type the missing word!</div>
       <audio
         id="bgMusic"
         src="../game3music.mp3"
@@ -754,7 +752,7 @@
         document.getElementById("finalScore").textContent =
           `${score} / ${order.length}`;
         const pct = Math.round((score / order.length) * 100);
-        let msg = "Nice try — keep practicing a, an, the, and plurals!";
+        let msg = "Nice try — keep practicing!";
         if (pct === 100) msg = "Perfect score! You're a Word Gap master! 🏆";
         else if (pct >= 80)
           msg = "Awesome work! You really know your grammar! 🌟";
