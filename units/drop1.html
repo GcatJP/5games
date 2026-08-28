@@ -793,6 +793,16 @@
         bgMusic.muted = musicMuted;
         muteBtn.textContent = musicMuted ? "🔇" : "🔊";
       });
+
+      // Pause music when the app/tab is backgrounded (home button, app switch,
+      // minimizing), resume it when it's back in the foreground.
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+          bgMusic.pause();
+        } else if (musicStarted && !musicMuted) {
+          bgMusic.play().catch(() => {});
+        }
+      });
     </script>
   </body>
 </html>
