@@ -1,0 +1,754 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Unit 19. Writing | Adventure Island 5</title>
+
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      :root {
+        --font-chalk:
+          "Chalkboard SE", "Comic Sans MS", "Segoe Print", sans-serif;
+        --font-jp:
+          "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+        --green-bg: #d81b60;
+        --green-panel: #fffdf8;
+        --yellow-btn: #d4631e;
+        --yellow-btn-active: #c45a1a;
+        --heading: #0e6e6e;
+        --sun: #ffd23f;
+        --ocean: #c4e058;
+        --ocean-light: #e8a020;
+        --sand: #f6e3b4;
+        --correct: #4caf7d;
+        --wrong: #e0483c;
+        --title-fill: #fae207;
+        --title-stroke: #f4930b;
+        --chip-bg: #8b0b4c;
+        --chip-border: #e8a020;
+        --chip-text: #f6c948;
+      }
+
+      html,
+      body {
+        width: 100%;
+        min-height: 100%;
+        overflow-x: hidden;
+      }
+
+      body {
+        font-family: var(--font-jp);
+        background: var(--green-bg);
+        background: radial-gradient(ellipse at center top, #d81b60, #880e4f);
+        min-height: 100vh;
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 14px 60px;
+      }
+
+      h1.page-title {
+        font-family: var(--font-chalk);
+        color: var(--title-fill);
+        -webkit-text-stroke: 1.5px var(--title-stroke);
+        text-align: center;
+        font-size: clamp(1.4rem, 6vw, 2.4rem);
+        letter-spacing: 0.02em;
+        margin-bottom: 18px;
+      }
+
+      .back-btn {
+        position: fixed;
+        top: 16px;
+        left: 16px;
+        font-family: var(--font-chalk);
+        font-weight: 700;
+        font-size: 0.95rem;
+        color: var(--chip-text);
+        background: var(--chip-bg);
+        border: 3px solid var(--chip-border);
+        border-radius: 999px;
+        padding: 8px 16px;
+        text-decoration: none;
+        z-index: 10;
+        box-shadow: 0 3px 0 var(--chip-border);
+        transition:
+          transform 0.08s ease,
+          background 0.15s ease;
+      }
+
+      .back-btn:active {
+        transform: scale(0.96);
+        background: var(--chip-border);
+      }
+
+      @media (max-width: 480px) {
+        .back-btn {
+          top: 10px;
+          left: 10px;
+          padding: 6px 12px;
+          font-size: 0.85rem;
+        }
+      }
+
+      #app {
+        width: 100%;
+        max-width: 640px;
+        background: var(--green-panel);
+        border-radius: 22px;
+        border: 4px solid var(--ocean);
+        box-shadow:
+          0 8px 0 var(--heading),
+          0 14px 24px rgba(0, 0, 0, 0.25);
+        padding: 22px 18px 26px;
+      }
+
+      .badge {
+        display: inline-block;
+        background: var(--heading);
+        color: #fff;
+        font-family: var(--font-chalk);
+        font-size: 0.9rem;
+        padding: 4px 14px;
+        border-radius: 999px;
+        margin-bottom: 10px;
+      }
+
+      h2.section-title {
+        font-family: var(--font-chalk);
+        color: var(--heading);
+        font-size: clamp(1.2rem, 5vw, 1.7rem);
+        margin-bottom: 14px;
+        border-bottom: 3px dashed var(--sun);
+        padding-bottom: 8px;
+      }
+
+      p.jp {
+        font-size: clamp(1rem, 4vw, 1.15rem);
+        line-height: 1.9;
+        color: #333;
+        margin-bottom: 14px;
+      }
+
+      .checklist {
+        list-style: none;
+        margin: 4px 0 18px;
+      }
+
+      .checklist li {
+        font-size: clamp(0.95rem, 3.8vw, 1.08rem);
+        line-height: 1.7;
+        color: #333;
+        background: #fff;
+        border: 3px solid #333;
+        border-radius: 12px;
+        padding: 10px 14px;
+        margin-bottom: 10px;
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+      }
+
+      .checklist li .mark {
+        font-family: var(--font-chalk);
+        font-weight: 700;
+        color: var(--correct);
+        font-size: 1.2rem;
+        flex-shrink: 0;
+      }
+
+      .wh-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 10px;
+        margin: 4px 0 18px;
+      }
+
+      .wh-card {
+        border: 3px solid #333;
+        border-radius: 14px;
+        background: #eaf7f7;
+        text-align: center;
+        padding: 10px 6px;
+      }
+
+      .wh-card .en-word {
+        font-family: var(--font-chalk);
+        font-weight: 700;
+        color: var(--heading);
+        font-size: 1.1rem;
+      }
+
+      .wh-card .jp-word {
+        font-size: 0.85rem;
+        color: #555;
+        margin-top: 2px;
+      }
+
+      .note-box {
+        background: #eaf4ff;
+        border: 3px dashed var(--ocean-light);
+        border-radius: 14px;
+        padding: 12px 16px;
+        margin-bottom: 18px;
+      }
+
+      .note-box .jp {
+        margin-bottom: 0;
+        font-size: 0.98rem;
+      }
+
+      .prompt-box {
+        background: #fff6e0;
+        border: 3px dashed var(--sun);
+        border-radius: 14px;
+        padding: 12px 16px;
+        margin-bottom: 16px;
+        font-family: var(--font-chalk);
+        font-weight: 700;
+        color: #333;
+        font-size: clamp(0.95rem, 4vw, 1.1rem);
+        line-height: 1.6;
+      }
+
+      .btn {
+        font-family: var(--font-chalk);
+        font-weight: 700;
+        color: var(--green-panel);
+        background: var(--yellow-btn);
+        border: 3px solid #333;
+        border-radius: 12px;
+        cursor: pointer;
+        padding: 12px 18px;
+        font-size: clamp(1rem, 4.5vw, 1.2rem);
+        width: 100%;
+        display: block;
+        text-align: center;
+        transition:
+          transform 0.08s ease,
+          background 0.15s ease;
+      }
+
+      .btn:active {
+        transform: scale(0.97);
+        background: var(--yellow-btn-active);
+      }
+
+      .btn:disabled {
+        opacity: 0.6;
+        cursor: default;
+      }
+
+      .btn-primary {
+        max-width: 260px;
+        margin: 8px auto 0;
+      }
+
+      .btn-secondary {
+        background: var(--heading);
+      }
+
+      .btn-secondary:active {
+        background: #0a5555;
+      }
+
+      .btn-row {
+        display: flex;
+        justify-content: center;
+        margin-top: 18px;
+      }
+
+      .action-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin: 16px 0 6px;
+      }
+
+      @media (max-width: 420px) {
+        .action-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      .top-link {
+        display: inline-block;
+        font-family: var(--font-chalk);
+        color: var(--heading);
+        background: none;
+        border: none;
+        font-size: 0.95rem;
+        cursor: pointer;
+        margin-bottom: 12px;
+        padding: 0;
+      }
+
+      .diary-textarea {
+        width: 100%;
+        min-height: 300px;
+        border: 3px solid #333;
+        border-radius: 14px;
+        padding: 14px;
+        font-family: var(--font-jp);
+        font-size: 1rem;
+        line-height: 1.7;
+        color: #222;
+        resize: vertical;
+        background: #fff;
+      }
+
+      .diary-textarea:focus {
+        outline: 3px solid var(--sun);
+      }
+
+      .review-box {
+        width: 100%;
+        min-height: 300px;
+        border: 3px solid #333;
+        border-radius: 14px;
+        padding: 14px;
+        font-size: 1rem;
+        line-height: 1.9;
+        color: #222;
+        background: #fff;
+        white-space: pre-wrap;
+        overflow-wrap: break-word;
+      }
+
+      mark.err-spell {
+        background: rgba(224, 72, 60, 0.15);
+        text-decoration: underline wavy var(--wrong);
+        text-decoration-thickness: 2px;
+        cursor: help;
+        border-radius: 3px;
+      }
+
+      mark.err-grammar {
+        background: rgba(232, 160, 32, 0.18);
+        text-decoration: underline wavy var(--ocean-light);
+        text-decoration-thickness: 2px;
+        cursor: help;
+        border-radius: 3px;
+      }
+
+      .issue-list {
+        list-style: none;
+        margin-top: 16px;
+        border-top: 3px dashed var(--sun);
+        padding-top: 12px;
+      }
+
+      .issue-list li {
+        font-size: 0.92rem;
+        line-height: 1.6;
+        color: #333;
+        background: #fff8ea;
+        border: 2px solid #eee0b8;
+        border-radius: 10px;
+        padding: 8px 10px;
+        margin-bottom: 8px;
+      }
+
+      .issue-list li .tag {
+        font-family: var(--font-chalk);
+        font-weight: 700;
+        color: var(--heading);
+        margin-right: 6px;
+      }
+
+      .status-msg {
+        text-align: center;
+        font-family: var(--font-chalk);
+        color: var(--heading);
+        min-height: 1.4em;
+        margin-top: 10px;
+        font-size: 0.98rem;
+      }
+
+      #printArea {
+        display: none;
+      }
+
+      @media print {
+        body * {
+          visibility: hidden;
+        }
+        #printArea,
+        #printArea * {
+          visibility: visible;
+        }
+        #printArea {
+          display: block !important;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          padding: 24px;
+          white-space: pre-wrap;
+          font-family: var(--font-jp);
+          font-size: 1rem;
+          line-height: 1.8;
+          color: #000;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1 class="page-title">Unit 19：Writing</h1>
+    <a class="back-btn" href="index.html">← Back</a>
+    <div id="app"></div>
+    <div id="printArea"></div>
+
+    <script>
+      /* ---------------- content data ---------------- */
+      const PAGE_META = {
+        hobby: {
+          title: "My Hobby",
+          promptJp: "自分のしゅみについて、英語で書きましょう。",
+          promptEn:
+            "What is your hobby? When and where do you do it? Why do you like it?",
+          filename: "my-hobby.txt",
+          backScreen: "advice",
+          backLabel: "← せつめいにもどる",
+          nextScreen: "town",
+          nextLabel: "My Townへ →",
+        },
+        town: {
+          title: "My Town",
+          promptJp: "自分の町について、英語で書きましょう。",
+          promptEn:
+            "What is your town like? What can you see or do there? Why do you like it?",
+          filename: "my-town.txt",
+          backScreen: "hobby",
+          backLabel: "← My Hobbyにもどる",
+          nextScreen: null,
+          nextLabel: null,
+        },
+      };
+
+      /* ---------------- state ---------------- */
+      let screen = "advice"; // "advice" | "hobby" | "town"
+      const pages = {
+        hobby: { reviewMode: false, text: "", matches: [] },
+        town: { reviewMode: false, text: "", matches: [] },
+      };
+
+      const app = document.getElementById("app");
+      const printArea = document.getElementById("printArea");
+
+      /* ---------------- helpers ---------------- */
+      function escapeHtml(str) {
+        return str
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function showStatus(msg) {
+        const el = document.getElementById("statusMsg");
+        if (el) el.textContent = msg;
+      }
+
+      function downloadText(text, filename) {
+        const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+
+      async function copyTextToClipboard(text) {
+        try {
+          await navigator.clipboard.writeText(text);
+          showStatus("コピーしました！");
+        } catch (e) {
+          showStatus("コピーできませんでした。");
+        }
+      }
+
+      function printText(text) {
+        printArea.textContent = text;
+        window.print();
+      }
+
+      async function checkGrammar(text) {
+        const res = await fetch("https://api.languagetool.org/v2/check", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({ text: text, language: "en-US" }),
+        });
+        if (!res.ok) throw new Error("network error");
+        const data = await res.json();
+        return data.matches || [];
+      }
+
+      function isSpelling(match) {
+        return (
+          match.rule &&
+          (match.rule.issueType === "misspelling" ||
+            (match.rule.category && match.rule.category.id === "TYPOS"))
+        );
+      }
+
+      function buildHighlightedHTML(text, matches) {
+        const sorted = [...matches].sort((a, b) => a.offset - b.offset);
+        let result = "";
+        let cursor = 0;
+        sorted.forEach((m) => {
+          if (m.offset < cursor) return;
+          result += escapeHtml(text.slice(cursor, m.offset));
+          const errText = text.slice(m.offset, m.offset + m.length);
+          const cls = isSpelling(m) ? "err-spell" : "err-grammar";
+          const suggestion =
+            m.replacements && m.replacements[0] ? m.replacements[0].value : "";
+          const tooltip = escapeHtml(
+            m.message + (suggestion ? " → " + suggestion : ""),
+          );
+          result += `<mark class="${cls}" title="${tooltip}">${escapeHtml(errText)}</mark>`;
+          cursor = m.offset + m.length;
+        });
+        result += escapeHtml(text.slice(cursor));
+        return result;
+      }
+
+      function buildIssueListHTML(matches) {
+        if (matches.length === 0) {
+          return `<p class="jp" style="margin-top:16px;">まちがいはありませんでした！よくできました！</p>`;
+        }
+        const items = matches
+          .map((m) => {
+            const tag = isSpelling(m) ? "スペル" : "文法";
+            const suggestion =
+              m.replacements && m.replacements[0]
+                ? m.replacements[0].value
+                : "";
+            return `<li><span class="tag">${tag}</span>${escapeHtml(m.message)}${
+              suggestion
+                ? " → <strong>" + escapeHtml(suggestion) + "</strong>"
+                : ""
+            }</li>`;
+          })
+          .join("");
+        return `
+          <p class="jp" style="margin-top:16px;">${matches.length}個のまちがいが見つかりました。</p>
+          <ul class="issue-list">${items}</ul>
+        `;
+      }
+
+      /* ---------------- render: advice screen ---------------- */
+      function renderAdvice() {
+        app.innerHTML = `
+          <span class="badge">Unit 19：Writing</span>
+          <h2 class="section-title">レポートを書くときに気をつけること</h2>
+          <p class="jp">
+            英語でレポートを書くときは、いくつか気をつけることがあります。
+            下のチェックリストを見てみましょう。
+          </p>
+          <ul class="checklist">
+            <li><span class="mark">✓</span>文の初めは、大きい文字（大文字）で書きます。<br><span style="color:#777;font-size:0.85em;">My hobby is soccer.</span></li>
+            <li><span class="mark">✓</span>文の終わりに、ピリオド（.）やクエスチョンマーク（?）を、わすれずに書きます。</li>
+            <li><span class="mark">✓</span>「I」は、いつも大きい文字で書きます。</li>
+            <li><span class="mark">✓</span>できるだけ、くわしく書きます。一つの文だけで終わらないようにしましょう。</li>
+          </ul>
+          <p class="jp">
+            レポートを書くときは、下の五つのことばを考えると、書きやすくなります。
+          </p>
+          <div class="wh-grid">
+            <div class="wh-card"><div class="en-word">Who</div><div class="jp-word">だれが</div></div>
+            <div class="wh-card"><div class="en-word">What</div><div class="jp-word">何を</div></div>
+            <div class="wh-card"><div class="en-word">When</div><div class="jp-word">いつ</div></div>
+            <div class="wh-card"><div class="en-word">Where</div><div class="jp-word">どこで</div></div>
+            <div class="wh-card"><div class="en-word">Why</div><div class="jp-word">なぜ</div></div>
+          </div>
+          <div class="note-box">
+            <p class="jp">
+              これから「My Hobby」と「My Town」の二つのレポートを書きます。
+              書き終わったら「チェックする」ボタンを押すと、スペルや文法のまちがいを教えてくれます。
+            </p>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-primary" id="nextBtn">つぎへ</button>
+          </div>
+        `;
+        document.getElementById("nextBtn").onclick = () => {
+          screen = "hobby";
+          render();
+        };
+      }
+
+      /* ---------------- render: writing screen (editing) ---------------- */
+      function renderEditPage(key) {
+        const meta = PAGE_META[key];
+        const pageState = pages[key];
+
+        app.innerHTML = `
+          <button class="top-link" id="backLink">${meta.backLabel}</button>
+          <span class="badge">Unit 19：Writing</span>
+          <h2 class="section-title">${meta.title}</h2>
+          <p class="jp">${meta.promptJp}</p>
+          <div class="prompt-box">${escapeHtml(meta.promptEn)}</div>
+          <textarea class="diary-textarea" id="writeInput" placeholder="Write in English here...">${escapeHtml(pageState.text)}</textarea>
+          <div class="action-grid">
+            <button class="btn" id="checkBtn">チェックする</button>
+            <button class="btn btn-secondary" id="copyBtn">コピーする</button>
+            <button class="btn btn-secondary" id="downloadBtn">ダウンロード</button>
+            <button class="btn btn-secondary" id="printBtn">いんさつする</button>
+          </div>
+          <p class="status-msg" id="statusMsg"></p>
+          ${
+            meta.nextScreen
+              ? `<div class="btn-row"><button class="btn btn-primary" id="nextBtn">${meta.nextLabel}</button></div>`
+              : ""
+          }
+        `;
+
+        const textarea = document.getElementById("writeInput");
+        textarea.addEventListener("input", () => {
+          pageState.text = textarea.value;
+        });
+
+        document.getElementById("backLink").onclick = () => {
+          pageState.text = textarea.value;
+          screen = meta.backScreen;
+          render();
+        };
+
+        document.getElementById("copyBtn").onclick = () => {
+          pageState.text = textarea.value;
+          copyTextToClipboard(pageState.text);
+        };
+
+        document.getElementById("downloadBtn").onclick = () => {
+          pageState.text = textarea.value;
+          downloadText(pageState.text, meta.filename);
+        };
+
+        document.getElementById("printBtn").onclick = () => {
+          pageState.text = textarea.value;
+          printText(pageState.text);
+        };
+
+        document.getElementById("checkBtn").onclick = async () => {
+          pageState.text = textarea.value;
+          if (!pageState.text.trim()) {
+            showStatus("何か書いてから、チェックしてください。");
+            return;
+          }
+          const btn = document.getElementById("checkBtn");
+          btn.disabled = true;
+          showStatus("チェックしています…");
+          try {
+            const matches = await checkGrammar(pageState.text);
+            pageState.matches = matches;
+            pageState.reviewMode = true;
+            render();
+          } catch (e) {
+            btn.disabled = false;
+            showStatus(
+              "チェックできませんでした。もう一度、ためしてください。",
+            );
+          }
+        };
+
+        const nextBtn = document.getElementById("nextBtn");
+        if (nextBtn) {
+          nextBtn.onclick = () => {
+            pageState.text = textarea.value;
+            screen = meta.nextScreen;
+            render();
+          };
+        }
+      }
+
+      /* ---------------- render: writing screen (reviewed) ---------------- */
+      function renderReviewPage(key) {
+        const meta = PAGE_META[key];
+        const pageState = pages[key];
+        const highlighted = buildHighlightedHTML(
+          pageState.text,
+          pageState.matches,
+        );
+        const issuesHtml = buildIssueListHTML(pageState.matches);
+
+        app.innerHTML = `
+          <button class="top-link" id="backLink">${meta.backLabel}</button>
+          <span class="badge">Unit 19：Writing</span>
+          <h2 class="section-title">${meta.title}：チェックの結果</h2>
+          <div class="review-box">${highlighted || "&nbsp;"}</div>
+          ${issuesHtml}
+          <div class="action-grid" style="margin-top:18px;">
+            <button class="btn" id="editAgainBtn">書き直す</button>
+            <button class="btn btn-secondary" id="copyBtn">コピーする</button>
+            <button class="btn btn-secondary" id="downloadBtn">ダウンロード</button>
+            <button class="btn btn-secondary" id="printBtn">いんさつする</button>
+          </div>
+          <p class="status-msg" id="statusMsg"></p>
+          ${
+            meta.nextScreen
+              ? `<div class="btn-row"><button class="btn btn-primary" id="nextBtn">${meta.nextLabel}</button></div>`
+              : ""
+          }
+        `;
+
+        document.getElementById("backLink").onclick = () => {
+          pageState.reviewMode = false;
+          screen = meta.backScreen;
+          render();
+        };
+
+        document.getElementById("editAgainBtn").onclick = () => {
+          pageState.reviewMode = false;
+          render();
+        };
+
+        document.getElementById("copyBtn").onclick = () =>
+          copyTextToClipboard(pageState.text);
+        document.getElementById("downloadBtn").onclick = () =>
+          downloadText(pageState.text, meta.filename);
+        document.getElementById("printBtn").onclick = () =>
+          printText(pageState.text);
+
+        const nextBtn = document.getElementById("nextBtn");
+        if (nextBtn) {
+          nextBtn.onclick = () => {
+            screen = meta.nextScreen;
+            render();
+          };
+        }
+      }
+
+      /* ---------------- render dispatcher ---------------- */
+      function render() {
+        if (screen === "advice") return renderAdvice();
+        if (screen === "hobby" || screen === "town") {
+          const pageState = pages[screen];
+          return pageState.reviewMode
+            ? renderReviewPage(screen)
+            : renderEditPage(screen);
+        }
+      }
+
+      render();
+    </script>
+  </body>
+</html>

@@ -21,7 +21,7 @@
 
     <link rel="manifest" href="manifest.json" />
 
-    <title>Adventure Island 5</title>
+    <title>Adventure Island 5 Listening</title>
 
     <style>
       *,
@@ -48,7 +48,6 @@
       body {
         font-family:
           "Chalkboard SE", "Comic Sans MS", "Segoe Print", sans-serif;
-
         background-color: #880e4f;
         display: flex;
         flex-direction: column;
@@ -60,13 +59,6 @@
         position: relative;
       }
 
-      /* title */
-      .title-wrap {
-        position: relative;
-        display: inline-block;
-        z-index: 1;
-      }
-
       h1 {
         font-family:
           "Chalkboard SE", "Comic Sans MS", "Segoe Print", sans-serif;
@@ -76,7 +68,8 @@
         text-align: center;
         letter-spacing: 0.03em;
         flex-shrink: 0;
-        white-space: nowrap;
+        position: relative;
+        z-index: 1;
       }
 
       .grid-wrapper {
@@ -89,14 +82,6 @@
         z-index: 1;
       }
 
-      .grid {
-        display: flex;
-        width: 100%;
-        gap: 1rem; /* <--- Add this (adjust pixels/rem to taste) */
-        justify-content: center;
-      }
-
-      /* unit-btn styling */
       .btn {
         font-family:
           "Chalkboard SE", "Comic Sans MS", "Segoe Print", sans-serif;
@@ -106,17 +91,12 @@
         border: 3px solid #e8a020;
         border-radius: clamp(10px, 2vw, 18px);
         text-decoration: none;
+        text-align: center;
+        line-height: 1.05;
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
-        height: clamp(110px, 48vw, 250px) !important;
-        font-size: clamp(0.9rem, 5vw, 5rem) !important;
-        flex-direction: column;
-        gap: 0.15em;
-        padding: 0.3em 0.2em;
-        flex: 1;
-        width: auto;
         width: 100%;
         overflow: hidden;
         -webkit-user-select: none;
@@ -132,23 +112,32 @@
         box-shadow: 0 1px 0 var(--orange-dark);
       }
 
-      .btn-text {
-        order: 1;
+      .back-btn {
+        position: fixed;
+        top: max(14px, env(safe-area-inset-top, 14px));
+        left: max(14px, env(safe-area-inset-left, 14px));
+        z-index: 60;
+        display: flex;
+        align-items: center;
+        gap: 0.3em;
+        background: #8b0b4c;
+        color: #e8a020;
+        border: 3px solid #e8a020;
+        border-radius: 999px;
+        padding: 0.35em 0.9em;
+        font-family:
+          "Chalkboard SE", "Comic Sans MS", "Segoe Print", sans-serif;
+        font-weight: bold;
+        font-size: 1rem;
+        text-decoration: none;
+        cursor: pointer;
+        transition: transform 0.1s ease;
+      }
+      .back-btn:active {
+        transform: translateY(2px);
       }
 
-      .btn-icon {
-        order: 2;
-        width: 40%;
-        height: auto;
-        aspect-ratio: 1 / 1;
-        min-height: 0;
-        flex-shrink: 1;
-        object-fit: contain;
-        pointer-events: none;
-        user-select: none;
-      }
-
-      /* LANDSCAPE */
+      /* LANDSCAPE: 3 buttons in a row */
       @media screen and (orientation: landscape) {
         body {
           background-image: url("bg_land5.png");
@@ -158,60 +147,53 @@
         }
 
         h1 {
-          font-size: clamp(2rem, 7vw, 7rem);
+          font-size: clamp(2rem, 6vw, 5rem);
           padding: 0.1em 0.5em;
-          margin-top: 5vh;
-          margin-bottom: -8vh;
+          margin-top: 4vh;
         }
 
         .grid-wrapper {
-          padding: 1vh 2vw 2vh;
-          margin-top: 2vh;
+          padding: 1vh 2vw 4vh;
         }
 
         .grid {
-          justify-content: center;
-          width: 100%;
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: clamp(10px, 2.5vw, 28px);
+          width: min(94vw, 900px);
         }
 
         .btn {
-          font-size: clamp(1.2rem, 7vw, 4.6rem);
-          height: clamp(80px, 45vh, 220px);
-          width: min(96vw, 640px);
+          font-size: clamp(1.2rem, 5vw, 3.6rem);
+          height: clamp(80px, 32vh, 200px);
         }
       }
 
       /* LANDSCAPE IPHONE */
       @media screen and (orientation: landscape) and (max-height: 450px) {
         body {
-          background-image: url("bg_land5.png");
-          background-size: cover;
-          background-position: center center;
-          background-repeat: no-repeat;
           width: 100vw !important;
           min-width: 100vw !important;
           overflow-x: hidden !important;
         }
 
         h1 {
-          font-size: clamp(1rem, 7vw, 4rem) !important;
+          font-size: clamp(1rem, 6vw, 3rem) !important;
           padding: 0.1em 0.5em !important;
-          margin-top: -3vh !important;
-          margin-bottom: -8vh !important;
+          margin-top: 1vh !important;
         }
 
         .grid-wrapper {
           padding: 1vh 4vw 2vh;
-          margin-top: 1vh;
         }
 
         .btn {
           height: clamp(55px, 34vh, 130px) !important;
-          font-size: clamp(1rem, 6vw, 3.4rem) !important;
+          font-size: clamp(1rem, 4.5vw, 3rem) !important;
         }
       }
 
-      /* PORTRAIT */
+      /* PORTRAIT: buttons stacked */
       @media screen and (orientation: portrait) {
         body {
           overflow-y: auto;
@@ -222,93 +204,63 @@
         }
 
         h1 {
-          font-size: clamp(1.5rem, 12vw, 4rem);
+          font-size: clamp(1.5rem, 11vw, 4rem);
           padding: 0.3em 0.5em;
-          margin-top: max(20px, env(safe-area-inset-top, 20px));
+          margin-top: calc(env(safe-area-inset-top, 0px) + 56px);
         }
+
         .grid-wrapper {
           padding: 2vw 9vw 10vw;
         }
 
         .grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: clamp(14px, 5vw, 40px);
           width: 100%;
           max-width: 520px;
         }
 
         .btn {
-          font-size: clamp(1.2rem, 11vw, 4.6rem);
-          height: clamp(90px, 36vw, 340px);
-        }
-
-        .btn-icon {
-          height: min(95%, 20vw);
+          font-size: clamp(1.2rem, 10vw, 4rem);
+          height: clamp(70px, 26vw, 170px);
         }
       }
 
       /* PORTRAIT IPHONE */
       @media screen and (orientation: portrait) and (max-width: 430px) {
-        body {
-          background-image: url("bg_port5.png");
-          background-size: cover;
-          background-position: center center;
-          background-repeat: no-repeat;
-        }
-
         h1 {
-          font-size: clamp(1rem, 9vw, 3.8rem) !important;
+          font-size: clamp(1rem, 8.5vw, 3.4rem) !important;
           padding: 0.3em 0.5em !important;
           -webkit-text-stroke: 1.5px #f4930b;
           line-height: 1;
-          margin-top: max(80px, env(safe-area-inset-top, 60px)) !important;
         }
 
         .grid-wrapper {
-          padding: 4vh 9vw 2vw !important;
+          padding: 3vh 9vw 4vw !important;
         }
 
         .grid {
-          width: 100% !important;
-          margin-top: -10vh !important;
+          gap: 22px !important;
         }
 
         .btn {
-          height: clamp(90px, 48vw, 250px) !important;
-          font-size: clamp(1.1rem, 11vw, 3.4rem) !important;
-        }
-
-        .btn-icon {
-          height: 100%;
-          width: auto;
-          aspect-ratio: 1 / 1;
-          flex-shrink: 1;
-          min-width: 0;
-          object-fit: contain;
-          pointer-events: none;
-          user-select: none;
+          height: clamp(75px, 28vw, 130px) !important;
+          font-size: clamp(1.1rem, 10vw, 3.2rem) !important;
         }
       }
     </style>
   </head>
 
   <body>
-    <div class="title-wrap">
-      <h1>Adventure Island</h1>
-    </div>
+    <a class="back-btn" href="listening.html">← Back</a>
+    <h1>Adventure Island 5 Listening</h1>
 
     <div class="grid-wrapper">
-      <div class="grid" id="main-grid">
-        <a class="btn" href="study/index.html">
-          <img class="btn-icon" src="k1.png" alt="" />
-          <span class="btn-text">Study</span>
-        </a>
-        <a class="btn" href="listening.html">
-          <span class="btn-text">Audio</span>
-          <img class="btn-icon" src="p1.png" alt="" />
-        </a>
-        <a class="btn" href="games/index.html">
-          <span class="btn-text">Games</span>
-          <img class="btn-icon" src="s1.png" alt="" />
-        </a>
+      <div class="grid" id="audio-grid">
+        <a class="btn" href="listening5-player.html?track=page-25">Page 25</a>
+        <a class="btn" href="listening5-player.html?track=test-1">Test 1</a>
+        <a class="btn" href="listening5-player.html?track=test-2">Test 2</a>
       </div>
     </div>
   </body>

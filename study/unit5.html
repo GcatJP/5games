@@ -1,0 +1,917 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Unit 5. Am, Is, Are | Adventure Island 5</title>
+
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      :root {
+        --font-chalk:
+          "Chalkboard SE", "Comic Sans MS", "Segoe Print", sans-serif;
+        --font-jp:
+          "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+        --green-bg: #d81b60;
+        --green-panel: #fffdf8;
+        --yellow-btn: #d4631e;
+        --yellow-btn-active: #c45a1a;
+        --heading: #0e6e6e;
+        --sun: #ffd23f;
+        --ocean: #c4e058;
+        --ocean-light: #e8a020;
+        --sand: #f6e3b4;
+        --correct: #4caf7d;
+        --wrong: #e0483c;
+        --title-fill: #fae207;
+        --title-stroke: #f4930b;
+        --chip-bg: #8b0b4c;
+        --chip-border: #e8a020;
+        --chip-text: #f6c948;
+      }
+
+      html,
+      body {
+        width: 100%;
+        min-height: 100%;
+        overflow-x: hidden;
+      }
+
+      body {
+        font-family: var(--font-jp);
+        background: var(--green-bg);
+        background: radial-gradient(ellipse at center top, #d81b60, #880e4f);
+        min-height: 100vh;
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 14px 60px;
+      }
+
+      h1.page-title {
+        font-family: var(--font-chalk);
+        color: var(--title-fill);
+        -webkit-text-stroke: 1.5px var(--title-stroke);
+        text-align: center;
+        font-size: clamp(1.4rem, 6vw, 2.4rem);
+        letter-spacing: 0.02em;
+        margin-bottom: 18px;
+      }
+      .back-btn {
+        position: fixed;
+        top: 16px;
+        left: 16px;
+        font-family: var(--font-chalk);
+        font-weight: 700;
+        font-size: 0.95rem;
+        color: var(--chip-text);
+        background: var(--chip-bg);
+        border: 3px solid var(--chip-border);
+        border-radius: 999px;
+        padding: 8px 16px;
+        text-decoration: none;
+        z-index: 10;
+        box-shadow: 0 3px 0 var(--chip-border);
+        transition:
+          transform 0.08s ease,
+          background 0.15s ease;
+      }
+
+      .back-btn:active {
+        transform: scale(0.96);
+        background: var(--chip-border);
+      }
+
+      @media (max-width: 480px) {
+        .back-btn {
+          top: 10px;
+          left: 10px;
+          padding: 6px 12px;
+          font-size: 0.85rem;
+        }
+      }
+      #app {
+        width: 100%;
+        max-width: 640px;
+        background: var(--green-panel);
+        border-radius: 22px;
+        border: 4px solid var(--ocean);
+        box-shadow:
+          0 8px 0 var(--heading),
+          0 14px 24px rgba(0, 0, 0, 0.25);
+        padding: 22px 18px 26px;
+      }
+
+      .badge {
+        display: inline-block;
+        background: var(--heading);
+        color: #fff;
+        font-family: var(--font-chalk);
+        font-size: 0.9rem;
+        padding: 4px 14px;
+        border-radius: 999px;
+        margin-bottom: 10px;
+      }
+
+      h2.section-title {
+        font-family: var(--font-chalk);
+        color: var(--heading);
+        font-size: clamp(1.2rem, 5vw, 1.7rem);
+        margin-bottom: 14px;
+        border-bottom: 3px dashed var(--sun);
+        padding-bottom: 8px;
+      }
+
+      p.jp {
+        font-size: clamp(1rem, 4vw, 1.15rem);
+        line-height: 1.9;
+        color: #333;
+        margin-bottom: 14px;
+      }
+
+      .en {
+        color: var(--ocean);
+        font-family: var(--font-chalk);
+        font-weight: 700;
+      }
+
+      .vocab-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        gap: 12px;
+        margin: 16px 0 22px;
+      }
+
+      .vocab-card {
+        border: 3px solid #333;
+        border-radius: 14px;
+        overflow: hidden;
+        text-align: center;
+        background: #fff;
+      }
+
+      .icon-box {
+        min-height: 64px;
+        border-bottom: 3px solid #333;
+        background: #eaf7f7;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 6px;
+      }
+
+      .icon-box .article-tag {
+        font-family: var(--font-chalk);
+        font-weight: 700;
+        font-size: 1.3rem;
+        color: var(--heading);
+      }
+
+      .vocab-card .label {
+        padding: 6px 4px;
+        line-height: 1.3;
+      }
+
+      .vocab-card .en-word {
+        font-family: var(--font-chalk);
+        font-weight: 700;
+        color: #333;
+        font-size: 1.05rem;
+      }
+
+      .vocab-card .jp-word {
+        font-size: 0.85rem;
+        color: #555;
+      }
+
+      .pattern-box {
+        background: #fff6e0;
+        border: 3px dashed var(--sun);
+        border-radius: 14px;
+        padding: 14px 16px;
+        margin-bottom: 14px;
+      }
+
+      .pattern-box .line {
+        font-family: var(--font-chalk);
+        font-size: clamp(1rem, 4.5vw, 1.3rem);
+        color: #333;
+        margin: 4px 0;
+      }
+
+      .pattern-box .line .jp-sub {
+        display: block;
+        font-family: var(--font-jp);
+        font-size: 0.85rem;
+        color: #777;
+        margin-top: 2px;
+      }
+
+      .highlight {
+        color: var(--yellow-btn);
+        font-weight: 700;
+      }
+
+      .note-box {
+        background: #eaf4ff;
+        border: 3px dashed var(--ocean-light);
+        border-radius: 14px;
+        padding: 12px 16px;
+        margin-bottom: 18px;
+      }
+
+      .note-box .jp {
+        margin-bottom: 0;
+        font-size: 0.98rem;
+      }
+
+      .btn {
+        font-family: var(--font-chalk);
+        font-weight: 700;
+        color: var(--green-panel);
+        background: var(--yellow-btn);
+        border: 3px solid #333;
+        border-radius: 12px;
+        cursor: pointer;
+        padding: 12px 18px;
+        font-size: clamp(1rem, 4.5vw, 1.2rem);
+        width: 100%;
+        display: block;
+        text-align: center;
+        transition:
+          transform 0.08s ease,
+          background 0.15s ease;
+      }
+
+      .btn:active {
+        transform: scale(0.97);
+        background: var(--yellow-btn-active);
+      }
+
+      .btn-primary {
+        max-width: 260px;
+        margin: 8px auto 0;
+      }
+
+      .btn-row {
+        display: flex;
+        justify-content: center;
+        margin-top: 18px;
+      }
+
+      .progress {
+        font-family: var(--font-chalk);
+        color: #777;
+        font-size: 0.95rem;
+        margin-bottom: 10px;
+      }
+
+      .quiz-icon {
+        width: 100%;
+        max-width: 420px;
+        min-height: 110px;
+        margin: 0 auto 16px;
+        border: 4px solid #333;
+        border-radius: 16px;
+        background: #eaf7f7;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 16px;
+        text-align: center;
+      }
+
+      .quiz-word {
+        font-family: var(--font-chalk);
+        font-weight: 700;
+        color: var(--heading);
+        font-size: clamp(1.6rem, 8vw, 2.4rem);
+      }
+
+      .quiz-sentence {
+        font-family: var(--font-chalk);
+        font-weight: 700;
+        color: #333;
+        font-size: clamp(1.15rem, 5.5vw, 1.55rem);
+        line-height: 1.5;
+      }
+
+      .quiz-sentence .blank {
+        display: inline-block;
+        min-width: 2.2em;
+        border-bottom: 3px solid var(--heading);
+        color: var(--heading);
+      }
+
+      .question-en {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        font-family: var(--font-chalk);
+        color: var(--heading);
+        font-size: clamp(1.3rem, 5.5vw, 1.8rem);
+        margin-bottom: 18px;
+      }
+
+      .speak-btn {
+        background: var(--heading);
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: clamp(30px, 7vw, 38px);
+        height: clamp(30px, 7vw, 38px);
+        font-size: clamp(0.9rem, 3.5vw, 1.1rem);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        flex-shrink: 0;
+        padding: 0;
+        transition:
+          transform 0.08s ease,
+          background 0.15s ease;
+      }
+
+      .speak-btn:active {
+        transform: scale(0.88);
+        background: #0a5555;
+      }
+
+      .options {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+
+      .options.options-3 {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+
+      @media (max-width: 420px) {
+        .options {
+          grid-template-columns: 1fr;
+        }
+        .options.options-3 {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .opt-btn {
+        font-family: var(--font-chalk);
+        font-size: clamp(0.95rem, 4vw, 1.15rem);
+        font-weight: 700;
+        background: #fff;
+        border: 3px solid #333;
+        border-radius: 12px;
+        padding: 14px 8px;
+        cursor: pointer;
+        color: #333;
+        transition:
+          transform 0.08s ease,
+          background 0.15s ease;
+      }
+
+      .opt-btn:active {
+        transform: scale(0.97);
+      }
+
+      .opt-btn.correct {
+        background: var(--correct);
+        color: #fff;
+        border-color: #256b32;
+      }
+
+      .opt-btn.wrong {
+        background: var(--wrong);
+        color: #fff;
+        border-color: #a12c22;
+      }
+
+      .opt-btn[disabled] {
+        cursor: default;
+      }
+
+      .feedback {
+        text-align: center;
+        font-family: var(--font-chalk);
+        font-size: 1.1rem;
+        min-height: 1.6em;
+        margin-bottom: 8px;
+      }
+
+      .feedback.good {
+        color: var(--correct);
+      }
+
+      .feedback.bad {
+        color: var(--wrong);
+      }
+
+      .result-emoji {
+        font-size: 3.2rem;
+        text-align: center;
+        margin-bottom: 6px;
+      }
+
+      .result-score {
+        text-align: center;
+        font-family: var(--font-chalk);
+        font-size: 1.6rem;
+        color: var(--heading);
+        margin-bottom: 10px;
+      }
+
+      .result-msg {
+        text-align: center;
+        font-size: 1.1rem;
+        color: #333;
+        margin-bottom: 18px;
+      }
+
+      .center-text {
+        text-align: center;
+      }
+
+      .quiz-label {
+        display: inline-block;
+        font-family: var(--font-chalk);
+        background: #e3f4f4;
+        color: var(--heading);
+        border: 2px solid var(--ocean);
+        border-radius: 999px;
+        padding: 3px 12px;
+        font-size: 0.85rem;
+        margin-bottom: 12px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1 class="page-title">Unit 5：Am, Is, Are</h1>
+    <a class="back-btn" href="index.html">← Back</a>
+    <div id="app"></div>
+
+    <script>
+      /* ---------------- content data ---------------- */
+
+      // Quiz 1: choose the correct form (am / is / are) for the subject.
+      const BE_SENTENCES = [
+        { sentence: "I ___ a student.", correct: "am" },
+        { sentence: "You ___ my friend.", correct: "are" },
+        { sentence: "He ___ Kevin.", correct: "is" },
+        { sentence: "She ___ hungry.", correct: "is" },
+        { sentence: "It ___ a hippopotamus.", correct: "is" },
+        { sentence: "We ___ flying.", correct: "are" },
+        { sentence: "They ___ flowers.", correct: "are" },
+      ];
+
+      // Quiz 2: turn a statement into a question.
+      const STATEMENTS = [
+        { statement: "He is happy.", question: "Is he happy?" },
+        { statement: "They are hot.", question: "Are they hot?" },
+        { statement: "I am finished.", question: "Am I finished?" },
+        { statement: "We are clever.", question: "Are we clever?" },
+        { statement: "Sami is a chef.", question: "Is Sami a chef?" },
+        { statement: "You are fast.", question: "Are you fast?" },
+        { statement: "It is a crystal.", question: "Is it a crystal?" },
+      ];
+
+      // Quiz 3: choose the correct short answer.
+      const QUESTIONS = [
+        { prompt: "Is he happy?", subjWord: "he", verb: "is" },
+        { prompt: "Is it large?", subjWord: "it", verb: "is" },
+        { prompt: "Are they hot?", subjWord: "they", verb: "are" },
+        { prompt: "Are we late?", subjWord: "we", verb: "are" },
+        { prompt: "Am I finished?", subjWord: "you", verb: "are" },
+        { prompt: "Are you a teacher?", subjWord: "I", verb: "am" },
+        { prompt: "Is she a doctor?", subjWord: "she", verb: "is" },
+      ];
+
+      /* ---------------- helpers ---------------- */
+      function shuffle(arr) {
+        const a = arr.slice();
+        for (let i = a.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+      }
+
+      function sample(arr, n) {
+        return shuffle(arr).slice(0, n);
+      }
+
+      function speakText(text) {
+        if (!("speechSynthesis" in window)) return;
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.lang = "en-US";
+        utter.rate = 0.85;
+        window.speechSynthesis.speak(utter);
+      }
+
+      function speakPattern(el) {
+        const lines = [...el.querySelectorAll(".line")].map((line) => {
+          const clone = line.cloneNode(true);
+          clone.querySelector(".jp-sub")?.remove();
+          return clone.textContent.trim();
+        });
+        speakText(lines.join(". "));
+      }
+
+      /* ---- audio ---- */
+      let audioCtx = null;
+      function getCtx() {
+        if (!audioCtx)
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        return audioCtx;
+      }
+      function playTone(freq, startTime, duration, gainPeak) {
+        const ctx = getCtx();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "triangle";
+        osc.frequency.value = freq;
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        gain.gain.setValueAtTime(0, startTime);
+        gain.gain.linearRampToValueAtTime(gainPeak, startTime + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+        osc.start(startTime);
+        osc.stop(startTime + duration + 0.02);
+      }
+      function playCorrectJingle() {
+        const ctx = getCtx(),
+          now = ctx.currentTime;
+        [523.25, 659.25, 783.99, 1046.5].forEach((f, i) =>
+          playTone(f, now + i * 0.09, 0.22, 0.22),
+        );
+      }
+      function playWrongSound() {
+        const ctx = getCtx(),
+          now = ctx.currentTime;
+        playTone(220, now, 0.18, 0.12);
+        playTone(196, now + 0.08, 0.18, 0.1);
+      }
+      function playWinFanfare() {
+        const ctx = getCtx(),
+          now = ctx.currentTime;
+        [523.25, 523.25, 659.25, 783.99, 1046.5, 1318.51].forEach((f, i) =>
+          playTone(f, now + [0, 0.15, 0.3, 0.45, 0.6, 0.8][i], 0.3, 0.22),
+        );
+      }
+
+      /* ---------------- build question banks ---------------- */
+      const BE_FORMS = ["am", "is", "are"];
+
+      function buildFormQuiz() {
+        return shuffle(BE_SENTENCES).map((item) => ({
+          type: "form",
+          sentence: item.sentence,
+          correct: item.correct,
+          options: shuffle(BE_FORMS),
+        }));
+      }
+
+      function buildQuestionQuiz() {
+        const AUX = ["Am", "Is", "Are"];
+        return shuffle(STATEMENTS).map((item) => {
+          const starter = item.question.split(" ")[0];
+          const rest = item.question.slice(starter.length);
+          const wrongs = AUX.filter((a) => a !== starter).map((a) => a + rest);
+          const options = shuffle([item.question, ...wrongs]);
+          return {
+            type: "question",
+            statement: item.statement,
+            correct: item.question,
+            options,
+          };
+        });
+      }
+
+      function buildShortAnswerQuiz() {
+        return shuffle(QUESTIONS).map((q) => {
+          const correct = `Yes, ${q.subjWord} ${q.verb}.`;
+          const options = shuffle(
+            BE_FORMS.map((v) => `Yes, ${q.subjWord} ${v}.`),
+          );
+          return {
+            type: "short",
+            prompt: q.prompt,
+            correct,
+            options,
+          };
+        });
+      }
+
+      /* ---------------- state ---------------- */
+      let state = {
+        screen: "intro",
+        quizIndex: 0,
+        qIndex: 0,
+        score: 0,
+        totalScore: 0,
+        totalQuestions: 0,
+        banks: [],
+      };
+
+      const QUIZ_META = [
+        { key: "form", label: "Quiz 1：Am, Is or Are?", build: buildFormQuiz },
+        {
+          key: "question",
+          label: "Quiz 2：Making Questions",
+          build: buildQuestionQuiz,
+        },
+        {
+          key: "short",
+          label: "Quiz 3：Short Answers",
+          build: buildShortAnswerQuiz,
+        },
+      ];
+
+      function resetAll() {
+        state = {
+          screen: "intro",
+          quizIndex: 0,
+          qIndex: 0,
+          score: 0,
+          totalScore: 0,
+          totalQuestions: 0,
+          banks: QUIZ_META.map((m) => m.build()),
+        };
+      }
+
+      /* ---------------- render ---------------- */
+      const app = document.getElementById("app");
+
+      function render() {
+        if (state.screen === "intro") return renderIntro();
+        if (state.screen === "quiz") return renderQuiz();
+        if (state.screen === "quizDone") return renderQuizDone();
+        if (state.screen === "final") return renderFinal();
+      }
+
+      function renderIntro() {
+        app.innerHTML = `
+                <h2 class="section-title">Am, Is, Are</h2>
+                <p class="jp">
+                  「I」の あとは「am」、「he・she・it・名前」の あとは「is」、
+                  「you・we・they」の あとは「are」を 使います。
+                </p>
+                <div class="pattern-box">
+                  <div class="line">I am a student.</div>
+                  <div class="line">He is Kevin.</div>
+                  <div class="line">They are hot.</div>
+                </div>
+                <p class="jp">
+                  「not」を付けると、否定文になります。
+                </p>
+                <div class="pattern-box">
+                  <div class="line">I'm not a teacher.</div>
+                  <div class="line">He isn't a hippopotamus.</div>
+                  <div class="line">We aren't hungry.</div>
+                </div>
+
+                <h2 class="section-title" style="margin-top:22px;">Making Questions</h2>
+                <p class="jp">
+                  am・is・are を 一番前に置くと、疑問文になります。
+                </p>
+                <div class="pattern-box">
+                  <div class="line">He is happy. → Is he happy?</div>
+                  <div class="line">They are hot. → Are they hot?</div>
+                  <div class="line">I am finished. → Am I finished?</div>
+                </div>
+
+                <h2 class="section-title" style="margin-top:22px;">Short Answers</h2>
+                <p class="jp">
+                  質問に答えるときは、Yes/No と 主語、そして am・is・are を 使います。
+                </p>
+                <div class="pattern-box">
+                  <div class="line">Is he happy? → Yes, he is.</div>
+                  <div class="line">Are they hot? → No, they aren't.</div>
+                  <div class="line">Am I finished? → Yes, you are.</div>
+                </div>
+
+                <p class="en">
+                  Are you ready？ Let's try these quizzes！
+                </p>
+
+                <div class="btn-row">
+                  <button class="btn btn-primary" id="startBtn">Start Quiz</button>
+                </div>
+              `;
+        document.getElementById("startBtn").onclick = () => {
+          state.screen = "quiz";
+          state.quizIndex = 0;
+          state.qIndex = 0;
+          state.score = 0;
+          render();
+        };
+
+        document.querySelectorAll(".pattern-box").forEach((patternBox) => {
+          patternBox.style.cursor = "pointer";
+          patternBox.addEventListener("click", () => speakPattern(patternBox));
+        });
+      }
+
+      function currentBank() {
+        return state.banks[state.quizIndex];
+      }
+
+      function renderQuiz() {
+        const meta = QUIZ_META[state.quizIndex];
+        const bank = currentBank();
+        const q = bank[state.qIndex];
+
+        let bodyHtml = "";
+
+        if (q.type === "form") {
+          const display = q.sentence.replace(
+            "___",
+            '<span class="blank">___</span>',
+          );
+          bodyHtml = `
+                  <div class="quiz-icon">
+                    <div class="quiz-sentence">${display}</div>
+                  </div>
+                  <p class="question-en">am, is or are?</p>
+                  <div class="options options-3" id="optionsWrap">
+                    ${q.options
+                      .map(
+                        (opt) =>
+                          `<button class="opt-btn" data-correct="${opt === q.correct}">${opt}</button>`,
+                      )
+                      .join("")}
+                  </div>
+                `;
+        } else if (q.type === "question") {
+          bodyHtml = `
+                  <div class="quiz-icon">
+                    <div class="quiz-sentence">${q.statement}</div>
+                  </div>
+                  <p class="question-en">Make it a question!</p>
+                  <div class="options options-3" id="optionsWrap">
+                    ${q.options
+                      .map(
+                        (opt) =>
+                          `<button class="opt-btn" data-correct="${opt === q.correct}">${opt}</button>`,
+                      )
+                      .join("")}
+                  </div>
+                `;
+        } else if (q.type === "short") {
+          bodyHtml = `
+                  <div class="quiz-icon">
+                    <div class="quiz-sentence">${q.prompt}</div>
+                  </div>
+                  <p class="question-en">Choose the right answer!</p>
+                  <div class="options options-3" id="optionsWrap">
+                    ${q.options
+                      .map(
+                        (opt) =>
+                          `<button class="opt-btn" data-correct="${opt === q.correct}">${opt}</button>`,
+                      )
+                      .join("")}
+                  </div>
+                `;
+        }
+
+        app.innerHTML = `
+                <span class="quiz-label">${meta.label}</span>
+               <div class="progress">Question ${state.qIndex + 1} / ${bank.length}</div>
+                ${bodyHtml}
+                <div class="feedback" id="feedback"></div>
+              `;
+
+        document.querySelectorAll(".opt-btn").forEach((btn) => {
+          btn.addEventListener("click", () => onAnswer(btn), { once: true });
+        });
+      }
+
+      function goNext() {
+        const bank = currentBank();
+        if (state.qIndex < bank.length - 1) {
+          state.qIndex++;
+          render();
+        } else {
+          state.totalScore += state.score;
+          state.totalQuestions += bank.length;
+          state.screen = "quizDone";
+          render();
+        }
+      }
+
+      function onAnswer(btn) {
+        const allBtns = document.querySelectorAll(".opt-btn");
+        const isCorrect = btn.dataset.correct === "true";
+        const feedback = document.getElementById("feedback");
+
+        allBtns.forEach((b) => {
+          b.disabled = true;
+          if (b.dataset.correct === "true") b.classList.add("correct");
+        });
+        if (!isCorrect) btn.classList.add("wrong");
+
+        if (isCorrect) {
+          state.score++;
+          playCorrectJingle();
+          feedback.textContent = "Correct! Great job!";
+          feedback.className = "feedback good";
+          setTimeout(goNext, 1100);
+        } else {
+          playWrongSound();
+          feedback.textContent = "Not quite! Tap the green box to continue.";
+          feedback.className = "feedback bad";
+
+          // Swap in a clone of the green button so its old click listener is
+          // dropped, then make it tappable to move on.
+          const oldBtn = document.querySelector(
+            '.opt-btn[data-correct="true"]',
+          );
+          const newBtn = oldBtn.cloneNode(true);
+          oldBtn.replaceWith(newBtn);
+          newBtn.disabled = false;
+          newBtn.addEventListener("click", goNext, { once: true });
+        }
+      }
+      function renderQuizDone() {
+        const meta = QUIZ_META[state.quizIndex];
+        const bank = currentBank();
+        const isLast = state.quizIndex === QUIZ_META.length - 1;
+
+        app.innerHTML = `
+                <span class="quiz-label">${meta.label}</span>
+                <h2 class="section-title">Well done！</h2>
+                <p class="center-text en" style="font-size:1.2rem;">
+                  ${state.score} / ${bank.length} Correct
+                </p>
+                <div class="btn-row">
+                  <button class="btn btn-primary" id="nextBtn">
+                    ${isLast ? "Results" : "Next Quiz"}
+                  </button>
+                </div>
+              `;
+
+        document.getElementById("nextBtn").onclick = () => {
+          if (isLast) {
+            state.screen = "final";
+          } else {
+            state.quizIndex++;
+            state.qIndex = 0;
+            state.score = 0;
+            state.screen = "quiz";
+          }
+          render();
+        };
+      }
+
+      function renderFinal() {
+        const pct = Math.round((state.totalScore / state.totalQuestions) * 100);
+        let emoji = "🌟";
+        let msg = "Excellent!";
+        if (pct < 50) {
+          emoji = "🌱";
+          msg = "Great try! Aim for 100%";
+        } else if (pct < 80) {
+          emoji = "🌿";
+          msg = "Good try! Let`s aim for a better score next time";
+        }
+        playWinFanfare();
+        app.innerHTML = `
+                <div class="result-emoji">${emoji}</div>
+                <div class="result-score">${state.totalScore} / ${state.totalQuestions} Points（${pct}％）</div>
+                <p class="result-msg en">${msg}</p>
+                <div class="btn-row">
+                  <button class="btn btn-primary" id="retryBtn">Try again!</button>
+                </div>
+              `;
+
+        document.getElementById("retryBtn").onclick = () => {
+          resetAll();
+
+          render();
+        };
+      }
+
+      /* ---------------- init ---------------- */
+      resetAll();
+      render();
+    </script>
+  </body>
+</html>

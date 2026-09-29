@@ -422,7 +422,7 @@
     <audio id="bgMusic" src="../game4music.mp3" loop preload="auto"></audio>
     <div class="wrap">
       <div class="header">
-        <a class="back-btn" href="unit12.html">←</a>
+        <a class="back-btn" href="unit15.html">←</a>
         <button id="muteBtn" class="mute-btn">🔊</button>
         <h1>Match Up</h1>
         <div class="score-pill" id="triesPill">Tries: 0</div>
@@ -545,16 +545,16 @@
 
     <script>
       /* ---- PAIRS — symbols/words and English/Japanese from Unit 1 ---- */
-      /* ---- PAIRS — opposite superlative adjectives from Unit 12 ---- */
+      /* ---- PAIRS — present tense matched to past tense from Unit 15 ---- */
       const PAIRS = [
-        { a: "Fastest", b: "Slowest" },
-        { a: "Biggest", b: "Smallest" },
-        { a: "Hottest", b: "Coldest" },
-        { a: "Tallest", b: "Shortest" },
-        { a: "Sweetest", b: "Sourest" },
-        { a: "Brightest", b: "Darkest" },
-        { a: "Youngest", b: "Oldest" },
-        { a: "Heaviest", b: "Lightest" },
+        { a: "Eat", b: "Ate" },
+        { a: "Go", b: "Went" },
+        { a: "See", b: "Saw" },
+        { a: "Ride", b: "Rode" },
+        { a: "Run", b: "Ran" },
+        { a: "Drink", b: "Drank" },
+        { a: "Catch", b: "Caught" },
+        { a: "Read", b: "Read" },
       ];
 
       /* ---- audio ---- */
@@ -729,7 +729,7 @@
               b.el.classList.remove("flipped", "wrong");
               flippedCards = [];
               locked = false;
-            }, 1000);
+            }, 2500);
           }
         }
       }

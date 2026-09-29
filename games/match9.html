@@ -422,7 +422,7 @@
     <audio id="bgMusic" src="../game4music.mp3" loop preload="auto"></audio>
     <div class="wrap">
       <div class="header">
-        <a class="back-btn" href="unit1.html">←</a>
+        <a class="back-btn" href="unit9.html">←</a>
         <button id="muteBtn" class="mute-btn">🔊</button>
         <h1>Match Up</h1>
         <div class="score-pill" id="triesPill">Tries: 0</div>
@@ -545,15 +545,16 @@
 
     <script>
       /* ---- PAIRS — symbols/words and English/Japanese from Unit 1 ---- */
+      /* ---- PAIRS — opposite adjectives from Unit 9 ---- */
       const PAIRS = [
-        { a: ",", aType: "symbol", b: "Comma" },
-        { a: ".", aType: "symbol", b: "Period" },
-        { a: "?", aType: "symbol", b: "Question mark" },
-        { a: "!", aType: "symbol", b: "Exclamation mark" },
-        { a: "'", aType: "symbol", b: "Apostrophe" },
-        { a: "Sentence", b: "文章", bType: "jp" },
-        { a: "Noun", b: "名詞", bType: "jp" },
-        { a: "Verb", b: "動詞", bType: "jp" },
+        { a: "Expensive", b: "Cheap" },
+        { a: "Dangerous", b: "Safe" },
+        { a: "Interesting", b: "Boring" },
+        { a: "Difficult", b: "Easy" },
+        { a: "Delicious", b: "Disgusting" },
+        { a: "Famous", b: "Unknown" },
+        { a: "Important", b: "Unimportant" },
+        { a: "Careful", b: "Careless" },
       ];
 
       /* ---- audio ---- */
@@ -728,7 +729,7 @@
               b.el.classList.remove("flipped", "wrong");
               flippedCards = [];
               locked = false;
-            }, 1000);
+            }, 2500);
           }
         }
       }

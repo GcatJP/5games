@@ -17,10 +17,7 @@
     <meta name="theme-color" content="#ffcc00" />
     <title>Adventure Island — Match Up!</title>
 
-    <link
-      href="./Adventure Island — Match Up (Unit 1_ Words &amp; Symbols)_files/css2"
-      rel="stylesheet"
-    />
+    <link href="./Adventure Island — Match Up_files/css2" rel="stylesheet" />
 
     <style>
       *,
@@ -422,7 +419,7 @@
     <audio id="bgMusic" src="../game4music.mp3" loop preload="auto"></audio>
     <div class="wrap">
       <div class="header">
-        <a class="back-btn" href="unit15.html">←</a>
+        <a class="back-btn" href="unit8.html">←</a>
         <button id="muteBtn" class="mute-btn">🔊</button>
         <h1>Match Up</h1>
         <div class="score-pill" id="triesPill">Tries: 0</div>
@@ -545,16 +542,15 @@
 
     <script>
       /* ---- PAIRS — symbols/words and English/Japanese from Unit 1 ---- */
-      /* ---- PAIRS — present tense matched to past tense from Unit 15 ---- */
       const PAIRS = [
-        { a: "Eat", b: "Ate" },
-        { a: "Go", b: "Went" },
-        { a: "See", b: "Saw" },
-        { a: "Ride", b: "Rode" },
-        { a: "Run", b: "Ran" },
-        { a: "Drink", b: "Drank" },
-        { a: "Catch", b: "Caught" },
-        { a: "Read", b: "Read" },
+        { a: "Bigger", b: "Smaller" },
+        { a: "Faster", b: "Slower" },
+        { a: "Newer", b: "Older" },
+        { a: "Longer", b: "Shorter" },
+        { a: "Hotter", b: "Colder" },
+        { a: "Harder", b: "Softer" },
+        { a: "Stronger", b: "Weaker" },
+        { a: "Sweeter", b: "Sourer" },
       ];
 
       /* ---- audio ---- */
@@ -729,7 +725,7 @@
               b.el.classList.remove("flipped", "wrong");
               flippedCards = [];
               locked = false;
-            }, 1000);
+            }, 2500);
           }
         }
       }

@@ -422,7 +422,7 @@
     <audio id="bgMusic" src="../game4music.mp3" loop preload="auto"></audio>
     <div class="wrap">
       <div class="header">
-        <a class="back-btn" href="unit9.html">←</a>
+        <a class="back-btn" href="unit3.html">←</a>
         <button id="muteBtn" class="mute-btn">🔊</button>
         <h1>Match Up</h1>
         <div class="score-pill" id="triesPill">Tries: 0</div>
@@ -545,18 +545,17 @@
 
     <script>
       /* ---- PAIRS — symbols/words and English/Japanese from Unit 1 ---- */
-      /* ---- PAIRS — opposite adjectives from Unit 9 ---- */
+      /* ---- PAIRS — opposite comparative adjectives from Unit 8 ---- */
       const PAIRS = [
-        { a: "Expensive", b: "Cheap" },
-        { a: "Dangerous", b: "Safe" },
-        { a: "Interesting", b: "Boring" },
-        { a: "Difficult", b: "Easy" },
-        { a: "Delicious", b: "Disgusting" },
-        { a: "Famous", b: "Unknown" },
-        { a: "Important", b: "Unimportant" },
-        { a: "Careful", b: "Careless" },
+        { a: "I", b: "Me" },
+        { a: "He", b: "Him" },
+        { a: "She", b: "Her" },
+        { a: "You", b: "Your" },
+        { a: "It", b: "Its" },
+        { a: "They", b: "Them" },
+        { a: "We", b: "Us" },
+        { a: "Puff", b: "Puff's" },
       ];
-
       /* ---- audio ---- */
       let audioCtx = null;
       function getCtx() {
@@ -729,7 +728,7 @@
               b.el.classList.remove("flipped", "wrong");
               flippedCards = [];
               locked = false;
-            }, 1000);
+            }, 2500);
           }
         }
       }
