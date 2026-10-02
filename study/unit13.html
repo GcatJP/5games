@@ -363,6 +363,7 @@
     <h1 class="page-title">Unit 13：And, Or, But, Because</h1>
     <a class="back-btn" href="index.html">← Back</a>
     <div id="app"></div>
+    <script src="review.js"></script>
 
     <script>
       /* ---------------- content data ---------------- */
@@ -531,6 +532,7 @@
       ];
 
       function resetAll() {
+        Review.reset();
         state = {
           screen: "intro",
           quizIndex: 0,
@@ -660,6 +662,7 @@
           setTimeout(goNext, 1100);
         } else {
           playWrongSound();
+          Review.recordWrong(btn, QUIZ_META[state.quizIndex].label);
           feedback.textContent = "Not quite! Tap the green box to continue.";
           feedback.className = "feedback bad";
 
@@ -721,7 +724,8 @@
         app.innerHTML = `
                 <div class="result-emoji">${emoji}</div>
                 <div class="result-score">${state.totalScore} / ${state.totalQuestions} Points（${pct}％）</div>
-                <p class="result-msg en">${msg}</p>
+                  <p class="result-msg en">${msg}</p>
+                ${Review.html("en")}
                 <div class="btn-row">
                   <button class="btn btn-primary" id="retryBtn">Try again!</button>
                 </div>
